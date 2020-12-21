@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+
 namespace Pacman
 {
     /// <summary>
@@ -9,29 +13,34 @@ namespace Pacman
         public readonly int xdim;
         public readonly int ydim;
         private bool terminate;
+        // Game objects in this scene
+        private Dictionary<string, GameObject> gameObjects;
 
-        
         public Scene(int xdim, int ydim)
         {
             this.xdim = xdim;
             this.ydim = ydim;
             terminate = false;
+            gameObjects = new Dictionary<string, GameObject>();
         }
 
         /// <summary>
         /// Adds a GameObject to the scene.
         /// </summary>
-        public void AddGameObject()
+        /// <param name="gameObject">GameObject to be added.</param>
+        public void AddGameObject(GameObject gameObject)
         {
-
+            gameObjects.Add(gameObject.Name, gameObject);
         }
 
         /// <summary>
-        /// Looks for a GameObject on the scene.
+        /// Finds a GameObject with a given name.
         /// </summary>
-        public void FindGameObjectByName()
+        /// <param name="name">Name of the GameObject.</param>
+        /// <returns>Returns the GameObject that was found.</returns>
+        public GameObject FindGameObjectByName(string name)
         {
-
+            return gameObjects[name];
         }
 
         /// <summary>
@@ -41,9 +50,47 @@ namespace Pacman
         {
             terminate = true;
         }
+
         public void GameLoop(int msFramesPerSecond)
         {
+            // Calls the Start() method of the GameObjects on the scene
+            foreach (GameObject gameObject in gameObjects.Values)
+            {
+                gameObject.Start();
+            }
 
+            // Executes the Update() method of the GameObjects on the scene
+            while (!terminate)
+            {
+                // Time to wait until next frame
+                int timeToWait;
+
+                long start = DateTime.Now.Ticks;
+
+                // Update game objects
+                foreach (GameObject gameObject in gameObjects.Values)
+                {
+                    gameObject.Update();
+                }
+
+                // Time to wait until next frame
+                timeToWait = (int)(start / TimeSpan.TicksPerMillisecond
+                    + msFramesPerSecond
+                    - DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
+
+                // If this time is negative it is set to zero
+                timeToWait = timeToWait > 0 ? timeToWait : 0;
+
+                // Wait until next frame
+                Thread.Sleep(timeToWait);
+            }
+
+            // Executes the Finish() method of the GameObjects on the scene
+            // tearing them down
+            foreach (GameObject gameObject in gameObjects.Values)
+            {
+                gameObject.Finish();
+            }
         }
     }
 }

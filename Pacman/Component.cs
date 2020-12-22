@@ -5,6 +5,12 @@
     /// </summary>
     public abstract class Component : IGameObject
     {
+
+        /// <summary>
+        /// Property for Component name
+        /// </summary>
+        public string Name { get; }
+        
         /// <summary>
         /// Property with this component's parent GameObject
         /// </summary>

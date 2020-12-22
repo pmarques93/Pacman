@@ -14,24 +14,22 @@ namespace Pacman
         public readonly byte ydim;
         private bool terminate;
         // Game objects in this scene
-        private Dictionary<string, GameObject> gameObjects;
-        private ConsoleRenderer renderer;
-        public Scene(byte xdim, byte ydim, ConsoleRenderer renderer)
+        private Dictionary<string, IGameObject> gameObjects;
+        public Scene(byte xdim, byte ydim)
         {
             this.xdim = xdim;
             this.ydim = ydim;
-            this.renderer = renderer;
             terminate = false;
-            gameObjects = new Dictionary<string, GameObject>();
+            gameObjects = new Dictionary<string, IGameObject>();
         }
 
         /// <summary>
         /// Adds a GameObject to the scene.
         /// </summary>
         /// <param name="gameObject">GameObject to be added.</param>
-        public void AddGameObject(GameObject gameObject)
+        public void AddGameObject(IGameObject gameObject)
         {
-            gameObjects.Add(gameObject.Name, gameObject);
+            gameObjects.Add(gameObject.Name ?? " ", gameObject);
         }
 
         /// <summary>
@@ -39,7 +37,7 @@ namespace Pacman
         /// </summary>
         /// <param name="name">Name of the GameObject.</param>
         /// <returns>Returns the GameObject that was found.</returns>
-        public GameObject FindGameObjectByName(string name)
+        public IGameObject FindGameObjectByName(string name)
         {
             return gameObjects[name];
         }
@@ -77,7 +75,7 @@ namespace Pacman
             TransformComponent pinkyTransform = new TransformComponent();
 
             pinky.AddComponent(pinkyTransform);
-            
+
             AddGameObject(pinky);
         }
 
@@ -87,8 +85,12 @@ namespace Pacman
         /// <param name="msFramesPerSecond">Miliseconds to wait</param>
         public void GameLoop(int msFramesPerSecond)
         {
-            // Calls the Start() method of the GameObjects on the scene
-            foreach (GameObject gameObject in gameObjects.Values)
+            // // Calls the Start() method of the GameObjects on the scene
+            // foreach (IGameObject gameObject in gameObjects.Values)
+            // {
+            //     Console.WriteLine(gameObject.Name);
+            // }
+            foreach (IGameObject gameObject in gameObjects.Values)
             {
                 gameObject.Start();
             }
@@ -102,13 +104,12 @@ namespace Pacman
                 long start = DateTime.Now.Ticks;
 
                 // Update game objects
-                foreach (GameObject gameObject in gameObjects.Values)
+                foreach (IGameObject gameObject in gameObjects.Values)
                 {
                     gameObject.Update();
                 }
 
-                // Render current frame
-                renderer?.Render(gameObjects.Values);
+
                 // Time to wait until next frame
                 timeToWait = (int)(start / TimeSpan.TicksPerMillisecond
                     + msFramesPerSecond
@@ -123,11 +124,10 @@ namespace Pacman
 
             // Executes the Finish() method of the GameObjects on the scene
             // tearing them down
-            foreach (GameObject gameObject in gameObjects.Values)
+            foreach (IGameObject gameObject in gameObjects.Values)
             {
                 gameObject.Finish();
             }
-            renderer?.Finish();
         }
     }
 }

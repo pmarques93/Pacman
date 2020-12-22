@@ -10,6 +10,6 @@
         /// </summary>
         /// <param name="maxX">X map size</param>
         /// <param name="maxY">Y map size</param>
-        void Movement(int maxX, int maxY);
+        void Movement(int xMax, int yMax);
     }
 }

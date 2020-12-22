@@ -8,14 +8,14 @@
         /// <summary>
         /// Property with this component's parent GameObject
         /// </summary>
-        public GameObject ParentGameObject { get; }
+        public GameObject ParentGameObject { get; set; }
         
         /// <summary>
         /// Method that runs once on start
         /// </summary>
         public virtual void Start()
         {
-            throw new System.NotImplementedException();
+
         }
 
         /// <summary>
@@ -23,7 +23,7 @@
         /// </summary>
         public virtual void Update()
         {
-            throw new System.NotImplementedException();
+
         }
 
         /// <summary>
@@ -31,7 +31,7 @@
         /// </summary>
         public virtual void Finish()
         {
-            throw new System.NotImplementedException();
+
         }
     }
 }

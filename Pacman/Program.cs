@@ -6,15 +6,16 @@ namespace Pacman
     {
         static void Main(string[] args)
         {
+            // DB test
             DoubleBuffer<char> df = new DoubleBuffer<char>(10, 10);
-
             df[3, 3] = '<';
-
             df.Swap();
-
             Console.WriteLine(df[3, 3]);
 
-            Console.WriteLine(df.X);
+            // Pacman test
+            Scene scene = new Scene(10, 10);
+            scene.SetupScene();
+
         }
     }
 }

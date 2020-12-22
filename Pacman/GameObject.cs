@@ -31,7 +31,10 @@ namespace Pacman
         /// </summary>
         /// <param name="component">Component to add</param>
         public void AddComponent(Component component)
-            => components.Add(component);
+        {
+            components.Add(component);
+            component.ParentGameObject = this;
+        }
 
         /// <summary>
         /// Gets a certain component from every component attached to 

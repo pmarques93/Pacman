@@ -10,13 +10,13 @@ namespace Pacman
     public class Scene
     {
         // Scene dimensions
-        public readonly int xdim;
-        public readonly int ydim;
+        public readonly byte xdim;
+        public readonly byte ydim;
         private bool terminate;
         // Game objects in this scene
         private Dictionary<string, GameObject> gameObjects;
 
-        public Scene(int xdim, int ydim)
+        public Scene(byte xdim, byte ydim)
         {
             this.xdim = xdim;
             this.ydim = ydim;
@@ -51,6 +51,34 @@ namespace Pacman
             terminate = true;
         }
 
+        /// <summary>
+        /// Sets initial scene
+        /// </summary>
+        public void SetupScene()
+        {
+            GameObject pacman = new GameObject("Pacman");
+
+            TransformComponent transform = new TransformComponent();
+            KeyReaderComponent keyReader = new KeyReaderComponent();
+            keyReader.EscapePressed += () => terminate = true;
+            MoveComponent movement = new MoveComponent(5, 5, xdim, ydim);
+
+            pacman.AddComponent(transform);
+            pacman.AddComponent(keyReader);
+            pacman.AddComponent(movement);
+
+            AddGameObject(pacman);
+
+
+            // PARA TESTES SÓ
+            pacman.Start();
+            Console.WriteLine(pacman.GetComponent<TransformComponent>().Position.X);
+        }
+
+        /// <summary>
+        /// Method responsible for the main gameLoop
+        /// </summary>
+        /// <param name="msFramesPerSecond">Miliseconds to wait</param>
         public void GameLoop(int msFramesPerSecond)
         {
             // Calls the Start() method of the GameObjects on the scene

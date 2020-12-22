@@ -31,7 +31,7 @@ namespace Pacman
             // Player components ///////////////////////////////////
             TransformComponent transform = new TransformComponent();
             transform.Position = new Vector2Int(2, 2);
-            MoveComponent move = new MoveComponent(2, 2, 19, 19);
+            MoveComponent move = new MoveComponent(2, 2, 20, 20);
             KeyReaderComponent keyReader = new KeyReaderComponent();
 
             player.AddComponent(transform);
@@ -41,7 +41,7 @@ namespace Pacman
             // /////////////////////////////////////////////////////
 
             scene.AddGameObject(player);
-            scene.GameLoop(100);
+            scene.GameLoop(50);
 
         }
     }

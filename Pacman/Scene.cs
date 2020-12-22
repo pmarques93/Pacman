@@ -15,11 +15,12 @@ namespace Pacman
         private bool terminate;
         // Game objects in this scene
         private Dictionary<string, GameObject> gameObjects;
-
-        public Scene(byte xdim, byte ydim)
+        private ConsoleRenderer renderer;
+        public Scene(byte xdim, byte ydim, ConsoleRenderer renderer)
         {
             this.xdim = xdim;
             this.ydim = ydim;
+            this.renderer = renderer;
             terminate = false;
             gameObjects = new Dictionary<string, GameObject>();
         }
@@ -72,7 +73,6 @@ namespace Pacman
 
             AddGameObject(pacman);
 
-
             // Pinky
             TransformComponent pinkyTransform = new TransformComponent();
 
@@ -107,6 +107,8 @@ namespace Pacman
                     gameObject.Update();
                 }
 
+                // Render current frame
+                renderer?.Render(gameObjects.Values);
                 // Time to wait until next frame
                 timeToWait = (int)(start / TimeSpan.TicksPerMillisecond
                     + msFramesPerSecond
@@ -125,6 +127,7 @@ namespace Pacman
             {
                 gameObject.Finish();
             }
+            renderer?.Finish();
         }
     }
 }

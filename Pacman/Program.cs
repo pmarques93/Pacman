@@ -13,9 +13,9 @@ namespace Pacman
             Console.WriteLine(df[3, 3]);
 
             // Pacman test
-            Scene scene = new Scene(10, 10);
-            scene.SetupScene();
-            scene.GameLoop(300);
+            // Scene scene = new Scene(10, 10);
+            // scene.SetupScene();
+
         }
     }
 }

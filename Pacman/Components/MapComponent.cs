@@ -29,7 +29,7 @@
             {
                 for (int j = 0; j < Map.GetLength(1); j++)
                 {
-                    Map[i, j] = new TransformComponent(Cell.Walkable);
+                    Map[i, j] = new TransformComponent(Cell.Walkable, i, j);
                 }
             }
 

@@ -19,9 +19,12 @@
         /// Constructor for TransformComponent
         /// </summary>
         /// <param name="cell">Type of cell</param>
-        public TransformComponent(Cell cell)
+        /// <param name="x">Position X</param>
+        /// <param name="y">Position Y</param>
+        public TransformComponent(Cell cell, int x, int y)
         {
             Cell = cell;
+            Position = new Vector2Int(x, y);
         }
     }
 }

@@ -23,11 +23,11 @@ namespace Pacman
             {
                 {'P'}
             };
-            GameObject pacman = new GameObject("Player");
-            // Player components ///////////////////////////////////
+            GameObject pacman = new GameObject("Pacman");
+            // Components ///////////////////////////////////
             KeyReaderComponent pacmanKeyReader = new KeyReaderComponent();
-            TransformComponent pacmanTransform = new TransformComponent(Cell.Pacman);
-            MoveComponent pacmanMovement = new MoveComponent(2, 2);
+            TransformComponent pacmanTransform = new TransformComponent(Cell.Pacman, 5, 5);
+            MoveComponent pacmanMovement = new MoveComponent();
             MapComponent map = new MapComponent(20, 20);
 
             pacman.AddComponent(pacmanKeyReader);
@@ -35,8 +35,8 @@ namespace Pacman
             pacman.AddComponent(pacmanMovement);
             pacman.AddComponent(map);
 
-            IMovementBehaviour pacmanMB = new PacmanMovementBehaviour(pacman);
-            pacmanMovement.AddMovementBehaviour(pacmanMB);
+            // Adds a movement behaviour
+            pacmanMovement.AddMovementBehaviour(new PacmanMovementBehaviour(pacman));
 
 
 

@@ -18,12 +18,28 @@ namespace Pacman
         /// <summary>
         /// Gets components from pacman gameobject
         /// </summary>
-        /// <param name="pacman"></param>
+        /// <param name="pacman">Object to get components from</param>
         public PacmanMovementBehaviour(GameObject pacman)
         {
             keyReader = pacman.GetComponent<KeyReaderComponent>();
             transform = pacman.GetComponent<TransformComponent>();
             map = pacman.GetComponent<MapComponent>();
+        }
+
+        /// <summary>
+        /// Gets components from pacman gameobject
+        /// </summary>
+        /// <param name="pacman">Object to get components from</param>
+        /// <param name="moveComponent">Move component to add
+        /// this behaviour to</param>
+        public PacmanMovementBehaviour(GameObject pacman,
+            MoveComponent moveComponent)
+        {
+            keyReader = pacman.GetComponent<KeyReaderComponent>();
+            transform = pacman.GetComponent<TransformComponent>();
+            map = pacman.GetComponent<MapComponent>();
+
+            moveComponent.AddMovementBehaviour(this);
         }
 
         /// <summary>

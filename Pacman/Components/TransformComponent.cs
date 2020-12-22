@@ -26,5 +26,10 @@
             Position = new Vector2Int(x, y);
             Collider = collider;
         }
+
+        /// <summary>
+        /// Empty Constructor
+        /// </summary>
+        public TransformComponent() { }
     }
 }

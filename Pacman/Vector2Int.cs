@@ -27,13 +27,30 @@
         }
 
         public static bool operator ==(Vector2Int v1, Vector2Int v2)
-        {
-            return (v1.X == v2.X) && (v1.Y == v2.Y);
-        }
+            => v1.Equals(v2);
 
         public static bool operator !=(Vector2Int v1, Vector2Int v2)
+            => !v1.Equals(v2);
+
+        public static Vector2Int operator +(Vector2Int v1, Vector2Int v2)
         {
-            return (v1.X != v2.X) || (v1.Y != v2.Y);
+            return new Vector2Int(v1.X + v2.X, v1.Y + v2.Y);
+        }
+
+        public static Vector2Int operator -(Vector2Int v1, Vector2Int v2)
+        {
+            return new Vector2Int(v1.X - v2.X, v1.Y - v2.Y);
+        }
+
+        public override bool Equals(object obj)
+        {
+            Vector2Int other = (Vector2Int)obj;
+            return X == other.X && Y == other.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() ^ Y.GetHashCode();
         }
     }
 }

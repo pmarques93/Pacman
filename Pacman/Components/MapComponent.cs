@@ -8,14 +8,19 @@
         // Map made of Transforms
         public TransformComponent[,] Map { get; }
 
+        private readonly Collision collisions;
+
         /// <summary>
         /// Constructor for MapComponent
         /// </summary>
         /// <param name="xDim">X size</param>
         /// <param name="yDim">Y size</param>
-        public MapComponent(byte xDim, byte yDim)
+        public MapComponent(byte xDim, byte yDim, Collision collisions)
         {
             Map = new TransformComponent[xDim, yDim];
+
+            this.collisions = collisions;
+            collisions.FruitCollision += CreateWalkablePosition;
 
             CreatePacmanMap();
         }
@@ -49,5 +54,15 @@
             Map[0, 6] = new TransformComponent(
                         new ColliderComponent(Cell.Wall), 0, 6);
         }
+
+        /// <summary>
+        /// Creates a walkable position everytime there is a collision
+        /// with somthing that disappears
+        /// </summary>
+        /// <param name="position">Position to create</param>
+        private void CreateWalkablePosition(Vector2Int position)
+            => Map[position.X, position.Y] =
+                new TransformComponent(new ColliderComponent(Cell.Walkable),
+                    position.X, position.Y);
     }
 }

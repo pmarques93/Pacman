@@ -19,10 +19,11 @@ namespace Pacman
                                                             "Console Renderer");
             Scene scene = new Scene(20, 20);
 
-            MapComponent map = new MapComponent(20, 20);
-
             Collision collisions = new Collision();
 
+            MapComponent map = new MapComponent(20, 20, collisions);
+
+           
             // PACMAN
             char[,] pacmanSprite =
             {
@@ -72,27 +73,44 @@ namespace Pacman
                                                   ConsoleColor.DarkBlue));
 
 
+            // Fruit
+            char[,] fruitSprite =
+            {
+                {'F'}
+            };
+            GameObject fruit = new GameObject("Strawberry");
+            TransformComponent fruitTransform = new TransformComponent(new ColliderComponent(Cell.Fruit), 0, 0);
+
+            fruit.AddComponent(fruitTransform);
+
+            fruit.AddComponent(new ConsoleSprite(fruitSprite,
+                                                  ConsoleColor.DarkYellow,
+                                                  ConsoleColor.DarkYellow));
+
             // /////////////////////////////////////////////////////
 
-
-            collisions.AddGameObject(pacman);
+            // Add Gameobjects to collision check
+            collisions.AddPacman(pacman);
             collisions.AddGameObject(pinky);
+            collisions.AddGameObject(fruit);
 
 
             // Add GameObjects to the scene
             scene.AddGameObject(pacman);
             scene.AddGameObject(pinky);
+            scene.AddGameObject(fruit);
             scene.AddGameObject(collisions);
             // ////////////////////////////
 
             // Add GameObjects to the renderer
             consoleRenderer.AddGameObject(pacman);
             consoleRenderer.AddGameObject(pinky);
+            consoleRenderer.AddGameObject(fruit);
             // ////////////////////////////
 
             // Add renderer to the scene
             scene.AddGameObject(consoleRenderer);
-            scene.GameLoop(100);
+            scene.GameLoop(50);
 
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Pacman
 {
@@ -13,9 +14,9 @@ namespace Pacman
                                                         ConsoleColor.DarkBlue);
 
             ConsoleRenderer consoleRenderer = new ConsoleRenderer(
-                                                            20, 
-                                                            20, 
-                                                            backgroundPixel, 
+                                                            20,
+                                                            20,
+                                                            backgroundPixel,
                                                             "Console Renderer");
             Scene scene = new Scene(20, 20);
 
@@ -30,9 +31,9 @@ namespace Pacman
             GameObject pacman = new GameObject("Pacman");
             // Components ///////////////////////////////////
             KeyReaderComponent pacmanKeyReader = new KeyReaderComponent();
-            TransformComponent pacmanTransform = new TransformComponent(Cell.Pacman, 5, 5);
+            TransformComponent pacmanTransform = new TransformComponent(5, 5);
             MoveComponent pacmanMovement = new MoveComponent();
-            
+
 
             pacman.AddComponent(pacmanKeyReader);
             pacman.AddComponent(pacmanTransform);
@@ -55,7 +56,7 @@ namespace Pacman
                 {'P'}
             };
             GameObject pinky = new GameObject("Pinky");
-            TransformComponent pinkyTransform = new TransformComponent(Cell.Ghost, 10, 10);
+            TransformComponent pinkyTransform = new TransformComponent(10, 10);
             MoveComponent pinkyMovement = new MoveComponent();
 
             pinky.AddComponent(pinkyTransform);
@@ -72,14 +73,40 @@ namespace Pacman
 
             // /////////////////////////////////////////////////////
 
+            // Create walls
+            GameObject walls = new GameObject("Walls");
+
+            ConsolePixel wallPixel = new ConsolePixel(
+                ' ', ConsoleColor.Blue, ConsoleColor.Green);
+
+            Dictionary<Vector2Int, ConsolePixel> wallPixels =
+                new Dictionary<Vector2Int, ConsolePixel>();
+
+            for (int x = 0; x < map.MapTest.GetLength(0); x++)
+            {
+                for (int y = 0; y < map.MapTest.GetLength(1); y++)
+                {
+                    if (map.MapTest[x, y].Cell == Cell.Wall)
+                        wallPixels[new Vector2Int(x, y)] = wallPixel;
+                }
+            }
+
+            TransformComponent wallTransform = new TransformComponent(0, 0);
+            walls.AddComponent(new ConsoleSprite(wallPixels));
+            walls.AddComponent(wallTransform);
+
+
+
             // Add GameObjects to the scene
             scene.AddGameObject(pacman);
             scene.AddGameObject(pinky);
+            scene.AddGameObject(walls);
             // ////////////////////////////
 
             // Add GameObjects to the renderer
             consoleRenderer.AddGameObject(pacman);
             consoleRenderer.AddGameObject(pinky);
+            consoleRenderer.AddGameObject(walls);
             // ////////////////////////////
 
             // Add renderer to the scene

@@ -3,10 +3,13 @@
     /// <summary>
     /// Map Component. Extends Component
     /// </summary>
-    public class MapComponent: Component
+    public class MapComponent : Component
     {
         // Map made of Transforms
         public TransformComponent[,] Map { get; }
+
+        public MapStruct[,] MapTest { get; private set; }
+
 
         /// <summary>
         /// Constructor for MapComponent
@@ -16,6 +19,7 @@
         public MapComponent(byte xDim, byte yDim)
         {
             Map = new TransformComponent[xDim, yDim];
+            MapTest = new MapStruct[xDim, yDim];
 
             CreatePacmanMap();
         }
@@ -29,16 +33,17 @@
             {
                 for (int j = 0; j < Map.GetLength(1); j++)
                 {
-                    Map[i, j] = new TransformComponent(Cell.Walkable, i, j);
+                    TransformComponent tempTransform = new TransformComponent(i, j);
+                    MapTest[i,j] = new MapStruct(tempTransform, Cell.Walkable);
                 }
             }
 
-            Map[0, 6].Cell = Cell.Wall;
-            Map[1, 6].Cell = Cell.Wall;
-            Map[2, 6].Cell = Cell.Wall;
-            Map[3, 6].Cell = Cell.Wall;
-            Map[4, 6].Cell = Cell.Wall;
-            Map[5, 6].Cell = Cell.Wall;
+            MapTest[0, 6].Cell = Cell.Wall;
+            MapTest[1, 6].Cell = Cell.Wall;
+            MapTest[2, 6].Cell = Cell.Wall;
+            MapTest[3, 6].Cell = Cell.Wall;
+            MapTest[4, 6].Cell = Cell.Wall;
+            MapTest[5, 6].Cell = Cell.Wall;
         }
     }
 }

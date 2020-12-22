@@ -5,10 +5,10 @@
     /// </summary>
     public class TransformComponent: Component
     {
-        /// <summary>
-        /// Property for cell type
-        /// </summary>
-        public Cell Cell { get; set; }
+        // /// <summary>
+        // /// Property for cell type
+        // /// </summary>
+        // public Cell Cell { get; set; }
 
         /// <summary>
         /// Property for position
@@ -21,9 +21,8 @@
         /// <param name="cell">Type of cell</param>
         /// <param name="x">Position X</param>
         /// <param name="y">Position Y</param>
-        public TransformComponent(Cell cell, int x, int y)
+        public TransformComponent(int x, int y)
         {
-            Cell = cell;
             Position = new Vector2Int(x, y);
         }
     }

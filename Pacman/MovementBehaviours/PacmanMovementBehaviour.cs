@@ -81,7 +81,7 @@ namespace Pacman
                 switch (pacmanDirection)
                 {
                     case Direction.Up:
-                        if (map.Map[transform.Position.X,
+                        if (map.MapTest[transform.Position.X,
                             Math.Max(0, transform.Position.Y - 1)].
                             Cell != Cell.Wall)
                         {
@@ -92,7 +92,7 @@ namespace Pacman
                         break;
 
                     case Direction.Right:
-                        if (map.Map[
+                        if (map.MapTest[
                             Math.Min(xMax - 1, transform.Position.X + 1),
                             transform.Position.Y].
                             Cell != Cell.Wall)
@@ -105,7 +105,7 @@ namespace Pacman
                         break;
 
                     case Direction.Down:
-                        if (map.Map[transform.Position.X,
+                        if (map.MapTest[transform.Position.X,
                             Math.Min(yMax - 1, transform.Position.Y + 1)].
                             Cell != Cell.Wall)
                         {
@@ -116,7 +116,7 @@ namespace Pacman
                         break;
 
                     case Direction.Left:
-                        if (map.Map[
+                        if (map.MapTest[
                             Math.Max(0, transform.Position.X - 1),
                             transform.Position.Y].
                             Cell != Cell.Wall)

@@ -17,20 +17,19 @@ namespace Pacman
 
         public void Start() { }
 
-
+        int test = 0;
         public void Update()
         {
+            
             foreach (GameObject gameObject in gameObjects)
             {
                 foreach (GameObject gameObject2 in gameObjects)
                 {
                     if (gameObject.Name != gameObject2.Name)
                     {
-                        if (gameObject.GetComponent<TransformComponent>().Position.X ==
-                            gameObject2.GetComponent<TransformComponent>().Position.X &&
-                            gameObject.GetComponent<TransformComponent>().Position.Y ==
-                            gameObject2.GetComponent<TransformComponent>().Position.Y)
-                            System.Console.WriteLine("testeeeeeeeeeeeee");
+                        if (gameObject.GetComponent<TransformComponent>().Position ==
+                            gameObject2.GetComponent<TransformComponent>().Position)
+                            System.Console.WriteLine(test++);
                     }
                 }
             }

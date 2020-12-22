@@ -34,13 +34,14 @@ namespace Pacman
             GameObject pacman = new GameObject("Pacman");
             // Components ///////////////////////////////////
             KeyReaderComponent pacmanKeyReader = new KeyReaderComponent();
-            TransformComponent pacmanTransform = new TransformComponent(new ColliderComponent(Cell.Pacman), 5, 5);
+            TransformComponent pacmanTransform = new TransformComponent(5, 5);
             MoveComponent pacmanMovement = new MoveComponent();
-
+            ColliderComponent pacmanCollider = new ColliderComponent(Cell.Pacman);
 
             pacman.AddComponent(pacmanKeyReader);
             pacman.AddComponent(pacmanTransform);
             pacman.AddComponent(pacmanMovement);
+            pacman.AddComponent(pacmanCollider);
             pacman.AddComponent(map);
 
             // Adds a movement behaviour
@@ -59,11 +60,13 @@ namespace Pacman
                 {'P'}
             };
             GameObject pinky = new GameObject("Pinky");
-            TransformComponent pinkyTransform = new TransformComponent(new ColliderComponent(Cell.Ghost), 10, 10);
+            TransformComponent pinkyTransform = new TransformComponent(10, 10);
             MoveComponent pinkyMovement = new MoveComponent();
+            ColliderComponent pinkyCollider = new ColliderComponent(Cell.Ghost);
 
             pinky.AddComponent(pinkyTransform);
             pinky.AddComponent(pinkyMovement);
+            pinky.AddComponent(pinkyCollider);
             pinky.AddComponent(map);
 
             // Adds a movement behaviour
@@ -80,9 +83,11 @@ namespace Pacman
                 {'F'}
             };
             GameObject fruit = new GameObject("Strawberry");
-            TransformComponent fruitTransform = new TransformComponent(new ColliderComponent(Cell.Fruit), 2, 2);
+            TransformComponent fruitTransform = new TransformComponent(2, 2);
+            ColliderComponent fruitCollider = new ColliderComponent(Cell.Fruit);
 
             fruit.AddComponent(fruitTransform);
+            fruit.AddComponent(fruitCollider);
 
             fruit.AddComponent(new ConsoleSprite(fruitSprite,
                                                   ConsoleColor.DarkYellow,
@@ -97,16 +102,15 @@ namespace Pacman
             Dictionary<Vector2Int, ConsolePixel> wallPixels =
                 new Dictionary<Vector2Int, ConsolePixel>();
 
-            for (int x = 0; x < map.Map.GetLength(0); x++)
+            for (int x = 0; x < map.MapTest.GetLength(0); x++)
             {
-                for (int y = 0; y < map.Map.GetLength(1); y++)
+                for (int y = 0; y < map.MapTest.GetLength(1); y++)
                 {
-                    if (map.Map[x, y].Collider.Type == Cell.Wall)
+                    if (map.MapTest[x, y].Collider.Type == Cell.Wall)
                         wallPixels[new Vector2Int(x, y)] = wallPixel;
                 }
             }
-            TransformComponent wallTransform = new TransformComponent(
-                                        new ColliderComponent(Cell.Wall), 0, 0);
+            TransformComponent wallTransform = new TransformComponent(0, 0);
             walls.AddComponent(wallTransform);
             walls.AddComponent(new ConsoleSprite(wallPixels));
 

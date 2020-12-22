@@ -8,7 +8,7 @@
         /// <summary>
         /// Collider component on this transform
         /// </summary>
-        public ColliderComponent Collider { get; set; }
+        // public ColliderComponent Collider { get; set; }
 
         /// <summary>
         /// Property for position
@@ -21,10 +21,10 @@
         /// <param name="cell">Type of cell</param>
         /// <param name="x">Position X</param>
         /// <param name="y">Position Y</param>
-        public TransformComponent(ColliderComponent collider, int x, int y)
+        public TransformComponent(int x, int y)
         {
             Position = new Vector2Int(x, y);
-            Collider = collider;
+            // Collider = collider;
         }
 
         /// <summary>

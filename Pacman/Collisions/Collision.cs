@@ -60,7 +60,7 @@ namespace Pacman
             {
                 gameObjectsTransforms.Add(new TransformComponent());
                 // Gets transforms from every gameobject
-                gameObjectsTransforms[i] = 
+                gameObjectsTransforms[i] =
                     gameObjects[i].GetComponent<TransformComponent>();
             }
         }
@@ -117,10 +117,11 @@ namespace Pacman
                 transform.Position + new Vector2Int(0, -1) ==
                 pacmanTransform.Position ||
                 transform.Position == pacmanTransform.Position)
-
+            {
                 return ((Cell)transform?.ParentGameObject?.
-                    GetComponent<TransformComponent>()?.Collider?.Type,
+                    GetComponent<ColliderComponent>()?.Type,
                     transform.ParentGameObject);
+            }
 
             return (Cell.Walkable, transform.ParentGameObject);
         }

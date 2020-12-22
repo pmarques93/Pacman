@@ -3,10 +3,12 @@
     /// <summary>
     /// Map Component. Extends Component
     /// </summary>
-    public class MapComponent: Component
+    public class MapComponent : Component
     {
         // Map made of Transforms
         public TransformComponent[,] Map { get; }
+
+        public MapStruct[,] MapTest { get; }
 
         /// <summary>
         /// Constructor for MapComponent
@@ -16,7 +18,7 @@
         public MapComponent(byte xDim, byte yDim)
         {
             Map = new TransformComponent[xDim, yDim];
-
+            MapTest = new MapStruct[xDim, yDim];
             CreatePacmanMap();
         }
 
@@ -25,29 +27,23 @@
         /// </summary>
         private void CreatePacmanMap()
         {
-            for (int i = 0; i < Map.GetLength(0); i++)
+            for (int i = 0; i < MapTest.GetLength(0); i++)
             {
-                for (int j = 0; j < Map.GetLength(1); j++)
+                for (int j = 0; j < MapTest.GetLength(1); j++)
                 {
-                    Map[i, j] = new TransformComponent(
-                        new ColliderComponent(Cell.Walkable), i, j);
+                    MapTest[i, j] = new MapStruct(
+                                        new TransformComponent(i, j),
+                                        new ColliderComponent(Cell.Walkable));
                 }
             }
-
-            Map[6, 6] = new TransformComponent(
-                        new ColliderComponent(Cell.Wall), 6, 6);
-            Map[5, 6] = new TransformComponent(
-                        new ColliderComponent(Cell.Wall), 5, 6);
-            Map[4, 6] = new TransformComponent(
-                        new ColliderComponent(Cell.Wall), 4, 6);
-            Map[3, 6] = new TransformComponent(
-                        new ColliderComponent(Cell.Wall), 3, 6);
-            Map[2, 6] = new TransformComponent(
-                        new ColliderComponent(Cell.Wall), 2, 6);
-            Map[1, 6] = new TransformComponent(
-                        new ColliderComponent(Cell.Wall), 1, 6);
-            Map[0, 6] = new TransformComponent(
-                        new ColliderComponent(Cell.Wall), 0, 6);
+            MapTest[6, 6] = new MapStruct(new TransformComponent(6, 6),
+                                            new ColliderComponent(Cell.Wall));
+            MapTest[7, 6] = new MapStruct(new TransformComponent(7, 6),
+                                            new ColliderComponent(Cell.Wall));
+            MapTest[8, 6] = new MapStruct(new TransformComponent(8, 6),
+                                            new ColliderComponent(Cell.Wall));
+            MapTest[9, 6] = new MapStruct(new TransformComponent(9, 6),
+                                            new ColliderComponent(Cell.Wall));
         }
 
         // Temp 

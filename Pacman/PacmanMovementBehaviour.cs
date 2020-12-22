@@ -2,19 +2,38 @@
 
 namespace Pacman
 {
+    /// <summary>
+    /// Class for pacman movement. Implements IMovementBehaviour
+    /// </summary>
     public class PacmanMovementBehaviour : IMovementBehaviour
     {
         // Last Key pressed for continuous movement
         private Direction pacmanDirection;
 
-        public KeyReaderComponent KeyReader { get; set; }
-        public TransformComponent Transform { get; set; }
-        public MapComponent Map { get; set; }
+        // Components
+        private readonly KeyReaderComponent keyReader;
+        private readonly TransformComponent transform;
+        private readonly MapComponent map;
 
+        /// <summary>
+        /// Gets components from pacman gameobject
+        /// </summary>
+        /// <param name="pacman"></param>
+        public PacmanMovementBehaviour(GameObject pacman)
+        {
+            keyReader = pacman.GetComponent<KeyReaderComponent>();
+            transform = pacman.GetComponent<TransformComponent>();
+            map = pacman.GetComponent<MapComponent>();
+        }
 
+        /// <summary>
+        /// Movement method for pacman
+        /// </summary>
+        /// <param name="xMax">X map size</param>
+        /// <param name="yMax">Y map size</param>
         public void Movement(int xMax, int yMax)
         {
-            Direction keyPressed = KeyReader.Direction;
+            Direction keyPressed = keyReader.Direction;
 
             // When the user presses a key, pacman changes direction
             if (keyPressed != Direction.None)
@@ -46,50 +65,50 @@ namespace Pacman
                 switch (pacmanDirection)
                 {
                     case Direction.Up:
-                        if (Map.Map[Transform.Position.X,
-                            Math.Max(0, Transform.Position.Y - 1)].
+                        if (map.Map[transform.Position.X,
+                            Math.Max(0, transform.Position.Y - 1)].
                             Cell != Cell.Wall)
                         {
-                            Transform.Position =
-                            new Vector2Int(Transform.Position.X,
-                            Math.Max(0, Transform.Position.Y - 1));
+                            transform.Position =
+                            new Vector2Int(transform.Position.X,
+                            Math.Max(0, transform.Position.Y - 1));
                         }
                         break;
 
                     case Direction.Right:
-                        if (Map.Map[
-                            Math.Min(xMax - 1, Transform.Position.X + 1),
-                            Transform.Position.Y].
+                        if (map.Map[
+                            Math.Min(xMax - 1, transform.Position.X + 1),
+                            transform.Position.Y].
                             Cell != Cell.Wall)
                         {
-                            Transform.Position =
+                            transform.Position =
                             new Vector2Int(
-                            Math.Min(xMax - 1, Transform.Position.X + 1),
-                            Transform.Position.Y);
+                            Math.Min(xMax - 1, transform.Position.X + 1),
+                            transform.Position.Y);
                         }
                         break;
 
                     case Direction.Down:
-                        if (Map.Map[Transform.Position.X,
-                            Math.Min(yMax - 1, Transform.Position.Y + 1)].
+                        if (map.Map[transform.Position.X,
+                            Math.Min(yMax - 1, transform.Position.Y + 1)].
                             Cell != Cell.Wall)
                         {
-                            Transform.Position =
-                            new Vector2Int(Transform.Position.X,
-                            Math.Min(yMax - 1, Transform.Position.Y + 1));
+                            transform.Position =
+                            new Vector2Int(transform.Position.X,
+                            Math.Min(yMax - 1, transform.Position.Y + 1));
                         }
                         break;
 
                     case Direction.Left:
-                        if (Map.Map[
-                            Math.Max(0, Transform.Position.X - 1),
-                            Transform.Position.Y].
+                        if (map.Map[
+                            Math.Max(0, transform.Position.X - 1),
+                            transform.Position.Y].
                             Cell != Cell.Wall)
                         {
-                            Transform.Position =
+                            transform.Position =
                             new Vector2Int(
-                            Math.Max(0, Transform.Position.X - 1),
-                            Transform.Position.Y);
+                            Math.Max(0, transform.Position.X - 1),
+                            transform.Position.Y);
                         }
                         break;
                 }

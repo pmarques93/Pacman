@@ -5,12 +5,6 @@
     /// </summary>
     public interface IMovementBehaviour
     {
-        public KeyReaderComponent KeyReader { get; set; }
-
-        public TransformComponent Transform { get; set; }
-
-        public MapComponent Map { get; set; }
-
         /// <summary>
         /// Movement Behaviour
         /// </summary>

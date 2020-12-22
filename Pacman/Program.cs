@@ -19,25 +19,28 @@ namespace Pacman
                                                             "Console Renderer");
             Scene scene = new Scene(20, 20);
             
-            char[,] playerSprite =
+            char[,] pacmanSprite =
             {
                 {'P'}
             };
-            GameObject player = new GameObject("Player");
+            GameObject pacman = new GameObject("Player");
             // Player components ///////////////////////////////////
             KeyReaderComponent pacmanKeyReader = new KeyReaderComponent();
             TransformComponent pacmanTransform = new TransformComponent(Cell.Pacman);
-            MoveComponent pacmanMovement = new MoveComponent(2, 2, new PacmanMovementBehaviour());
+            MoveComponent pacmanMovement = new MoveComponent(2, 2);
             MapComponent map = new MapComponent(20, 20);
 
-            player.AddComponent(pacmanKeyReader);
-            player.AddComponent(pacmanTransform);
-            player.AddComponent(pacmanMovement);
-            player.AddComponent(map);
+            pacman.AddComponent(pacmanKeyReader);
+            pacman.AddComponent(pacmanTransform);
+            pacman.AddComponent(pacmanMovement);
+            pacman.AddComponent(map);
+
+            IMovementBehaviour pacmanMB = new PacmanMovementBehaviour(pacman);
+            pacmanMovement.AddMovementBehaviour(pacmanMB);
 
 
 
-            player.AddComponent(new ConsoleSprite(playerSprite,
+            pacman.AddComponent(new ConsoleSprite(pacmanSprite,
                                                   ConsoleColor.DarkRed,
                                                   ConsoleColor.DarkYellow));
             
@@ -45,11 +48,11 @@ namespace Pacman
             // /////////////////////////////////////////////////////
            
             // Add GameObjects to the scene
-            scene.AddGameObject(player);
+            scene.AddGameObject(pacman);
             // ////////////////////////////
 
             // Add GameObjects to the renderer
-            consoleRenderer.AddGameObject(player);
+            consoleRenderer.AddGameObject(pacman);
             // ////////////////////////////
             
             // Add renderer to the scene

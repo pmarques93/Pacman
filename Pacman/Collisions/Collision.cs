@@ -20,8 +20,8 @@ namespace Pacman
         private GameObject collisionObject;
 
         // Object to delete - information
-        private Scene scene;
-        private ConsoleRenderer render;
+        private readonly Scene scene;
+        private readonly ConsoleRenderer render;
 
         /// <summary>
         /// Adds GameObjects to a collection
@@ -59,6 +59,7 @@ namespace Pacman
             for (int i = 0; i < gameObjects.Count; i++)
             {
                 gameObjectsTransforms.Add(new TransformComponent());
+                // Gets transforms from every gameobject
                 gameObjectsTransforms[i] = 
                     gameObjects[i].GetComponent<TransformComponent>();
             }
@@ -84,6 +85,17 @@ namespace Pacman
                 case Cell.Fruit:
                     scene.RemoveGameObject(collisionObject);
                     render.RemoveGameObject(collisionObject);
+                    OnScoreCollision(250);
+                    break;
+                case Cell.Food:
+                    scene.RemoveGameObject(collisionObject);
+                    render.RemoveGameObject(collisionObject);
+                    OnScoreCollision(10);
+                    break;
+                case Cell.PowerPill:
+                    scene.RemoveGameObject(collisionObject);
+                    render.RemoveGameObject(collisionObject);
+                    OnPowerPillCollision();
                     break;
             }
         }
@@ -120,14 +132,21 @@ namespace Pacman
             GhostCollision?.Invoke();
 
         /// <summary>
-        /// On Fruit collision event method
+        /// On Fruit or Food collision event method
         /// </summary>
         /// <param name="position"></param>
-        protected virtual void OnFruitCollision() =>
-            FruitCollision?.Invoke();
+        protected virtual void OnScoreCollision(ushort score) =>
+            ScoreCollision?.Invoke(score);
+
+        /// <summary>
+        /// On PowerPill collision event method
+        /// </summary>
+        protected virtual void OnPowerPillCollision() =>
+            PowerPillCollision?.Invoke();
 
         public event Action GhostCollision;
-        public event Action FruitCollision;
+        public event Action<ushort> ScoreCollision;
+        public event Action PowerPillCollision;
 
         public void Finish() { }
     }

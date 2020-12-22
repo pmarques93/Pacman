@@ -29,16 +29,25 @@
             {
                 for (int j = 0; j < Map.GetLength(1); j++)
                 {
-                    Map[i, j] = new TransformComponent(Cell.Walkable, i, j);
+                    Map[i, j] = new TransformComponent(
+                        new ColliderComponent(Cell.Walkable), i, j);
                 }
             }
 
-            Map[0, 6].Cell = Cell.Wall;
-            Map[1, 6].Cell = Cell.Wall;
-            Map[2, 6].Cell = Cell.Wall;
-            Map[3, 6].Cell = Cell.Wall;
-            Map[4, 6].Cell = Cell.Wall;
-            Map[5, 6].Cell = Cell.Wall;
+            Map[6, 6] = new TransformComponent(
+                        new ColliderComponent(Cell.Wall), 6, 6);
+            Map[5, 6] = new TransformComponent(
+                        new ColliderComponent(Cell.Wall), 5, 6);
+            Map[4, 6] = new TransformComponent(
+                        new ColliderComponent(Cell.Wall), 4, 6);
+            Map[3, 6] = new TransformComponent(
+                        new ColliderComponent(Cell.Wall), 3, 6);
+            Map[2, 6] = new TransformComponent(
+                        new ColliderComponent(Cell.Wall), 2, 6);
+            Map[1, 6] = new TransformComponent(
+                        new ColliderComponent(Cell.Wall), 1, 6);
+            Map[0, 6] = new TransformComponent(
+                        new ColliderComponent(Cell.Wall), 0, 6);
         }
     }
 }

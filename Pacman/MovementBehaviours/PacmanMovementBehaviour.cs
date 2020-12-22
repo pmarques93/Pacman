@@ -83,7 +83,7 @@ namespace Pacman
                     case Direction.Up:
                         if (map.Map[transform.Position.X,
                             Math.Max(0, transform.Position.Y - 1)].
-                            Cell != Cell.Wall)
+                            Collider.Type != Cell.Wall)
                         {
                             transform.Position =
                             new Vector2Int(transform.Position.X,
@@ -95,7 +95,7 @@ namespace Pacman
                         if (map.Map[
                             Math.Min(xMax - 1, transform.Position.X + 1),
                             transform.Position.Y].
-                            Cell != Cell.Wall)
+                            Collider.Type != Cell.Wall)
                         {
                             transform.Position =
                             new Vector2Int(
@@ -107,7 +107,7 @@ namespace Pacman
                     case Direction.Down:
                         if (map.Map[transform.Position.X,
                             Math.Min(yMax - 1, transform.Position.Y + 1)].
-                            Cell != Cell.Wall)
+                            Collider.Type != Cell.Wall)
                         {
                             transform.Position =
                             new Vector2Int(transform.Position.X,
@@ -119,7 +119,7 @@ namespace Pacman
                         if (map.Map[
                             Math.Max(0, transform.Position.X - 1),
                             transform.Position.Y].
-                            Cell != Cell.Wall)
+                            Collider.Type != Cell.Wall)
                         {
                             transform.Position =
                             new Vector2Int(

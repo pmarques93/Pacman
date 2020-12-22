@@ -21,6 +21,8 @@ namespace Pacman
 
             MapComponent map = new MapComponent(20, 20);
 
+            Collision collisions = new Collision();
+
             // PACMAN
             char[,] pacmanSprite =
             {
@@ -30,7 +32,7 @@ namespace Pacman
             GameObject pacman = new GameObject("Pacman");
             // Components ///////////////////////////////////
             KeyReaderComponent pacmanKeyReader = new KeyReaderComponent();
-            TransformComponent pacmanTransform = new TransformComponent(Cell.Pacman, 5, 5);
+            TransformComponent pacmanTransform = new TransformComponent(new ColliderComponent(Cell.Pacman), 5, 5);
             MoveComponent pacmanMovement = new MoveComponent();
             
 
@@ -48,14 +50,14 @@ namespace Pacman
                                                   ConsoleColor.Yellow,
                                                   ConsoleColor.DarkBlue));
 
-
+            
             // GHOST
             char[,] pinkySprite =
             {
                 {'P'}
             };
             GameObject pinky = new GameObject("Pinky");
-            TransformComponent pinkyTransform = new TransformComponent(Cell.Ghost, 10, 10);
+            TransformComponent pinkyTransform = new TransformComponent(new ColliderComponent(Cell.Ghost), 10, 10);
             MoveComponent pinkyMovement = new MoveComponent();
 
             pinky.AddComponent(pinkyTransform);
@@ -72,9 +74,15 @@ namespace Pacman
 
             // /////////////////////////////////////////////////////
 
+
+            collisions.AddGameObject(pacman);
+            collisions.AddGameObject(pinky);
+
+
             // Add GameObjects to the scene
             scene.AddGameObject(pacman);
             scene.AddGameObject(pinky);
+            scene.AddGameObject(collisions);
             // ////////////////////////////
 
             // Add GameObjects to the renderer

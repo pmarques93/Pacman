@@ -15,7 +15,7 @@ namespace Pacman
             // Pacman test
             Scene scene = new Scene(10, 10);
             scene.SetupScene();
-
+            scene.GameLoop(300);
         }
     }
 }

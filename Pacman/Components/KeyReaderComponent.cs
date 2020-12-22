@@ -102,6 +102,7 @@ namespace Pacman
             do
             {
                 key = Console.ReadKey(true).Key;
+                input.Add(key);
             }while(key != ConsoleKey.Escape);
         }
     }

@@ -72,19 +72,13 @@ namespace Pacman
 
             AddGameObject(pacman);
 
+
             // Pinky
             TransformComponent pinkyTransform = new TransformComponent();
-            MoveComponent pinkyMovement = new MoveComponent(2, 2, xdim, ydim);
 
             pinky.AddComponent(pinkyTransform);
-            pinky.AddComponent(pinkyMovement);
             
             AddGameObject(pinky);
-
-
-            // PARA TESTES SÓ
-            pacman.Start();
-            Console.WriteLine(pacman.GetComponent<TransformComponent>().Position.X);
         }
 
         /// <summary>

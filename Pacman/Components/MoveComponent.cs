@@ -36,6 +36,7 @@ namespace Pacman
         {
             keyReader = ParentGameObject.GetComponent<KeyReaderComponent>();
             transform = ParentGameObject.GetComponent<TransformComponent>();
+
         }
 
         /// <summary>
@@ -58,43 +59,12 @@ namespace Pacman
                         y = (byte)Math.Min(maxY - 1, y + 1);
                         break;
                     case Direction.Left:
-                        x = (byte)Math.Min(0, x - 1);
+                        x = (byte)Math.Max(0, x - 1);
                         break;
-
-                        // APAGAR SE TIVER A FUNCIONAR
-                        /*
-                        case Direction.Up:
-                            transform.Position =
-                                new Vector2Int(transform.Position.X,
-                                Math.Max(0, transform.Position.Y - 1));
-                            break;
-                        case Direction.Right:
-                            transform.Position =
-                                new Vector2Int(
-                                    Math.Min(maxX - 1, transform.Position.X + 1),
-                                    transform.Position.Y);
-                            break;
-                        case Direction.Down:
-                            transform.Position =
-                                new Vector2Int(transform.Position.X,
-                                Math.Min(maxY - 1, transform.Position.Y + 1));
-                            break;
-                        case Direction.Left:
-                            transform.Position =
-                                new Vector2Int(
-                                    Math.Min(0, transform.Position.X - 1),
-                                    transform.Position.Y);
-                            break;
-                        */
                 }
-            } 
-        }
+            }
 
-        /// <summary>
-        /// Method that runs once on finish
-        /// </summary>
-        public override void Finish()
-        {
+            // Updates position
             transform.Position = new Vector2Int(x, y);
         }
     }

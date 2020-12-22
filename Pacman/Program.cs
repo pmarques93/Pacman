@@ -15,14 +15,19 @@ namespace Pacman
             // Pacman test
             // Scene scene = new Scene(10, 10);
             // scene.SetupScene();
+
             ConsolePixel backgroundPixel = new ConsolePixel(
                                                         '.',
                                                         ConsoleColor.White,
                                                         ConsoleColor.DarkBlue);
-            Scene scene = new Scene(20, 20, new ConsoleRenderer(
-                                                            20,
-                                                            20,
-                                                            backgroundPixel));
+
+            ConsoleRenderer consoleRenderer = new ConsoleRenderer(
+                                                            20, 
+                                                            20, 
+                                                            backgroundPixel, 
+                                                            "Console Renderer");
+            Scene scene = new Scene(20, 20);
+            
             char[,] playerSprite =
             {
                 {'P'}
@@ -37,10 +42,21 @@ namespace Pacman
             player.AddComponent(transform);
             player.AddComponent(move);
             player.AddComponent(keyReader);
-            player.AddComponent(new ConsoleSprite(playerSprite, ConsoleColor.DarkRed, ConsoleColor.DarkYellow));
+            player.AddComponent(new ConsoleSprite(playerSprite,
+                                                  ConsoleColor.DarkRed,
+                                                  ConsoleColor.DarkYellow));
             // /////////////////////////////////////////////////////
-
+           
+            // Add GameObjects to the scene
             scene.AddGameObject(player);
+            // ////////////////////////////
+
+            // Add GameObjects to the renderer
+            consoleRenderer.AddGameObject(player);
+            // ////////////////////////////
+            
+            // Add renderer to the scene
+            scene.AddGameObject(consoleRenderer);
             scene.GameLoop(100);
 
         }

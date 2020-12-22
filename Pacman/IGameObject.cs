@@ -3,8 +3,12 @@
     /// <summary>
     /// Interface for every GameObject
     /// </summary>
-    interface IGameObject
+    public interface IGameObject
     {
+        /// <summary>
+        /// Property for IGameObject name
+        /// </summary>
+        string Name { get; }
         /// <summary>
         /// Method that runs once on start
         /// </summary>

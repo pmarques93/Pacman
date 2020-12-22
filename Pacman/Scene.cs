@@ -43,43 +43,6 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Terminates the scene.
-        /// </summary>
-        public void Terminate()
-        {
-            terminate = true;
-        }
-
-        /// <summary>
-        /// Sets initial scene
-        /// </summary>
-        public void SetupScene()
-        {
-            GameObject pacman = new GameObject("Pacman");
-            GameObject pinky = new GameObject("Pinky");
-
-            KeyReaderComponent keyReader = new KeyReaderComponent();
-            keyReader.EscapePressed += () => terminate = true;
-
-            // Pacman
-            TransformComponent pacmanTransform = new TransformComponent();
-            MoveComponent pacmanMovement = new MoveComponent(5, 5, xdim, ydim);
-
-            pacman.AddComponent(keyReader);
-            pacman.AddComponent(pacmanTransform);
-            pacman.AddComponent(pacmanMovement);
-
-            AddGameObject(pacman);
-
-            // Pinky
-            TransformComponent pinkyTransform = new TransformComponent();
-
-            pinky.AddComponent(pinkyTransform);
-
-            AddGameObject(pinky);
-        }
-
-        /// <summary>
         /// Method responsible for the main gameLoop
         /// </summary>
         /// <param name="msFramesPerSecond">Miliseconds to wait</param>

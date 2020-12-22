@@ -6,15 +6,6 @@ namespace Pacman
     {
         static void Main(string[] args)
         {
-            // DB test
-            // DoubleBuffer<char> df = new DoubleBuffer<char>(10, 10);
-            // df[3, 3] = '<';
-            // df.Swap();
-            // Console.WriteLine(df[3, 3]);
-
-            // Pacman test
-            // Scene scene = new Scene(10, 10);
-            // scene.SetupScene();
 
             ConsolePixel backgroundPixel = new ConsolePixel(
                                                         '.',
@@ -34,10 +25,10 @@ namespace Pacman
             };
             GameObject player = new GameObject("Player");
             // Player components ///////////////////////////////////
-            TransformComponent transform = new TransformComponent();
-            transform.Position = new Vector2Int(2, 2);
-            MoveComponent move = new MoveComponent(2, 2, 20, 20);
+            TransformComponent transform = new TransformComponent(Cell.Pacman);
+            MoveComponent move = new MoveComponent(2, 2);
             KeyReaderComponent keyReader = new KeyReaderComponent();
+            MapComponent map = new MapComponent(20, 20);
 
             player.AddComponent(transform);
             player.AddComponent(move);
@@ -45,6 +36,7 @@ namespace Pacman
             player.AddComponent(new ConsoleSprite(playerSprite,
                                                   ConsoleColor.DarkRed,
                                                   ConsoleColor.DarkYellow));
+            player.AddComponent(map);
             // /////////////////////////////////////////////////////
            
             // Add GameObjects to the scene

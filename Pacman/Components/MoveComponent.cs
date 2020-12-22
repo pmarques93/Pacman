@@ -8,7 +8,7 @@ namespace Pacman
     public class MoveComponent: Component
     {
         // Position related variables
-        private readonly byte maxX, maxY;
+        private int maxX, maxY;
         private byte initPosX, initPosY;
 
         // Last Key pressed for continuous movement
@@ -17,20 +17,17 @@ namespace Pacman
         // Components
         private KeyReaderComponent keyReader;
         private TransformComponent transform;
+        private MapComponent map;
 
         /// <summary>
         /// Constructor for Move component
         /// </summary>
         /// <param name="initPosX">X position</param>
         /// <param name="initPosY">Y position</param>
-        /// <param name="maxX">X max range</param>
-        /// <param name="maxY">Y max range</param>
-        public MoveComponent(byte initPosX, byte initPosY, byte maxX, byte maxY)
+        public MoveComponent(byte initPosX, byte initPosY)
         {
             this.initPosX = initPosX;
             this.initPosY = initPosY;
-            this.maxX = maxX;
-            this.maxY = maxY;
         }
 
         /// <summary>
@@ -40,9 +37,13 @@ namespace Pacman
         {
             keyReader = ParentGameObject.GetComponent<KeyReaderComponent>();
             transform = ParentGameObject.GetComponent<TransformComponent>();
+            map = ParentGameObject.GetComponent<MapComponent>();
 
             // Adds initial position
             transform.Position = new Vector2Int(initPosX, initPosY);
+
+            maxX = map.Map.GetLength(0);
+            maxY = map.Map.GetLength(1);
         }
 
         /// <summary>
@@ -82,29 +83,51 @@ namespace Pacman
                 switch (pacmanDirection)
                 {
                     case Direction.Up:
-                            transform.Position =
-                            new Vector2Int(transform.Position.X,
-                            Math.Max(0, transform.Position.Y - 1));
+                        if (map.Map[transform.Position.X, 
+                            Math.Max(0, transform.Position.Y - 1)].
+                            Cell != Cell.Wall)
+                            {
+                                transform.Position =
+                                new Vector2Int(transform.Position.X,
+                                Math.Max(0, transform.Position.Y - 1));
+                            }
                         break;
 
                     case Direction.Right:
-                            transform.Position =
-                            new Vector2Int(
+                        if (map.Map[
                             Math.Min(maxX - 1, transform.Position.X + 1),
-                            transform.Position.Y);
+                            transform.Position.Y].
+                            Cell != Cell.Wall)
+                            {
+                                transform.Position =
+                                new Vector2Int(
+                                Math.Min(maxX - 1, transform.Position.X + 1),
+                                transform.Position.Y);
+                            }
                         break;
 
                     case Direction.Down:
-                            transform.Position =
-                            new Vector2Int(transform.Position.X,
-                            Math.Min(maxY - 1, transform.Position.Y + 1));
+                        if (map.Map[transform.Position.X, 
+                            Math.Min(maxY - 1, transform.Position.Y + 1)].
+                            Cell != Cell.Wall)
+                            {
+                                transform.Position =
+                                new Vector2Int(transform.Position.X,
+                                Math.Min(maxY - 1, transform.Position.Y + 1));
+                            }
                         break;
 
                     case Direction.Left:
-                            transform.Position =
-                            new Vector2Int(
+                        if (map.Map[
                             Math.Max(0, transform.Position.X - 1),
-                            transform.Position.Y);
+                            transform.Position.Y].
+                            Cell != Cell.Wall)
+                            {
+                                transform.Position =
+                                new Vector2Int(
+                                Math.Max(0, transform.Position.X - 1),
+                                transform.Position.Y);
+                            }
                         break;
                 }
             }

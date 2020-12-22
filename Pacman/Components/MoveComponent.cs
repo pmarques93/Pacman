@@ -20,8 +20,8 @@ namespace Pacman
         {
             MapComponent map = ParentGameObject.GetComponent<MapComponent>();
 
-            maxX = map.MapTest.GetLength(0);
-            maxY = map.MapTest.GetLength(1);
+            maxX = map.Map.GetLength(0);
+            maxY = map.Map.GetLength(1);
         }
 
         /// <summary>

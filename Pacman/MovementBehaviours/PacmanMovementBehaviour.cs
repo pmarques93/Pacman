@@ -81,7 +81,7 @@ namespace Pacman
                 switch (pacmanDirection)
                 {
                     case Direction.Up:
-                        if (map.MapTest[transform.Position.X,
+                        if (map.Map[transform.Position.X,
                             Math.Max(0, transform.Position.Y - 1)].
                             Collider.Type != Cell.Wall)
                         {
@@ -92,7 +92,7 @@ namespace Pacman
                         break;
 
                     case Direction.Right:
-                        if (map.MapTest[
+                        if (map.Map[
                             Math.Min(xMax - 1, transform.Position.X + 1),
                             transform.Position.Y].
                             Collider.Type != Cell.Wall)
@@ -105,7 +105,7 @@ namespace Pacman
                         break;
 
                     case Direction.Down:
-                        if (map.MapTest[transform.Position.X,
+                        if (map.Map[transform.Position.X,
                             Math.Min(yMax - 1, transform.Position.Y + 1)].
                             Collider.Type != Cell.Wall)
                         {
@@ -116,7 +116,7 @@ namespace Pacman
                         break;
 
                     case Direction.Left:
-                        if (map.MapTest[
+                        if (map.Map[
                             Math.Max(0, transform.Position.X - 1),
                             transform.Position.Y].
                             Collider.Type != Cell.Wall)

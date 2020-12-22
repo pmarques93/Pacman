@@ -25,18 +25,23 @@ namespace Pacman
             };
             GameObject player = new GameObject("Player");
             // Player components ///////////////////////////////////
-            TransformComponent transform = new TransformComponent(Cell.Pacman);
-            MoveComponent move = new MoveComponent(2, 2);
-            KeyReaderComponent keyReader = new KeyReaderComponent();
+            KeyReaderComponent pacmanKeyReader = new KeyReaderComponent();
+            TransformComponent pacmanTransform = new TransformComponent(Cell.Pacman);
+            MoveComponent pacmanMovement = new MoveComponent(2, 2, new PacmanMovementBehaviour());
             MapComponent map = new MapComponent(20, 20);
 
-            player.AddComponent(transform);
-            player.AddComponent(move);
-            player.AddComponent(keyReader);
+            player.AddComponent(pacmanKeyReader);
+            player.AddComponent(pacmanTransform);
+            player.AddComponent(pacmanMovement);
+            player.AddComponent(map);
+
+
+
             player.AddComponent(new ConsoleSprite(playerSprite,
                                                   ConsoleColor.DarkRed,
                                                   ConsoleColor.DarkYellow));
-            player.AddComponent(map);
+            
+
             // /////////////////////////////////////////////////////
            
             // Add GameObjects to the scene

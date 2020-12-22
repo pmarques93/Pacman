@@ -3,7 +3,7 @@
     /// <summary>
     /// Map Component. Extends Component
     /// </summary>
-    class MapComponent: Component
+    public class MapComponent: Component
     {
         // Map made of Transforms
         public TransformComponent[,] Map { get; }

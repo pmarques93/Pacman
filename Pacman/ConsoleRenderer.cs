@@ -182,5 +182,14 @@ namespace Pacman
         {
             gameObjects.Add(gameObject);
         }
+
+        /// <summary>
+        /// Removes an object from being rendered.
+        /// </summary>
+        /// <param name="gameObject">Object to remove</param>
+        public void RemoveGameObject(IGameObject gameObject)
+        {
+            gameObjects.Remove(gameObject);
+        }
     }
 }

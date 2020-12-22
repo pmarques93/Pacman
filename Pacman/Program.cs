@@ -19,9 +19,9 @@ namespace Pacman
                                                             "Console Renderer");
             Scene scene = new Scene(20, 20);
 
-            Collision collisions = new Collision();
+            Collision collisions = new Collision(scene, consoleRenderer);
 
-            MapComponent map = new MapComponent(20, 20, collisions);
+            MapComponent map = new MapComponent(20, 20);
 
            
             // PACMAN
@@ -79,7 +79,7 @@ namespace Pacman
                 {'F'}
             };
             GameObject fruit = new GameObject("Strawberry");
-            TransformComponent fruitTransform = new TransformComponent(new ColliderComponent(Cell.Fruit), 0, 0);
+            TransformComponent fruitTransform = new TransformComponent(new ColliderComponent(Cell.Fruit), 2, 2);
 
             fruit.AddComponent(fruitTransform);
 
@@ -107,11 +107,11 @@ namespace Pacman
             consoleRenderer.AddGameObject(pinky);
             consoleRenderer.AddGameObject(fruit);
             // ////////////////////////////
+            
 
             // Add renderer to the scene
             scene.AddGameObject(consoleRenderer);
             scene.GameLoop(50);
-
         }
     }
 }

@@ -17,7 +17,11 @@ namespace Pacman
 
         // Collision information
         private Cell collision;
-        private Vector2Int collisionPosition;
+        private GameObject collisionObject;
+
+        // Object to delete - information
+        private Scene scene;
+        private ConsoleRenderer render;
 
         /// <summary>
         /// Adds GameObjects to a collection
@@ -36,10 +40,12 @@ namespace Pacman
         /// <summary>
         /// Constructor for Collision
         /// </summary>
-        public Collision()
+        public Collision(Scene scene, ConsoleRenderer render)
         {
             gameObjects = new List<GameObject>();
             gameObjectsTransforms = new List<TransformComponent>();
+            this.scene = scene;
+            this.render = render;
         }
 
         /// <summary>
@@ -67,7 +73,7 @@ namespace Pacman
             foreach (TransformComponent transform in gameObjectsTransforms)
             {
                 collision = CheckCollision(transform).Item1;
-                collisionPosition = CheckCollision(transform).Item2;
+                collisionObject = CheckCollision(transform).Item2;
             }
 
             switch (collision)
@@ -76,7 +82,8 @@ namespace Pacman
                     OnGhostCollision();
                     break;
                 case Cell.Fruit:
-                    OnFoodCollision(collisionPosition);
+                    scene.RemoveGameObject(collisionObject);
+                    render.RemoveGameObject(collisionObject);
                     break;
             }
         }
@@ -86,7 +93,8 @@ namespace Pacman
         /// </summary>
         /// <param name="transform">Transform to compare</param>
         /// <returns></returns>
-        private (Cell, Vector2Int) CheckCollision(TransformComponent transform)
+        private (Cell, GameObject) CheckCollision(
+            TransformComponent transform)
         {
             if (transform.Position + new Vector2Int(1, 0) ==
                 pacmanTransform.Position ||
@@ -100,19 +108,26 @@ namespace Pacman
 
                 return ((Cell)transform?.ParentGameObject?.
                     GetComponent<TransformComponent>()?.Collider?.Type,
-                    transform.Position);
+                    transform.ParentGameObject);
 
-            return (Cell.Walkable, new Vector2Int(0, 0));
+            return (Cell.Walkable, transform.ParentGameObject);
         }
 
+        /// <summary>
+        /// On Ghost collision event method
+        /// </summary>
         protected virtual void OnGhostCollision() =>
             GhostCollision?.Invoke();
 
-        protected virtual void OnFoodCollision(Vector2Int position) =>
-            FruitCollision?.Invoke(position);
+        /// <summary>
+        /// On Fruit collision event method
+        /// </summary>
+        /// <param name="position"></param>
+        protected virtual void OnFruitCollision() =>
+            FruitCollision?.Invoke();
 
         public event Action GhostCollision;
-        public event Action<Vector2Int> FruitCollision;
+        public event Action FruitCollision;
 
         public void Finish() { }
     }

@@ -33,6 +33,15 @@ namespace Pacman
         }
 
         /// <summary>
+        /// Removes a GameObject from the scene
+        /// </summary>
+        /// <param name="gameObject">Object to remove</param>
+        public void RemoveGameObject(IGameObject gameObject)
+        {
+            gameObjects.Remove(gameObject.Name);
+        }
+
+        /// <summary>
         /// Finds a GameObject with a given name.
         /// </summary>
         /// <param name="name">Name of the GameObject.</param>
@@ -71,7 +80,6 @@ namespace Pacman
                 {
                     gameObject.Update();
                 }
-
 
                 // Time to wait until next frame
                 timeToWait = (int)(start / TimeSpan.TicksPerMillisecond

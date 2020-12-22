@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Pacman
 {
+    /// <summary>
+    /// Responsible for realizing the render of the scene and its objects.
+    /// </summary>
     public class ConsoleRenderer : IGameObject
     {
         // Was the cursor visible before game rendering started?
@@ -25,8 +27,18 @@ namespace Pacman
         // Default background pixel
         private ConsolePixel bgPix;
 
-        // Constructor
-        public ConsoleRenderer(int xdim, int ydim, ConsolePixel bgPix, string name = "")
+        /// <summary>
+        /// Constructor, that creates a new instance of ConsoleRenderer and
+        /// initializes its members.
+        /// </summary>
+        /// <param name="xdim">Horizontal dimension of the scene.</param>
+        /// <param name="ydim">Vertical dimension of the scene.</param>
+        /// <param name="bgPix">Default ConsolePixel for the background.</param>
+        /// <param name="name">Name of the ConsoleRenderer object.</param>
+        public ConsoleRenderer(int xdim,
+                               int ydim,
+                               ConsolePixel bgPix,
+                               string name = "")
         {
             this.xdim = xdim;
             this.ydim = ydim;
@@ -44,7 +56,9 @@ namespace Pacman
             }
         }
 
-        // Pre-rendering setup
+        /// <summary>
+        /// Runs once at the start and realizes a pre-rendering setup
+        /// </summary>
         public void Start()
         {
             // Clean console
@@ -57,13 +71,52 @@ namespace Pacman
             RenderFrame();
         }
 
-        // Post-rendering teardown
+        /// <summary>
+        /// Runs once at the finish and tears down the rendering.
+        /// </summary>
         public void Finish()
         {
             Console.CursorVisible = cursorVisibleBefore;
         }
 
-        // Renders the actual frame
+        /// <summary>
+        /// Realizes the rendering on each update.
+        /// </summary>
+        public void Update()
+        {
+            // foreach (Renderable rend in stuffToRender)
+            foreach (GameObject gameObj in gameObjects)
+            {
+                RenderableComponent rendComp = 
+                                    gameObj.GetComponent<RenderableComponent>();
+                TransformComponent transform = 
+                                    gameObj.GetComponent<TransformComponent>();
+
+                // Cycle through all pixels in sprite
+                foreach (KeyValuePair<Vector2Int, ConsolePixel> pixel in 
+                                                            rendComp.Pixels)
+                {
+                    // Get absolute position of current pixel
+                    int y = (int)(transform.Position.Y + pixel.Key.Y);
+                    int x = (int)(transform.Position.X + pixel.Key.X);
+                    
+                    // Throw exception if any of these is out of bounds
+                    if (x < 0 || x >= xdim || y < 0 || y >= ydim)
+                        throw new IndexOutOfRangeException(
+                            $"Out of bounds pixel at ({x},{y}) in game object"
+                            + $" '{gameObj.Name}'");
+
+                    // Put pixel in frame
+                    nextFrame[x, y] = pixel.Value;
+                }
+            }
+            // Render the frame
+            RenderFrame();
+        }
+
+        /// <summary>
+        /// Renders the actual frame.
+        /// </summary>
         private void RenderFrame()
         {
             // Background and foreground colors of each pixel
@@ -121,39 +174,10 @@ namespace Pacman
             nextFrame = auxFrame;
         }
 
-        public void Update()
-        {
-            // foreach (Renderable rend in stuffToRender)
-            foreach (GameObject gameObj in gameObjects)
-            {
-                RenderableComponent rendComp = 
-                                    gameObj.GetComponent<RenderableComponent>();
-                TransformComponent transform = 
-                                    gameObj.GetComponent<TransformComponent>();
-
-                // Cycle through all pixels in sprite
-                foreach (KeyValuePair<Vector2Int, ConsolePixel> pixel in 
-                                                            rendComp.Pixels)
-                {
-                    // Get absolute position of current pixel
-                    int y = (int)(transform.Position.Y + pixel.Key.Y);
-                    int x = (int)(transform.Position.X + pixel.Key.X);
-                    
-                    // Throw exception if any of these is out of bounds
-                    if (x < 0 || x >= xdim || y < 0 || y >= ydim)
-                        throw new IndexOutOfRangeException(
-                            $"Out of bounds pixel at ({x},{y}) in game object"
-                            + $" '{gameObj.Name}'");
-
-                    // Put pixel in frame
-                    nextFrame[x, y] = pixel.Value;
-                }
-            }
-
-            // Render the frame
-            RenderFrame();
-        }
-
+        /// <summary>
+        /// Adds an object to be rendered.
+        /// </summary>
+        /// <param name="gameObject">Object to be rendered.</param>
         public void AddGameObject(IGameObject gameObject)
         {
             gameObjects.Add(gameObject);

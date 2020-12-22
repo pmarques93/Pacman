@@ -8,7 +8,7 @@ namespace Pacman
     public class MoveComponent: Component
     {
         private readonly byte maxX, maxY;
-        private int x, y;
+        private byte x, y;
 
         // Components
         private KeyReaderComponent keyReader;
@@ -21,7 +21,7 @@ namespace Pacman
         /// <param name="y">Y position</param>
         /// <param name="maxX">X max range</param>
         /// <param name="maxY">Y max range</param>
-        public MoveComponent(int x, int y, byte maxX, byte maxY)
+        public MoveComponent(byte x, byte y, byte maxX, byte maxY)
         {
             this.x = x;
             this.y = y;
@@ -36,8 +36,6 @@ namespace Pacman
         {
             keyReader = ParentGameObject.GetComponent<KeyReaderComponent>();
             transform = ParentGameObject.GetComponent<TransformComponent>();
-
-            transform.Position = new Vector2Int(x, y);
         }
 
         /// <summary>
@@ -51,29 +49,53 @@ namespace Pacman
                 switch (dir)
                 {
                     case Direction.Up:
-                        transform.Position =
-                            new Vector2Int(transform.Position.X,
-                            Math.Max(0, transform.Position.Y - 1));
+                        y = (byte)Math.Max(0, y - 1);
                         break;
                     case Direction.Right:
-                        transform.Position =
-                            new Vector2Int(
-                                Math.Min(maxX - 1, transform.Position.X + 1),
-                                transform.Position.Y);
+                        x = (byte)Math.Min(maxX - 1, x + 1);
                         break;
                     case Direction.Down:
-                        transform.Position =
-                            new Vector2Int(transform.Position.X,
-                            Math.Min(maxY - 1, transform.Position.Y + 1));
+                        y = (byte)Math.Min(maxY - 1, y + 1);
                         break;
                     case Direction.Left:
-                        transform.Position =
-                            new Vector2Int(
-                                Math.Min(0, transform.Position.X - 1),
-                                transform.Position.Y);
+                        x = (byte)Math.Min(0, x - 1);
                         break;
+
+                        // APAGAR SE TIVER A FUNCIONAR
+                        /*
+                        case Direction.Up:
+                            transform.Position =
+                                new Vector2Int(transform.Position.X,
+                                Math.Max(0, transform.Position.Y - 1));
+                            break;
+                        case Direction.Right:
+                            transform.Position =
+                                new Vector2Int(
+                                    Math.Min(maxX - 1, transform.Position.X + 1),
+                                    transform.Position.Y);
+                            break;
+                        case Direction.Down:
+                            transform.Position =
+                                new Vector2Int(transform.Position.X,
+                                Math.Min(maxY - 1, transform.Position.Y + 1));
+                            break;
+                        case Direction.Left:
+                            transform.Position =
+                                new Vector2Int(
+                                    Math.Min(0, transform.Position.X - 1),
+                                    transform.Position.Y);
+                            break;
+                        */
                 }
-            }
+            } 
+        }
+
+        /// <summary>
+        /// Method that runs once on finish
+        /// </summary>
+        public override void Finish()
+        {
+            transform.Position = new Vector2Int(x, y);
         }
     }
 }

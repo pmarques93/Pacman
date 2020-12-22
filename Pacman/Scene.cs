@@ -57,17 +57,29 @@ namespace Pacman
         public void SetupScene()
         {
             GameObject pacman = new GameObject("Pacman");
+            GameObject pinky = new GameObject("Pinky");
 
-            TransformComponent transform = new TransformComponent();
             KeyReaderComponent keyReader = new KeyReaderComponent();
             keyReader.EscapePressed += () => terminate = true;
-            MoveComponent movement = new MoveComponent(5, 5, xdim, ydim);
 
-            pacman.AddComponent(transform);
+            // Pacman
+            TransformComponent pacmanTransform = new TransformComponent();
+            MoveComponent pacmanMovement = new MoveComponent(5, 5, xdim, ydim);
+
             pacman.AddComponent(keyReader);
-            pacman.AddComponent(movement);
+            pacman.AddComponent(pacmanTransform);
+            pacman.AddComponent(pacmanMovement);
 
             AddGameObject(pacman);
+
+            // Pinky
+            TransformComponent pinkyTransform = new TransformComponent();
+            MoveComponent pinkyMovement = new MoveComponent(2, 2, xdim, ydim);
+
+            pinky.AddComponent(pinkyTransform);
+            pinky.AddComponent(pinkyMovement);
+            
+            AddGameObject(pinky);
 
 
             // PARA TESTES SÓ

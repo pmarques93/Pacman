@@ -14,15 +14,15 @@ namespace Pacman
                                                         ConsoleColor.DarkBlue);
 
             ConsoleRenderer consoleRenderer = new ConsoleRenderer(
-                                                            20,
-                                                            20,
+                                                            28,
+                                                            31,
                                                             backgroundPixel,
                                                             "Console Renderer");
-            Scene scene = new Scene(20, 20);
+            Scene scene = new Scene(28, 31);
 
             Collision collisions = new Collision(scene, consoleRenderer);
 
-            MapComponent map = new MapComponent(20, 20);
+            MapComponent map = new MapComponent(28, 31);
 
 
             // PACMAN
@@ -53,7 +53,7 @@ namespace Pacman
                                                   ConsoleColor.Yellow,
                                                   ConsoleColor.DarkBlue));
 
-
+            /*
             // GHOST
             char[,] pinkySprite =
             {
@@ -92,6 +92,7 @@ namespace Pacman
             fruit.AddComponent(new ConsoleSprite(fruitSprite,
                                                   ConsoleColor.DarkYellow,
                                                   ConsoleColor.DarkYellow));
+            */
 
             // Walls
             GameObject walls = new GameObject("Walls");
@@ -102,11 +103,11 @@ namespace Pacman
             Dictionary<Vector2Int, ConsolePixel> wallPixels =
                 new Dictionary<Vector2Int, ConsolePixel>();
 
-            for (int x = 0; x < map.MapTest.GetLength(0); x++)
+            for (int x = 0; x < map.Map.GetLength(0); x++)
             {
-                for (int y = 0; y < map.MapTest.GetLength(1); y++)
+                for (int y = 0; y < map.Map.GetLength(1); y++)
                 {
-                    if (map.MapTest[x, y].Collider.Type == Cell.Wall)
+                    if (map.Map[x, y].Collider.Type == Cell.Wall)
                         wallPixels[new Vector2Int(x, y)] = wallPixel;
                 }
             }
@@ -118,21 +119,21 @@ namespace Pacman
 
             // Add Gameobjects to collision check
             collisions.AddPacman(pacman);
-            collisions.AddGameObject(pinky);
-            collisions.AddGameObject(fruit);
+            //collisions.AddGameObject(pinky);
+            //collisions.AddGameObject(fruit);
 
             // Add GameObjects to the scene
             scene.AddGameObject(pacman);
-            scene.AddGameObject(pinky);
-            scene.AddGameObject(fruit);
+            //scene.AddGameObject(pinky);
+            //scene.AddGameObject(fruit);
             scene.AddGameObject(collisions);
             scene.AddGameObject(walls);
             // ////////////////////////////
 
             // Add GameObjects to the renderer
             consoleRenderer.AddGameObject(pacman);
-            consoleRenderer.AddGameObject(pinky);
-            consoleRenderer.AddGameObject(fruit);
+            //consoleRenderer.AddGameObject(pinky);
+            //consoleRenderer.AddGameObject(fruit);
             consoleRenderer.AddGameObject(walls);
             // ////////////////////////////
 

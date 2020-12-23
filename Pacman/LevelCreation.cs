@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Pacman.MovementBehaviours.ChaseBehaviour;
 
 namespace Pacman
 {
@@ -19,8 +20,9 @@ namespace Pacman
         private readonly ConsoleScore score;
 
         private GameObject pacman;
+        private TransformComponent pacmanMapTransform;
 
-        private GameObject pinky;
+        private GameObject blinky;
 
         private GameObject[] allFoods;
 
@@ -36,7 +38,7 @@ namespace Pacman
             backgroundPixel = new ConsolePixel(' ', ConsoleColor.White,
                                                 ConsoleColor.DarkBlue);
 
-            consoleRenderer = new ConsoleRenderer(XSIZE*3, YSIZE, backgroundPixel,
+            consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE, backgroundPixel,
                                                     "Console Renderer");
             scene = new Scene(XSIZE, YSIZE);
 
@@ -49,6 +51,7 @@ namespace Pacman
             allFoods = new GameObject[246];
 
             allPowerPills = new GameObject[4];
+            pacmanMapTransform = new TransformComponent(0, 0);
         }
 
         /// <summary>
@@ -82,7 +85,7 @@ namespace Pacman
 
             // Add renderer to the scene
             scene.AddGameObject(consoleRenderer);
-            scene.GameLoop(50);
+            scene.GameLoop(100);
         }
 
         /// <summary>
@@ -95,7 +98,8 @@ namespace Pacman
             pacman = new GameObject("Pacman");
             // Components ///////////////////////////////////
             KeyReaderComponent pacmanKeyReader = new KeyReaderComponent();
-            TransformComponent pacmanTransform = new TransformComponent(3, 5);
+            TransformComponent pacmanTransform = new TransformComponent(30, 5);
+            pacmanMapTransform = new TransformComponent(10, 5);
             MoveComponent pacmanMovement = new MoveComponent();
             ColliderComponent pacmanCollider = new ColliderComponent(Cell.Pacman);
 
@@ -108,7 +112,7 @@ namespace Pacman
             // Adds a movement behaviour
             pacmanMovement.AddMovementBehaviour(
                                     new PacmanMovementBehaviour(
-                                    pacman, new TransformComponent(1, 5), 3));
+                                    pacman, pacmanMapTransform, 3));
 
             pacman.AddComponent(new ConsoleSprite(pacmanSprite,
                                                   ConsoleColor.White,
@@ -121,23 +125,33 @@ namespace Pacman
         /// <param name="map">Map reference to the game map</param>
         private void GhostCreation(MapComponent map)
         {
-            char[,] pinkySprite = { { 'P' } };
-            pinky = new GameObject("Pinky");
-            TransformComponent pinkyTransform = new TransformComponent(10, 10);
-            MoveComponent pinkyMovement = new MoveComponent();
-            ColliderComponent pinkyCollider = new ColliderComponent(Cell.Ghost);
+            char[,] blinkySprite =
+            {
+                {' '},
+                {'B'},
+                {' '}
+            };
+            blinky = new GameObject("blinky");
+            TransformComponent blinkyTransform = new TransformComponent(21, 5);
+            MoveComponent blinkyMovement = new MoveComponent();
+            ColliderComponent blinkyCollider = new ColliderComponent(Cell.Ghost);
 
-            pinky.AddComponent(pinkyTransform);
-            pinky.AddComponent(pinkyMovement);
-            pinky.AddComponent(pinkyCollider);
-            pinky.AddComponent(map);
+            blinky.AddComponent(blinkyTransform);
+            blinky.AddComponent(blinkyMovement);
+            blinky.AddComponent(blinkyCollider);
+            blinky.AddComponent(map);
 
             // Adds a movement behaviour
-            pinkyMovement.AddMovementBehaviour(new PinkyMovementBehaviour(pinky));
+            blinkyMovement.AddMovementBehaviour(new BlinkyChaseBehaviour(
+                                                blinky,
+                                                pacman,
+                                                pacmanMapTransform,
+                                                new TransformComponent(7, 5),
+                                                3));
 
-            pinky.AddComponent(new ConsoleSprite(pinkySprite,
-                                                  ConsoleColor.Magenta,
-                                                  ConsoleColor.DarkBlue));
+            blinky.AddComponent(new ConsoleSprite(blinkySprite,
+                                                  ConsoleColor.White,
+                                                  ConsoleColor.Red));
         }
 
         /// <summary>
@@ -2367,10 +2381,10 @@ namespace Pacman
         {
             allPowerPills[0] = new GameObject("PowerPill1");
             char[,] powerPill0Sprite = { { ' ' }, { ' ' }, { ' ' }, };
-            TransformComponent powerPill0Transform = 
+            TransformComponent powerPill0Transform =
                 new TransformComponent(3, 3);
 
-            ColliderComponent powerPill0Collider = 
+            ColliderComponent powerPill0Collider =
                 new ColliderComponent(Cell.PowerPill);
 
             allPowerPills[0].AddComponent(powerPill0Transform);
@@ -2380,10 +2394,10 @@ namespace Pacman
 
             allPowerPills[1] = new GameObject("PowerPill2");
             char[,] powerPill1Sprite = { { ' ' }, { ' ' }, { ' ' }, };
-            TransformComponent powerPill1Transform = 
+            TransformComponent powerPill1Transform =
                 new TransformComponent(78, 3);
 
-            ColliderComponent powerPill1Collider = 
+            ColliderComponent powerPill1Collider =
                 new ColliderComponent(Cell.PowerPill);
 
             allPowerPills[1].AddComponent(powerPill1Transform);
@@ -2394,10 +2408,10 @@ namespace Pacman
 
             allPowerPills[2] = new GameObject("PowerPill3");
             char[,] powerPill2Sprite = { { ' ' }, { ' ' }, { ' ' }, };
-            TransformComponent powerPill2Transform = 
+            TransformComponent powerPill2Transform =
                 new TransformComponent(3, 23);
 
-            ColliderComponent powerPill2Collider = 
+            ColliderComponent powerPill2Collider =
                 new ColliderComponent(Cell.PowerPill);
 
             allPowerPills[2].AddComponent(powerPill2Transform);
@@ -2408,10 +2422,10 @@ namespace Pacman
 
             allPowerPills[3] = new GameObject("PowerPill4");
             char[,] powerPill3Sprite = { { ' ' }, { ' ' }, { ' ' }, };
-            TransformComponent powerPill3Transform = 
+            TransformComponent powerPill3Transform =
                 new TransformComponent(78, 23);
 
-            ColliderComponent powerPill3Collider = 
+            ColliderComponent powerPill3Collider =
                 new ColliderComponent(Cell.PowerPill);
 
             allPowerPills[3].AddComponent(powerPill3Transform);
@@ -2465,7 +2479,7 @@ namespace Pacman
         {
             collisions.AddPacman(pacman);
 
-            //collisions.AddGameObject(pinky);
+            collisions.AddGameObject(blinky);
 
             foreach (GameObject food in allFoods)
                 if (food != null) collisions.AddGameObject(food);
@@ -2479,9 +2493,8 @@ namespace Pacman
         /// </summary>
         private void AddGameObjectsToScene()
         {
+            scene.AddGameObject(blinky);
             scene.AddGameObject(pacman);
-
-            //scene.AddGameObject(pinky);
 
             foreach (GameObject food in allFoods)
                 if (food != null) scene.AddGameObject(food);
@@ -2500,7 +2513,6 @@ namespace Pacman
         private void AddGameObjectsToRender()
         {
             consoleRenderer.AddGameObject(pacman);
-            //consoleRenderer.AddGameObject(pinky);
 
             foreach (GameObject food in allFoods)
                 if (food != null) consoleRenderer.AddGameObject(food);
@@ -2508,6 +2520,7 @@ namespace Pacman
             foreach (GameObject powerPill in allPowerPills)
                 if (powerPill != null) consoleRenderer.AddGameObject(powerPill);
 
+            consoleRenderer.AddGameObject(blinky);
             consoleRenderer.AddGameObject(walls);
         }
     }

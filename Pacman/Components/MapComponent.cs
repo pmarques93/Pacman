@@ -5,7 +5,10 @@
     /// </summary>
     public class MapComponent : Component
     {
-        public MapStruct[,] Map { get; }
+        /// <summary>
+        /// Property with a bidemsnion array of MapStructs to create a map
+        /// </summary>
+        public MapStruct[,] Map { get; private set; }
 
         /// <summary>
         /// Constructor for MapComponent
@@ -14,8 +17,8 @@
         /// <param name="yDim">Y size</param>
         public MapComponent(byte xDim, byte yDim)
         {
-
             Map = new MapStruct[xDim, yDim];
+
             CreatePacmanMap();
         }
 
@@ -1500,18 +1503,5 @@
 
 
         }
-
-        // Temp 
-        /*
-        /// <summary>
-        /// Creates a walkable position everytime there is a collision
-        /// with somthing that disappears
-        /// </summary>
-        /// <param name="position">Position to create</param>
-        private void CreateWalkablePosition(Vector2Int position)
-            => Map[position.X, position.Y] =
-                new TransformComponent(new ColliderComponent(Cell.Walkable),
-                    position.X, position.Y);
-        */
     }
 }

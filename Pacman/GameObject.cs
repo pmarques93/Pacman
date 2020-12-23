@@ -72,5 +72,13 @@ namespace Pacman
                 component.Finish();
         }
 
+        /// <summary>
+        /// Overrides ToString to print this object's name
+        /// </summary>
+        /// <returns>Returns a string with the object Name</returns>
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }

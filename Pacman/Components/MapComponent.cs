@@ -537,6 +537,228 @@
                         new TransformComponent(9, 30),
                         new ColliderComponent(Cell.Wall));
 
+            Map[10, 0] = new MapStruct(
+                        new TransformComponent(10, 0),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 2] = new MapStruct(
+                        new TransformComponent(10, 2),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 3] = new MapStruct(
+                        new TransformComponent(10, 3),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 4] = new MapStruct(
+                        new TransformComponent(10, 4),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 6] = new MapStruct(
+                        new TransformComponent(10, 6),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 7] = new MapStruct(
+                        new TransformComponent(10, 7),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 9] = new MapStruct(
+                        new TransformComponent(10, 9),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 10] = new MapStruct(
+                        new TransformComponent(10, 10),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 12] = new MapStruct(
+                        new TransformComponent(10, 12),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 13] = new MapStruct(
+                        new TransformComponent(10, 13),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 14] = new MapStruct(
+                        new TransformComponent(10, 14),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 15] = new MapStruct(
+                        new TransformComponent(10, 15),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 16] = new MapStruct(
+                        new TransformComponent(10, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 18] = new MapStruct(
+                        new TransformComponent(10, 18),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 19] = new MapStruct(
+                        new TransformComponent(10, 19),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 21] = new MapStruct(
+                        new TransformComponent(10, 21),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 22] = new MapStruct(
+                        new TransformComponent(10, 22),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 24] = new MapStruct(
+                        new TransformComponent(10, 24),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 25] = new MapStruct(
+                        new TransformComponent(10, 25),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 27] = new MapStruct(
+                        new TransformComponent(10, 27),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 28] = new MapStruct(
+                        new TransformComponent(10, 28),
+                        new ColliderComponent(Cell.Wall));
+            Map[10, 30] = new MapStruct(
+                        new TransformComponent(10, 30),
+                        new ColliderComponent(Cell.Wall));
+
+            Map[11, 0] = new MapStruct(
+                        new TransformComponent(11, 0),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 2] = new MapStruct(
+                        new TransformComponent(11, 2),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 3] = new MapStruct(
+                        new TransformComponent(11, 3),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 4] = new MapStruct(
+                        new TransformComponent(11, 4),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 6] = new MapStruct(
+                        new TransformComponent(11, 6),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 7] = new MapStruct(
+                        new TransformComponent(11, 7),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 9] = new MapStruct(
+                        new TransformComponent(11, 9),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 10] = new MapStruct(
+                        new TransformComponent(11, 10),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 12] = new MapStruct(
+                        new TransformComponent(11, 12),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 16] = new MapStruct(
+                        new TransformComponent(11, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 18] = new MapStruct(
+                        new TransformComponent(11, 18),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 19] = new MapStruct(
+                        new TransformComponent(11, 19),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 21] = new MapStruct(
+                        new TransformComponent(11, 21),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 22] = new MapStruct(
+                        new TransformComponent(11, 22),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 24] = new MapStruct(
+                        new TransformComponent(11, 24),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 25] = new MapStruct(
+                        new TransformComponent(11, 25),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 27] = new MapStruct(
+                        new TransformComponent(11, 27),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 28] = new MapStruct(
+                        new TransformComponent(11, 28),
+                        new ColliderComponent(Cell.Wall));
+            Map[11, 30] = new MapStruct(
+                        new TransformComponent(11, 30),
+                        new ColliderComponent(Cell.Wall));
+
+            Map[12, 0] = new MapStruct(
+                        new TransformComponent(12, 0),
+                        new ColliderComponent(Cell.Wall));
+            Map[12, 6] = new MapStruct(
+                        new TransformComponent(12, 6),
+                        new ColliderComponent(Cell.Wall));
+            Map[12, 7] = new MapStruct(
+                        new TransformComponent(12, 7),
+                        new ColliderComponent(Cell.Wall));
+            Map[12, 12] = new MapStruct(
+                        new TransformComponent(12, 12),
+                        new ColliderComponent(Cell.Wall));
+            Map[12, 16] = new MapStruct(
+                        new TransformComponent(12, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[12, 18] = new MapStruct(
+                        new TransformComponent(12, 18),
+                        new ColliderComponent(Cell.Wall));
+            Map[12, 19] = new MapStruct(
+                        new TransformComponent(12, 19),
+                        new ColliderComponent(Cell.Wall));
+            Map[12, 24] = new MapStruct(
+                        new TransformComponent(12, 24),
+                        new ColliderComponent(Cell.Wall));
+            Map[12, 25] = new MapStruct(
+                        new TransformComponent(12, 25),
+                        new ColliderComponent(Cell.Wall));
+            Map[12, 30] = new MapStruct(
+                        new TransformComponent(12, 30),
+                        new ColliderComponent(Cell.Wall));
+
+            Map[13, 0] = new MapStruct(
+                        new TransformComponent(13, 0),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 1] = new MapStruct(
+                        new TransformComponent(13, 1),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 2] = new MapStruct(
+                        new TransformComponent(13, 2),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 3] = new MapStruct(
+                        new TransformComponent(13, 3),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 4] = new MapStruct(
+                        new TransformComponent(13, 4),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 6] = new MapStruct(
+                        new TransformComponent(13, 6),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 7] = new MapStruct(
+                        new TransformComponent(13, 7),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 8] = new MapStruct(
+                        new TransformComponent(13, 8),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 9] = new MapStruct(
+                        new TransformComponent(13, 9),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 10] = new MapStruct(
+                        new TransformComponent(13, 10),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 16] = new MapStruct(
+                        new TransformComponent(13, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 18] = new MapStruct(
+                        new TransformComponent(13, 18),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 19] = new MapStruct(
+                        new TransformComponent(13, 19),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 20] = new MapStruct(
+                        new TransformComponent(13, 19),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 21] = new MapStruct(
+                        new TransformComponent(13, 21),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 22] = new MapStruct(
+                        new TransformComponent(13, 22),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 24] = new MapStruct(
+                        new TransformComponent(13, 24),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 25] = new MapStruct(
+                        new TransformComponent(13, 25),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 26] = new MapStruct(
+                        new TransformComponent(13, 26),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 27] = new MapStruct(
+                        new TransformComponent(13, 27),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 28] = new MapStruct(
+                        new TransformComponent(13, 28),
+                        new ColliderComponent(Cell.Wall));
+            Map[13, 30] = new MapStruct(
+                        new TransformComponent(13, 30),
+                        new ColliderComponent(Cell.Wall));
         }
 
         // Temp 

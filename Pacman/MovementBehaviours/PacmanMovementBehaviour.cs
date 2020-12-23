@@ -14,7 +14,8 @@ namespace Pacman
         private readonly KeyReaderComponent keyReader;
         private readonly TransformComponent transform;
 
-        private int incrementCounter;
+        private int translateModifier;
+
 
         private readonly TransformComponent mapTransform;
         private readonly MapComponent map;
@@ -23,13 +24,15 @@ namespace Pacman
         /// Gets components from pacman gameobject
         /// </summary>
         /// <param name="pacman">Object to get components from</param>
-        public PacmanMovementBehaviour(GameObject pacman)
+        public PacmanMovementBehaviour(GameObject pacman,
+                                       TransformComponent mapTransform,
+                                       int translateModifier = 1)
         {
             keyReader = pacman.GetComponent<KeyReaderComponent>();
             transform = pacman.GetComponent<TransformComponent>();
-            mapTransform = new TransformComponent(5, transform.Position.Y);
+            this.mapTransform = mapTransform;
             map = pacman.GetComponent<MapComponent>();
-            incrementCounter = 0;
+            this.translateModifier = translateModifier;
         }
 
         /// <summary>
@@ -91,20 +94,13 @@ namespace Pacman
                             Math.Max(0, mapTransform.Position.Y - 1)].
                             Collider.Type != Cell.Wall)
                         {
-
-
                             transform.Position =
                             new Vector2Int(transform.Position.X,
                             Math.Max(0, transform.Position.Y - 1));
 
-
                             mapTransform.Position =
                             new Vector2Int(mapTransform.Position.X,
                             Math.Max(0, mapTransform.Position.Y - 1));
-
-                            // Console.WriteLine($"transform.Position: {transform.Position}");
-                            // Console.WriteLine($"mapTransform.Position: {mapTransform.Position}");
-                            // System.Threading.Thread.Sleep(500);
                         }
                         break;
 
@@ -120,15 +116,11 @@ namespace Pacman
                             Math.Min(xMax - 1, mapTransform.Position.X + 1),
                             mapTransform.Position.Y);
 
-                            
                             transform.Position =
                                 new Vector2Int(
-                                Math.Min(xMax * 2 - 1, transform.Position.X + 2),
+                                Math.Min(xMax * translateModifier - 1, 
+                                    transform.Position.X + translateModifier),
                                 transform.Position.Y);
-              
-                            // Console.WriteLine($"transform.Position: {transform.Position}");
-                            // Console.WriteLine($"mapTransform.Position: {mapTransform.Position}");
-                            // System.Threading.Thread.Sleep(500);
                         }
                         break;
 
@@ -141,14 +133,9 @@ namespace Pacman
                             new Vector2Int(transform.Position.X,
                             Math.Min(yMax - 1, transform.Position.Y + 1));
 
-
                             mapTransform.Position =
                             new Vector2Int(mapTransform.Position.X,
                             Math.Min(yMax - 1, mapTransform.Position.Y + 1));
-
-                            // Console.WriteLine($"transform.Position: {transform.Position}");
-                            // Console.WriteLine($"mapTransform.Position: {mapTransform.Position}");
-                            // System.Threading.Thread.Sleep(500);
                         }
                         break;
 
@@ -158,7 +145,6 @@ namespace Pacman
                             mapTransform.Position.Y].
                             Collider.Type != Cell.Wall)
                         {
-
                             mapTransform.Position =
                             new Vector2Int(
                             Math.Max(0, mapTransform.Position.X - 1),
@@ -167,13 +153,9 @@ namespace Pacman
 
                             transform.Position =
                             new Vector2Int(
-                            Math.Max(0, transform.Position.X - 2),
+                            Math.Max(0, 
+                                    transform.Position.X - translateModifier),
                             transform.Position.Y);
-
-                            // Console.WriteLine($"transform.Position: {transform.Position}");
-                            // Console.WriteLine($"mapTransform.Position: {mapTransform.Position}");
-                            // System.Threading.Thread.Sleep(500);
-
                         }
                         break;
                 }

@@ -9,12 +9,12 @@ namespace Pacman
         {
 
             ConsolePixel backgroundPixel = new ConsolePixel(
-                                                        '.',
+                                                        ' ',
                                                         ConsoleColor.White,
                                                         ConsoleColor.DarkBlue);
 
             ConsoleRenderer consoleRenderer = new ConsoleRenderer(
-                                                            56,
+                                                            84,
                                                             31,
                                                             backgroundPixel,
                                                             "Console Renderer");
@@ -28,14 +28,15 @@ namespace Pacman
             // PACMAN
             char[,] pacmanSprite =
             {
+                {' '},
                 {'C'},
-                {'C'},
+                {' '},
             };
 
             GameObject pacman = new GameObject("Pacman");
             // Components ///////////////////////////////////
             KeyReaderComponent pacmanKeyReader = new KeyReaderComponent();
-            TransformComponent pacmanTransform = new TransformComponent(10, 5);
+            TransformComponent pacmanTransform = new TransformComponent(3, 5);
             MoveComponent pacmanMovement = new MoveComponent();
             ColliderComponent pacmanCollider = new ColliderComponent(Cell.Pacman);
 
@@ -46,7 +47,9 @@ namespace Pacman
             pacman.AddComponent(map);
 
             // Adds a movement behaviour
-            pacmanMovement.AddMovementBehaviour(new PacmanMovementBehaviour(pacman));
+            pacmanMovement.AddMovementBehaviour(
+                                    new PacmanMovementBehaviour(
+                                    pacman, new TransformComponent(1,5), 3));
 
 
 
@@ -81,11 +84,12 @@ namespace Pacman
             // Fruit
             char[,] fruitSprite =
             {
-                {'F'},
-                {'F'},
+                {' '},
+                {'.'},
+                {' '},
             };
             GameObject fruit = new GameObject("Strawberry");
-            TransformComponent fruitTransform = new TransformComponent(5, 1);
+            TransformComponent fruitTransform = new TransformComponent(3, 1);
             ColliderComponent fruitCollider = new ColliderComponent(Cell.Fruit);
 
             fruit.AddComponent(fruitTransform);
@@ -120,6 +124,7 @@ namespace Pacman
 
             int iTest = 0;
             int jTest = 1;
+            int kTest = 2;
             for (int x = 0; x < map.Map.GetLength(0); x++)
             {
                 for (int y = 0; y < map.Map.GetLength(1); y++)
@@ -128,11 +133,12 @@ namespace Pacman
                     {
                         wallPixels[new Vector2Int(iTest, y)] = wallPixel;
                         wallPixels[new Vector2Int(jTest, y)] = wallPixel;
-                        // wallPixels[new Vector2Int(x, y)] = wallPixel;
+                        wallPixels[new Vector2Int(kTest, y)] = wallPixel;
                     }
                 }
-                iTest += 2;
-                jTest += 2;
+                iTest += 3;
+                jTest += 3;
+                kTest += 3;
             }
 
             TransformComponent wallTransform = new TransformComponent(0, 0);

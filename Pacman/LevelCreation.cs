@@ -38,8 +38,8 @@ namespace Pacman
             backgroundPixel = new ConsolePixel(' ', ConsoleColor.White,
                                                 ConsoleColor.DarkBlue);
 
-            consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE, backgroundPixel,
-                                                    "Console Renderer");
+            consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE, 
+                                            backgroundPixel,"Console Renderer");
             scene = new Scene(XSIZE, YSIZE);
 
             collisions = new Collision(scene, consoleRenderer);
@@ -101,7 +101,8 @@ namespace Pacman
             TransformComponent pacmanTransform = new TransformComponent(30, 5);
             pacmanMapTransform = new TransformComponent(10, 5);
             MoveComponent pacmanMovement = new MoveComponent();
-            ColliderComponent pacmanCollider = new ColliderComponent(Cell.Pacman);
+            ColliderComponent pacmanCollider = 
+                new ColliderComponent(Cell.Pacman);
 
             pacman.AddComponent(pacmanKeyReader);
             pacman.AddComponent(pacmanTransform);
@@ -2392,6 +2393,7 @@ namespace Pacman
             allPowerPills[0].AddComponent(new ConsoleSprite(
                 powerPill0Sprite, ConsoleColor.White, ConsoleColor.White));
 
+            /////////////////
             allPowerPills[1] = new GameObject("PowerPill2");
             char[,] powerPill1Sprite = { { ' ' }, { ' ' }, { ' ' }, };
             TransformComponent powerPill1Transform =
@@ -2405,7 +2407,7 @@ namespace Pacman
             allPowerPills[1].AddComponent(new ConsoleSprite(
                 powerPill1Sprite, ConsoleColor.White, ConsoleColor.White));
 
-
+            /////////////////
             allPowerPills[2] = new GameObject("PowerPill3");
             char[,] powerPill2Sprite = { { ' ' }, { ' ' }, { ' ' }, };
             TransformComponent powerPill2Transform =
@@ -2419,7 +2421,7 @@ namespace Pacman
             allPowerPills[2].AddComponent(new ConsoleSprite(
                 powerPill2Sprite, ConsoleColor.White, ConsoleColor.White));
 
-
+            /////////////////
             allPowerPills[3] = new GameObject("PowerPill4");
             char[,] powerPill3Sprite = { { ' ' }, { ' ' }, { ' ' }, };
             TransformComponent powerPill3Transform =

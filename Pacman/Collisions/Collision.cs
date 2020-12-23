@@ -90,30 +90,32 @@ namespace Pacman
         /// <summary>
         /// Calls a certain event depending on the type of collision
         /// </summary>
-        /// <param name="collision">Type of collider pacman collided with</param>
-        /// <param name="collisionGO">Gameobject of that collider</param>
-        private void CollisionAction(Cell collision, GameObject collisionGO)
+        /// <param name="collisionType">Type of collider pacman 
+        /// collided with</param>
+        /// <param name="collision">Gameobject of that collider</param>
+        private void CollisionAction(Cell collisionType, GameObject collision)
         {
-            switch (collision)
+            switch (collisionType)
             {
                 case Cell.Ghost:
                     OnGhostCollision();
                     break;
                 case Cell.Fruit:
-                    scene.RemoveGameObject(collisionGO);
-                    render.RemoveGameObject(collisionGO);
-                    RemoveGameObject(collisionGO);
+                    scene.RemoveGameObject(collision);
+                    render.RemoveGameObject(collision);
+                    RemoveGameObject(collision);
                     OnScoreCollision(250);
                     break;
                 case Cell.Food:
-                    scene.RemoveGameObject(collisionGO);
-                    render.RemoveGameObject(collisionGO);
-                    RemoveGameObject(collisionGO);
+                    scene.RemoveGameObject(collision);
+                    render.RemoveGameObject(collision);
+                    RemoveGameObject(collision);
                     OnScoreCollision(10);
                     break;
                 case Cell.PowerPill:
-                    scene.RemoveGameObject(collisionGO);
-                    render.RemoveGameObject(collisionGO);
+                    scene.RemoveGameObject(collision);
+                    render.RemoveGameObject(collision);
+                    RemoveGameObject(collision);
                     OnScoreCollision(50);
                     OnPowerPillCollision();
                     break;

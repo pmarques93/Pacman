@@ -52,5 +52,10 @@
         {
             return X.GetHashCode() ^ Y.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return $"x: {X}, y: {Y}";
+        }
     }
 }

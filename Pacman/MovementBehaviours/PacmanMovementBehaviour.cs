@@ -13,6 +13,10 @@ namespace Pacman
         // Components
         private readonly KeyReaderComponent keyReader;
         private readonly TransformComponent transform;
+
+        private int incrementCounter;
+
+        private readonly TransformComponent mapTransform;
         private readonly MapComponent map;
 
         /// <summary>
@@ -23,7 +27,9 @@ namespace Pacman
         {
             keyReader = pacman.GetComponent<KeyReaderComponent>();
             transform = pacman.GetComponent<TransformComponent>();
+            mapTransform = new TransformComponent(5, transform.Position.Y);
             map = pacman.GetComponent<MapComponent>();
+            incrementCounter = 0;
         }
 
         /// <summary>
@@ -81,50 +87,93 @@ namespace Pacman
                 switch (pacmanDirection)
                 {
                     case Direction.Up:
-                        if (map.Map[transform.Position.X,
-                            Math.Max(0, transform.Position.Y - 1)].
+                        if (map.Map[mapTransform.Position.X,
+                            Math.Max(0, mapTransform.Position.Y - 1)].
                             Collider.Type != Cell.Wall)
                         {
+
+
                             transform.Position =
                             new Vector2Int(transform.Position.X,
                             Math.Max(0, transform.Position.Y - 1));
+
+
+                            mapTransform.Position =
+                            new Vector2Int(mapTransform.Position.X,
+                            Math.Max(0, mapTransform.Position.Y - 1));
+
+                            // Console.WriteLine($"transform.Position: {transform.Position}");
+                            // Console.WriteLine($"mapTransform.Position: {mapTransform.Position}");
+                            // System.Threading.Thread.Sleep(500);
                         }
                         break;
 
                     case Direction.Right:
                         if (map.Map[
-                            Math.Min(xMax - 1, transform.Position.X + 1),
-                            transform.Position.Y].
+                            Math.Min(xMax - 1, mapTransform.Position.X + 1),
+                            mapTransform.Position.Y].
                             Collider.Type != Cell.Wall)
                         {
-                            transform.Position =
+
+                            mapTransform.Position =
                             new Vector2Int(
-                            Math.Min(xMax - 1, transform.Position.X + 1),
-                            transform.Position.Y);
+                            Math.Min(xMax - 1, mapTransform.Position.X + 1),
+                            mapTransform.Position.Y);
+
+                            
+                            transform.Position =
+                                new Vector2Int(
+                                Math.Min(xMax * 2 - 1, transform.Position.X + 2),
+                                transform.Position.Y);
+              
+                            // Console.WriteLine($"transform.Position: {transform.Position}");
+                            // Console.WriteLine($"mapTransform.Position: {mapTransform.Position}");
+                            // System.Threading.Thread.Sleep(500);
                         }
                         break;
 
                     case Direction.Down:
-                        if (map.Map[transform.Position.X,
-                            Math.Min(yMax - 1, transform.Position.Y + 1)].
+                        if (map.Map[mapTransform.Position.X,
+                            Math.Min(yMax - 1, mapTransform.Position.Y + 1)].
                             Collider.Type != Cell.Wall)
                         {
                             transform.Position =
                             new Vector2Int(transform.Position.X,
                             Math.Min(yMax - 1, transform.Position.Y + 1));
+
+
+                            mapTransform.Position =
+                            new Vector2Int(mapTransform.Position.X,
+                            Math.Min(yMax - 1, mapTransform.Position.Y + 1));
+
+                            // Console.WriteLine($"transform.Position: {transform.Position}");
+                            // Console.WriteLine($"mapTransform.Position: {mapTransform.Position}");
+                            // System.Threading.Thread.Sleep(500);
                         }
                         break;
 
                     case Direction.Left:
                         if (map.Map[
-                            Math.Max(0, transform.Position.X - 1),
-                            transform.Position.Y].
+                            Math.Max(0, mapTransform.Position.X - 1),
+                            mapTransform.Position.Y].
                             Collider.Type != Cell.Wall)
                         {
+
+                            mapTransform.Position =
+                            new Vector2Int(
+                            Math.Max(0, mapTransform.Position.X - 1),
+                            mapTransform.Position.Y);
+
+
                             transform.Position =
                             new Vector2Int(
-                            Math.Max(0, transform.Position.X - 1),
+                            Math.Max(0, transform.Position.X - 2),
                             transform.Position.Y);
+
+                            // Console.WriteLine($"transform.Position: {transform.Position}");
+                            // Console.WriteLine($"mapTransform.Position: {mapTransform.Position}");
+                            // System.Threading.Thread.Sleep(500);
+
                         }
                         break;
                 }

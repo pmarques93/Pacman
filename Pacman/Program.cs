@@ -9,12 +9,12 @@ namespace Pacman
         {
 
             ConsolePixel backgroundPixel = new ConsolePixel(
-                                                        '.',
+                                                        ' ',
                                                         ConsoleColor.White,
                                                         ConsoleColor.DarkBlue);
 
             ConsoleRenderer consoleRenderer = new ConsoleRenderer(
-                                                            28,
+                                                            56,
                                                             31,
                                                             backgroundPixel,
                                                             "Console Renderer");
@@ -28,7 +28,7 @@ namespace Pacman
             // PACMAN
             char[,] pacmanSprite =
             {
-                {'C'}
+                {'C'},
             };
 
             GameObject pacman = new GameObject("Pacman");
@@ -50,8 +50,8 @@ namespace Pacman
 
 
             pacman.AddComponent(new ConsoleSprite(pacmanSprite,
-                                                  ConsoleColor.Yellow,
-                                                  ConsoleColor.DarkBlue));
+                                                  ConsoleColor.White,
+                                                  ConsoleColor.Red));
 
             /*
             // GHOST
@@ -108,9 +108,31 @@ namespace Pacman
                 for (int y = 0; y < map.Map.GetLength(1); y++)
                 {
                     if (map.Map[x, y].Collider.Type == Cell.Wall)
+                    {
                         wallPixels[new Vector2Int(x, y)] = wallPixel;
+                    }
                 }
             }
+
+            // // UNCOMMENT THIS AND COMMENT THE PREVIOUS LOOP TO SEE SOMETHING COOL
+
+            // int iTest = 0;
+            // int jTest = 1;
+            // for (int x = 0; x < map.Map.GetLength(0); x++)
+            // {
+            //     for (int y = 0; y < map.Map.GetLength(1); y++)
+            //     {
+            //         if (map.Map[x, y].Collider.Type == Cell.Wall)
+            //         {
+            //             // wallPixels[new Vector2Int(iTest, y)] = wallPixel;
+            //             // wallPixels[new Vector2Int(jTest, y)] = wallPixel;
+            //             wallPixels[new Vector2Int(x, y)] = wallPixel;
+            //         }
+            //     }
+            //     iTest += 2;
+            //     jTest += 2;
+            // }
+
             TransformComponent wallTransform = new TransformComponent(0, 0);
             walls.AddComponent(wallTransform);
             walls.AddComponent(new ConsoleSprite(wallPixels));
@@ -131,10 +153,10 @@ namespace Pacman
             // ////////////////////////////
 
             // Add GameObjects to the renderer
+            consoleRenderer.AddGameObject(walls);
             consoleRenderer.AddGameObject(pacman);
             //consoleRenderer.AddGameObject(pinky);
             //consoleRenderer.AddGameObject(fruit);
-            consoleRenderer.AddGameObject(walls);
             // ////////////////////////////
 
 

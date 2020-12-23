@@ -18,6 +18,7 @@ namespace Pacman
         private readonly Collision collisions;
         private readonly MapComponent map;
         private readonly ConsoleScore score;
+        private readonly GameState gameState;
 
         private GameObject pacman;
         private TransformComponent pacmanMapTransform;
@@ -38,11 +39,16 @@ namespace Pacman
             backgroundPixel = new ConsolePixel(' ', ConsoleColor.White,
                                                 ConsoleColor.DarkBlue);
 
-            consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE, 
-                                            backgroundPixel,"Console Renderer");
-            scene = new Scene(XSIZE, YSIZE);
+            collisions = new Collision();
 
-            collisions = new Collision(scene, consoleRenderer);
+            consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE, 
+                                            backgroundPixel, collisions, 
+                                            "Console Renderer");
+
+            gameState = new GameState(collisions);
+
+            scene = new Scene(XSIZE, YSIZE, gameState, collisions);
+
 
             map = new MapComponent(XSIZE, YSIZE);
 
@@ -51,7 +57,6 @@ namespace Pacman
             allFoods = new GameObject[246];
 
             allPowerPills = new GameObject[4];
-            pacmanMapTransform = new TransformComponent(0, 0);
         }
 
         /// <summary>
@@ -98,8 +103,8 @@ namespace Pacman
             pacman = new GameObject("Pacman");
             // Components ///////////////////////////////////
             KeyReaderComponent pacmanKeyReader = new KeyReaderComponent();
-            TransformComponent pacmanTransform = new TransformComponent(30, 5);
-            pacmanMapTransform = new TransformComponent(10, 5);
+            TransformComponent pacmanTransform = new TransformComponent(42, 23);
+            pacmanMapTransform = new TransformComponent(14, 23);
             MoveComponent pacmanMovement = new MoveComponent();
             ColliderComponent pacmanCollider = 
                 new ColliderComponent(Cell.Pacman);
@@ -2507,6 +2512,7 @@ namespace Pacman
             scene.AddGameObject(walls);
             scene.AddGameObject(collisions);
             scene.AddGameObject(score);
+            scene.AddGameObject(gameState);
         }
 
         /// <summary>

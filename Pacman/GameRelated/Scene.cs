@@ -13,14 +13,23 @@ namespace Pacman
         public readonly byte xdim;
         public readonly byte ydim;
         private bool terminate;
+
         // Game objects in this scene
         private Dictionary<string, IGameObject> gameObjects;
-        public Scene(byte xdim, byte ydim)
+
+        // Component
+        private readonly GameState gameState;
+        private readonly Collision collisions;
+
+        public Scene(byte xdim, byte ydim, GameState gameState, 
+            Collision collision)
         {
             this.xdim = xdim;
             this.ydim = ydim;
             terminate = false;
             gameObjects = new Dictionary<string, IGameObject>();
+            this.gameState = gameState;
+            this.collisions = collision;
         }
 
         /// <summary>
@@ -57,15 +66,12 @@ namespace Pacman
         /// <param name="msFramesPerSecond">Miliseconds to wait</param>
         public void GameLoop(int msFramesPerSecond)
         {
-            // // Calls the Start() method of the GameObjects on the scene
-            // foreach (IGameObject gameObject in gameObjects.Values)
-            // {
-            //     Console.WriteLine(gameObject.Name);
-            // }
             foreach (IGameObject gameObject in gameObjects.Values)
             {
                 gameObject.Start();
             }
+            collisions.FoodCollision += RemoveGameObject;
+            gameState.GhostChaseCollision += () => terminate = true;
 
             // Executes the Update() method of the GameObjects on the scene
             while (!terminate)
@@ -99,6 +105,8 @@ namespace Pacman
             {
                 gameObject.Finish();
             }
+            collisions.FoodCollision -= RemoveGameObject;
+            gameState.GhostChaseCollision -= () => terminate = true;
         }
     }
 }

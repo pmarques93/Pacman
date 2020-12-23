@@ -27,6 +27,9 @@ namespace Pacman
         // Default background pixel
         private ConsolePixel bgPix;
 
+        // Component
+        private readonly Collision collisions;
+
         /// <summary>
         /// Constructor, that creates a new instance of ConsoleRenderer and
         /// initializes its members.
@@ -38,6 +41,7 @@ namespace Pacman
         public ConsoleRenderer(int xdim,
                                int ydim,
                                ConsolePixel bgPix,
+                               Collision collision,
                                string name = "")
         {
             this.xdim = xdim;
@@ -47,6 +51,7 @@ namespace Pacman
             gameObjects = new List<IGameObject>();
             currentFrame = new ConsolePixel[xdim, ydim];
             nextFrame = new ConsolePixel[xdim, ydim];
+            collisions = collision;
             for (int y = 0; y < ydim; y++)
             {
                 for (int x = 0; x < xdim; x++)
@@ -69,6 +74,8 @@ namespace Pacman
 
             // Render the first frame
             RenderFrame();
+
+            collisions.FoodCollision += RemoveGameObject;
         }
 
         /// <summary>
@@ -77,6 +84,8 @@ namespace Pacman
         public void Finish()
         {
             Console.CursorVisible = cursorVisibleBefore;
+
+            collisions.FoodCollision -= RemoveGameObject;
         }
 
         /// <summary>

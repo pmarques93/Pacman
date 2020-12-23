@@ -14,10 +14,6 @@ namespace Pacman
         // Transforms
         private TransformComponent pacmanTransform;
 
-        // Objects to delete - information
-        private readonly Scene scene;
-        private readonly ConsoleRenderer render;
-
         /// <summary>
         /// Adds GameObjects to a collection
         /// </summary>
@@ -42,12 +38,9 @@ namespace Pacman
         /// <summary>
         /// Constructor for Collision
         /// </summary>
-        public Collision(Scene scene, ConsoleRenderer render)
+        public Collision()
         {
             gameObjects = new List<GameObject>();
-
-            this.scene = scene;
-            this.render = render;
         }
 
         /// <summary>
@@ -101,20 +94,17 @@ namespace Pacman
                     OnGhostCollision();
                     break;
                 case Cell.Fruit:
-                    scene.RemoveGameObject(collision);
-                    render.RemoveGameObject(collision);
+                    OnFoodCollision(collision);
                     RemoveGameObject(collision);
                     OnScoreCollision(250);
                     break;
                 case Cell.Food:
-                    scene.RemoveGameObject(collision);
-                    render.RemoveGameObject(collision);
+                    OnFoodCollision(collision);
                     RemoveGameObject(collision);
                     OnScoreCollision(10);
                     break;
                 case Cell.PowerPill:
-                    scene.RemoveGameObject(collision);
-                    render.RemoveGameObject(collision);
+                    OnFoodCollision(collision);
                     RemoveGameObject(collision);
                     OnScoreCollision(50);
                     OnPowerPillCollision();
@@ -135,16 +125,22 @@ namespace Pacman
         protected virtual void OnScoreCollision(ushort score) =>
             ScoreCollision?.Invoke(score);
 
-
         /// <summary>
         /// On PowerPill collision event method
         /// </summary>
         protected virtual void OnPowerPillCollision() =>
             PowerPillCollision?.Invoke();
 
+        /// <summary>
+        /// On Food collision event method
+        /// </summary>
+        protected virtual void OnFoodCollision(GameObject gameObject) =>
+            FoodCollision?.Invoke(gameObject);
+
         public event Action GhostCollision;
         public event Action<ushort> ScoreCollision;
         public event Action PowerPillCollision;
+        public event Action<GameObject> FoodCollision;
 
 
 

@@ -12,7 +12,6 @@ namespace Pacman
         private IList<GameObject> gameObjects;
         private GameObject pacman;
         // Transforms
-        //private IList<TransformComponent> gameObjectsTransforms;
         private TransformComponent pacmanTransform;
 
         // Objects to delete - information
@@ -46,7 +45,6 @@ namespace Pacman
         public Collision(Scene scene, ConsoleRenderer render)
         {
             gameObjects = new List<GameObject>();
-            //gameObjectsTransforms = new List<TransformComponent>();
 
             this.scene = scene;
             this.render = render;
@@ -59,15 +57,6 @@ namespace Pacman
         public void Start()
         {
             pacmanTransform = pacman.GetComponent<TransformComponent>();
-
-            /*
-            for (int i = 0; i < gameObjects.Count; i++)
-            {
-                gameObjectsTransforms.Add(new TransformComponent());
-                // Gets transforms from every gameobject
-                gameObjectsTransforms[i] =
-                    gameObjects[i].GetComponent<TransformComponent>();
-            }*/
         }
 
         /// <summary>
@@ -76,24 +65,17 @@ namespace Pacman
         /// </summary>
         public void Update()
         {
-            /*foreach (TransformComponent transform in gameObjectsTransforms)
-            {
-                collision = CheckCollision(transform).Item1;
-                collisionObject = CheckCollision(transform).Item2;
-
-                Console.WriteLine(collision);
-            }*/
 
             for (int i = 0; i < gameObjects.Count; i++)
             {
-                if (gameObjects?[i]?.GetComponent<TransformComponent>().Position 
+                if (/*gameObjects?[i]?.GetComponent<TransformComponent>().Position 
                         + new Vector2Int(1, 0) == pacmanTransform.Position ||
                     gameObjects?[i]?.GetComponent<TransformComponent>().Position
                         + new Vector2Int(0, 1) == pacmanTransform.Position ||
                     gameObjects?[i]?.GetComponent<TransformComponent>().Position
                         + new Vector2Int(-1, 0) == pacmanTransform.Position ||
                     gameObjects?[i]?.GetComponent<TransformComponent>().Position
-                        + new Vector2Int(0, -1) == pacmanTransform.Position ||
+                        + new Vector2Int(0, -1) == pacmanTransform.Position ||*/
                     gameObjects?[i]?.GetComponent<TransformComponent>().Position 
                         == pacmanTransform?.Position)
                 {         
@@ -132,6 +114,7 @@ namespace Pacman
                 case Cell.PowerPill:
                     scene.RemoveGameObject(collisionGO);
                     render.RemoveGameObject(collisionGO);
+                    OnScoreCollision(50);
                     OnPowerPillCollision();
                     break;
             }

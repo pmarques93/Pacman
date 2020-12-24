@@ -27,6 +27,12 @@ namespace Pacman
         /// </summary>
         public event Action EscapePressed;
 
+        private ConsoleKey quitKey;
+        public KeyReaderComponent(ConsoleKey quitKey = ConsoleKey.Escape)
+        {
+            this.quitKey = quitKey;
+        }
+
         private System.Timers.Timer myTimer;
 
         /// <summary>
@@ -112,7 +118,7 @@ namespace Pacman
             {
                 key = Console.ReadKey(true).Key;
                 input.Add(key);
-            } while (key != ConsoleKey.Escape);
+            } while (key != quitKey);
         }
 
 

@@ -26,7 +26,7 @@ namespace Pacman
                                             backgroundPixel,
                                             "Console Renderer");
 
-            keyReader = new KeyReaderComponent();
+            keyReader = new KeyReaderComponent(ConsoleKey.Enter);
 
             scene = new Scene(XSIZE, YSIZE, keyReader);
         }

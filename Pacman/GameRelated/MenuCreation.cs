@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Pacman
 {
@@ -16,6 +17,8 @@ namespace Pacman
         private GameObject selector;
         private GameObject startText;
         private GameObject quitText;
+
+        private GameObject pacmanLogo;
 
         public MenuCreation()
         {
@@ -45,6 +48,32 @@ namespace Pacman
 
         private void CreateGameObjects()
         {
+
+            pacmanLogo = new GameObject("Pacman Logo");
+            ConsolePixel logoPixel = new ConsolePixel(
+                ' ', ConsoleColor.White, ConsoleColor.DarkYellow);
+
+            Dictionary<Vector2Int, ConsolePixel> logoPixels =
+                    new Dictionary<Vector2Int, ConsolePixel>();
+
+            ICollection<Vector2Int[]> testList = new List<Vector2Int[]>();
+
+            CreatePacmanSprite(testList);
+
+            foreach (Vector2Int[] v in testList)
+            {
+                for (int i = v[0].X; i < v[1].X + 1; i++)
+                {
+                    for (int j = v[0].Y; j < v[1].Y + 1; j++)
+                    {
+                        logoPixels[new Vector2Int(i, j)] = logoPixel;
+                    }
+                }
+            }
+
+            pacmanLogo.AddComponent(new TransformComponent(20, 1));
+            pacmanLogo.AddComponent(new ConsoleSprite(logoPixels));
+
             selector = new GameObject("Selector");
             char[,] selectorSprite = { { '-' }, { '-' }, { '>' }, };
 
@@ -78,7 +107,7 @@ namespace Pacman
             startText.AddComponent(renderStartGame);
 
             ////////////////////////////////////////////////////////////////////
-            
+
             quitText = new GameObject("Quit");
             quitText.AddComponent(new TransformComponent(6, 27));
 
@@ -91,6 +120,121 @@ namespace Pacman
             quitText.AddComponent(renderQuit);
         }
 
+        private void CreatePacmanSprite(ICollection<Vector2Int[]> testList)
+        {
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(14,0),
+                                new Vector2Int(26,0)
+                            });
+
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(10,1),
+                                new Vector2Int(30,1)
+                            });
+
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(8,2),
+                                new Vector2Int(32,2)
+                            });
+
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(6,3),
+                                new Vector2Int(34,3)
+                            });
+
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(4,4),
+                                new Vector2Int(36,4)
+                            });
+
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(2,5),
+                                new Vector2Int(38,5)
+                            });
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(2,6),
+                                new Vector2Int(36,6)
+                            });
+
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(0,7),
+                                new Vector2Int(33,7)
+                            });
+
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(0,8),
+                                new Vector2Int(30,8)
+                            });
+
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(0,9),
+                                new Vector2Int(28,9)
+                            });
+
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(0,10),
+                                new Vector2Int(24,10)
+                            });
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(0,11),
+                                new Vector2Int(28,11)
+                            });
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(0,12),
+                                new Vector2Int(32,12)
+                            });
+
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(2,13),
+                                new Vector2Int(36,13)
+                            });
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(2,14),
+                                new Vector2Int(38,14)
+                            });
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(4,15),
+                                new Vector2Int(36,15)
+                            });
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(6,16),
+                                new Vector2Int(34,16)
+                            });
+
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(8,17),
+                                new Vector2Int(32,17)
+                            });
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(10,18),
+                                new Vector2Int(30,18)
+                            });
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(12,19),
+                                new Vector2Int(26,19)
+                            });
+        }
+
         /// <summary>
         /// Adds game objects to scene
         /// </summary>
@@ -99,6 +243,7 @@ namespace Pacman
             scene.AddGameObject(selector);
             scene.AddGameObject(startText);
             scene.AddGameObject(quitText);
+            scene.AddGameObject(pacmanLogo);
         }
 
         /// <summary>
@@ -109,6 +254,7 @@ namespace Pacman
             consoleRenderer.AddGameObject(selector);
             consoleRenderer.AddGameObject(startText);
             consoleRenderer.AddGameObject(quitText);
+            consoleRenderer.AddGameObject(pacmanLogo);
         }
 
         private void CreateLevel()

@@ -27,16 +27,19 @@ namespace Pacman
         // Default background pixel
         private ConsolePixel bgPix;
 
+        private readonly bool inGame;
+
         // Component
         private readonly Collision collisions;
 
         /// <summary>
         /// Constructor, that creates a new instance of ConsoleRenderer and
-        /// initializes its members.
+        /// initializes its members. Constructor for game
         /// </summary>
         /// <param name="xdim">Horizontal dimension of the scene.</param>
         /// <param name="ydim">Vertical dimension of the scene.</param>
         /// <param name="bgPix">Default ConsolePixel for the background.</param>
+        /// <param name="collision">Reference to a collision class.</param>
         /// <param name="name">Name of the ConsoleRenderer object.</param>
         public ConsoleRenderer(int xdim,
                                int ydim,
@@ -59,6 +62,37 @@ namespace Pacman
                     nextFrame[x, y] = bgPix;
                 }
             }
+            inGame = true;
+        }
+
+        /// <summary>
+        /// Constructor, that creates a new instance of ConsoleRenderer and
+        /// initializes its members. Constructor for menu
+        /// </summary>
+        /// <param name="xdim">Horizontal dimension of the scene.</param>
+        /// <param name="ydim">Vertical dimension of the scene.</param>
+        /// <param name="bgPix">Default ConsolePixel for the background.</param>
+        /// <param name="name">Name of the ConsoleRenderer object.</param>
+        public ConsoleRenderer(int xdim,
+                               int ydim,
+                               ConsolePixel bgPix,
+                               string name = "")
+        {
+            this.xdim = xdim;
+            this.ydim = ydim;
+            this.bgPix = bgPix;
+            Name = name;
+            gameObjects = new List<IGameObject>();
+            currentFrame = new ConsolePixel[xdim, ydim];
+            nextFrame = new ConsolePixel[xdim, ydim];
+            for (int y = 0; y < ydim; y++)
+            {
+                for (int x = 0; x < xdim; x++)
+                {
+                    nextFrame[x, y] = bgPix;
+                }
+            }
+            inGame = false;
         }
 
         /// <summary>
@@ -75,7 +109,7 @@ namespace Pacman
             // Render the first frame
             RenderFrame();
 
-            collisions.FoodCollision += RemoveGameObject;
+            if (inGame) collisions.FoodCollision += RemoveGameObject;
         }
 
         /// <summary>
@@ -85,7 +119,7 @@ namespace Pacman
         {
             Console.CursorVisible = cursorVisibleBefore;
 
-            collisions.FoodCollision -= RemoveGameObject;
+            if (inGame) collisions.FoodCollision -= RemoveGameObject;
         }
 
         /// <summary>

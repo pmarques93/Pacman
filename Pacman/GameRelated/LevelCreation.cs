@@ -22,6 +22,7 @@ namespace Pacman
 
         private GameObject pacman;
         private TransformComponent pacmanMapTransform;
+        private readonly KeyReaderComponent pacmanKeyReader;
 
         private GameObject blinky;
 
@@ -41,13 +42,15 @@ namespace Pacman
 
             collisions = new Collision();
 
+            pacmanKeyReader = new KeyReaderComponent();
+
             consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE, 
                                             backgroundPixel, collisions, 
                                             "Console Renderer");
 
             gameState = new GameState(collisions);
 
-            scene = new Scene(XSIZE, YSIZE, gameState, collisions);
+            scene = new Scene(XSIZE, YSIZE, gameState, collisions, pacmanKeyReader);
 
 
             map = new MapComponent(XSIZE, YSIZE);
@@ -102,7 +105,6 @@ namespace Pacman
             char[,] pacmanSprite = { { ' ' }, { 'C' }, { ' ' }, };
             pacman = new GameObject("Pacman");
             // Components ///////////////////////////////////
-            KeyReaderComponent pacmanKeyReader = new KeyReaderComponent();
             TransformComponent pacmanTransform = new TransformComponent(42, 23);
             pacmanMapTransform = new TransformComponent(14, 23);
             MoveComponent pacmanMovement = new MoveComponent();

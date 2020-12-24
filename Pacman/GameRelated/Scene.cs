@@ -14,15 +14,27 @@ namespace Pacman
         public readonly byte ydim;
         private bool terminate;
 
+        private readonly bool inGame;
+        private bool createNewGame;
+
         // Game objects in this scene
         private Dictionary<string, IGameObject> gameObjects;
 
         // Component
         private readonly GameState gameState;
         private readonly Collision collisions;
+        private readonly KeyReaderComponent keyReader;
 
+        /// <summary>
+        /// Constructor for scene inGame
+        /// </summary>
+        /// <param name="xdim">X dimensions</param>
+        /// <param name="ydim">Y dimensions</param>
+        /// <param name="gameState">Reference to a GameState class</param>
+        /// <param name="collision">Reference to a Collision class</param>
+        /// <param name="keyReader">Reference to a keyreader class</param>
         public Scene(byte xdim, byte ydim, GameState gameState, 
-            Collision collision)
+            Collision collision, KeyReaderComponent keyReader)
         {
             this.xdim = xdim;
             this.ydim = ydim;
@@ -30,6 +42,29 @@ namespace Pacman
             gameObjects = new Dictionary<string, IGameObject>();
             this.gameState = gameState;
             this.collisions = collision;
+            inGame = true;
+            createNewGame = false;
+            this.keyReader = keyReader;
+        }
+
+        /// <summary>
+        /// Constructor for menu
+        /// </summary>
+        /// <param name="xdim">X dimensions</param>
+        /// <param name="ydim">Y dimensions</param>
+        /// <param name="keyReader">Reference to a keyreader</param>
+        public Scene(byte xdim, byte ydim, KeyReaderComponent keyReader)
+        {
+            this.xdim = xdim;
+            this.ydim = ydim;
+            terminate = false;
+            gameObjects = new Dictionary<string, IGameObject>();
+            inGame = false;
+            this.keyReader = keyReader;
+
+            createNewGame = false;
+            SelectorMovementBehaviour.QuitGame += () => terminate = true;
+            SelectorMovementBehaviour.StartNewGame += CreateNewGame;
         }
 
         /// <summary>
@@ -70,8 +105,13 @@ namespace Pacman
             {
                 gameObject.Start();
             }
-            collisions.FoodCollision += RemoveGameObject;
-            gameState.GhostChaseCollision += () => terminate = true;
+
+            keyReader.EscapePressed += () => terminate = true;
+            if (inGame)
+            {
+                collisions.FoodCollision += RemoveGameObject;
+                gameState.GhostChaseCollision += () => terminate = true;
+            }
 
             // Executes the Update() method of the GameObjects on the scene
             while (!terminate)
@@ -97,6 +137,7 @@ namespace Pacman
 
                 // Wait until next frame
                 Thread.Sleep(timeToWait);
+
             }
 
             // Executes the Finish() method of the GameObjects on the scene
@@ -105,8 +146,26 @@ namespace Pacman
             {
                 gameObject.Finish();
             }
-            collisions.FoodCollision -= RemoveGameObject;
-            gameState.GhostChaseCollision -= () => terminate = true;
+
+            keyReader.EscapePressed -= () => terminate = true;
+            if (inGame)
+            {
+                collisions.FoodCollision -= RemoveGameObject;
+                gameState.GhostChaseCollision -= () => terminate = true;
+            }
+
+            // After the loop, if true, creates a new game
+            if (createNewGame)
+            {
+                LevelCreation levelCreation = new LevelCreation();
+                levelCreation.Create();
+            }
+        }
+
+        private void CreateNewGame()
+        {
+            createNewGame = true;
+            terminate = true;
         }
     }
 }

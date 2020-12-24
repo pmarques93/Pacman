@@ -22,11 +22,6 @@ namespace Pacman
         private Thread inputThread;
 
         /// <summary>
-        /// Event that is fired when the Esc key is pressed
-        /// </summary>
-        public event Action EscapePressed;
-
-        /// <summary>
         /// Method that runs once on start.
         /// </summary>
         public override void Start()
@@ -62,6 +57,9 @@ namespace Pacman
                     case ConsoleKey.D:
                         Direction = Direction.Right;
                         break;
+                    case ConsoleKey.Enter:
+                        OnEnterPressed();
+                        break;
                     case ConsoleKey.Escape:
                         OnEscapePressed();
                         break;
@@ -75,15 +73,7 @@ namespace Pacman
                 Direction = Direction.None;
             }
         }
-
-        /// <summary>
-        /// Invokes the EscapePressed event.
-        /// </summary>
-        private void OnEscapePressed()
-        {
-            EscapePressed?.Invoke();
-        }
-
+        
         /// <summary>
         /// Method that runs once on finish.
         /// </summary>
@@ -105,5 +95,21 @@ namespace Pacman
                 input.Add(key);
             }while(key != ConsoleKey.Escape);
         }
+
+
+        /// <summary>
+        /// Invokes the EscapePressed event.
+        /// </summary>
+        protected virtual void OnEscapePressed()
+            => EscapePressed?.Invoke();
+
+        /// <summary>
+        /// Invokes the EnterPressed event.
+        /// </summary>
+        protected virtual void OnEnterPressed()
+            => EnterPressed?.Invoke();
+
+        public event Action EscapePressed;
+        public event Action EnterPressed;
     }
 }

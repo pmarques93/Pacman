@@ -12,28 +12,36 @@ namespace Pacman
         private const byte XSIZE = 28;
         private const byte YSIZE = 31;
 
+        // Game related components and variables
         private readonly ConsolePixel backgroundPixel;
         private readonly ConsoleRenderer consoleRenderer;
         private readonly Scene scene;
         private readonly Collision collisions;
         private readonly MapComponent map;
-        private readonly ConsoleScore score;
         private readonly GameState gameState;
-
+        
+        // Pacman
         private GameObject pacman;
-        private TransformComponent pacmanMapTransform;
         private readonly KeyReaderComponent pacmanKeyReader;
+        private TransformComponent pacmanMapTransform;
+        private PacmanMovementBehaviour pacmanMovementBehaviour;
 
+        // Ghosts
         private GameObject pinky;
         private GameObject blinky;
 
-
+        // Foods
         private GameObject[] allFoods;
 
+        // Powerpills
         private GameObject[] allPowerPills;
 
+        // Walls
         private GameObject walls;
-        private PacmanMovementBehaviour pacmanMovementBehaviour;
+
+        // Score
+        private readonly ConsoleScore score;
+        private GameObject scoreText;
 
         /// <summary>
         /// Constructor for LevelCreation
@@ -47,7 +55,7 @@ namespace Pacman
 
             pacmanKeyReader = new KeyReaderComponent();
 
-            consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE, 
+            consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE + 1, 
                                             backgroundPixel, collisions, 
                                             "Console Renderer");
 
@@ -84,6 +92,9 @@ namespace Pacman
 
             // WALLS
             WallCreation(map);
+
+            // SCORE
+            ScoreCreation();
 
             // Add Gameobjects to collision check
             AddGameObjectsToCollisionCheck();
@@ -2514,6 +2525,24 @@ namespace Pacman
         }
 
         /// <summary>
+        /// Creates score related variables
+        /// </summary>
+        private void ScoreCreation()
+        {
+            scoreText = new GameObject("Score Text");
+
+            scoreText.AddComponent(new TransformComponent(0, YSIZE));
+
+            RenderableStringComponent renderScoreText
+                = new RenderableStringComponent(
+                    () => $"Score: {score.Score}",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            scoreText.AddComponent(renderScoreText);
+        }
+
+        /// <summary>
         /// Adds gameobjects to collision check
         /// </summary>
         private void AddGameObjectsToCollisionCheck()
@@ -2546,7 +2575,8 @@ namespace Pacman
 
             scene.AddGameObject(walls);
             scene.AddGameObject(collisions);
-            // scene.AddGameObject(score);
+            scene.AddGameObject(score);
+            scene.AddGameObject(scoreText);
             scene.AddGameObject(gameState);
         }
 
@@ -2566,6 +2596,7 @@ namespace Pacman
             consoleRenderer.AddGameObject(pinky);
             consoleRenderer.AddGameObject(blinky);
             consoleRenderer.AddGameObject(walls);
+            consoleRenderer.AddGameObject(scoreText);
         }
     }
 }

@@ -17,6 +17,11 @@ namespace Pacman
         private ushort score;
 
         /// <summary>
+        /// Property that returns a string with current score
+        /// </summary>
+        public string Score { get => score.ToString(); }
+
+        /// <summary>
         /// Constructor for ConsoleScore
         /// </summary>
         /// <param name="collision">Collision parameter</param>
@@ -32,19 +37,14 @@ namespace Pacman
         public void Start() =>
             collisions.ScoreCollision += UpdateScore;
 
+        public void Update() { }
+
         /// <summary>
         /// Method that runs once on finish
         /// </summary>
         public void Finish() =>
             collisions.ScoreCollision -= UpdateScore;
 
-        /// <summary>
-        /// Method responsible for what happens when the GameObject is running
-        /// </summary>
-        public void Update()
-        {
-            Console.WriteLine($"Score: {score}");
-        }
 
         /// <summary>
         /// Updates score everytime pacman eats a food

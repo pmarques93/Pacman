@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
+using System.Timers;
 
 namespace Pacman
 {
@@ -13,7 +14,7 @@ namespace Pacman
         /// <summary>
         /// Direction to which the pressed key corresponds.
         /// </summary>
-        public Direction Direction {get; private set;}
+        public Direction Direction { get; private set; }
 
         // Collection of the inputs
         private BlockingCollection<ConsoleKey> input;
@@ -26,16 +27,27 @@ namespace Pacman
         /// </summary>
         public event Action EscapePressed;
 
+        private System.Timers.Timer myTimer;
+
         /// <summary>
         /// Method that runs once on start.
         /// </summary>
         public override void Start()
         {
-            Direction =  Direction.None;
+            Direction = Direction.None;
             input = new BlockingCollection<ConsoleKey>();
             inputThread = new Thread(ReadKeys);
-            inputThread.Start();
             Console.CursorVisible = false;
+            myTimer = new System.Timers.Timer(100);
+            myTimer.AutoReset = true;
+            myTimer.Elapsed += ClearTest;
+            inputThread.Start();
+            myTimer.Start();
+        }
+
+        private void ClearTest(object sender, ElapsedEventArgs e)
+        {
+            // input = new BlockingCollection<ConsoleKey>();
         }
 
         /// <summary>
@@ -46,9 +58,9 @@ namespace Pacman
         {
             ConsoleKey key;
 
-            if(input.TryTake(out key))
+            if (input.TryTake(out key))
             {
-                switch(key)
+                switch (key)
                 {
                     case ConsoleKey.W:
                         Direction = Direction.Up;
@@ -74,6 +86,7 @@ namespace Pacman
             {
                 Direction = Direction.None;
             }
+            input = new BlockingCollection<ConsoleKey>();
         }
 
         /// <summary>
@@ -91,6 +104,7 @@ namespace Pacman
         {
             Console.CursorVisible = true;
             inputThread.Join();
+            myTimer.Stop();
         }
 
         /// <summary>
@@ -103,7 +117,7 @@ namespace Pacman
             {
                 key = Console.ReadKey(true).Key;
                 input.Add(key);
-            }while(key != ConsoleKey.Escape);
+            } while (key != ConsoleKey.Escape);
         }
     }
 }

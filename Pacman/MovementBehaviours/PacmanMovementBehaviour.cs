@@ -10,6 +10,8 @@ namespace Pacman
         // Last Key pressed for continuous movement
         private Direction pacmanDirection;
 
+        private Direction previousDirection;
+
         // Components
         private readonly KeyReaderComponent keyReader;
         private readonly TransformComponent transform;
@@ -33,6 +35,7 @@ namespace Pacman
             this.mapTransform = mapTransform;
             map = pacman.GetComponent<MapComponent>();
             this.translateModifier = translateModifier;
+            previousDirection = Direction.None;
         }
 
         /// <summary>
@@ -61,35 +64,16 @@ namespace Pacman
             Direction keyPressed = keyReader.Direction;
 
             // When the user presses a key, pacman changes direction
-            if (keyPressed != Direction.None)
+            if (keyPressed != Direction.None && keyPressed != previousDirection)
+                pacmanDirection = keyPressed;
+
+            if (pacmanDirection != Direction.None)
             {
-                switch (keyPressed)
+                Console.WriteLine($"Pacman Direction: {pacmanDirection}");
+                while (true)
                 {
-                    case Direction.Up:
-                        pacmanDirection = Direction.Up;
-                        break;
-
-                    case Direction.Right:
-                        pacmanDirection = Direction.Right;
-                        break;
-
-                    case Direction.Down:
-                        pacmanDirection = Direction.Down;
-                        break;
-
-                    case Direction.Left:
-                        pacmanDirection = Direction.Left;
-                        break;
-                }
-            }
-
-            // After the user pressed a key, pacman keeps moving towards
-            // previous direction
-            else if (pacmanDirection != Direction.None)
-            {
-                switch (pacmanDirection)
-                {
-                    case Direction.Up:
+                    if (pacmanDirection == Direction.Up)
+                    {
                         if (map.Map[mapTransform.Position.X,
                             Math.Max(0, mapTransform.Position.Y - 1)].
                             Collider.Type != Cell.Wall)
@@ -101,10 +85,20 @@ namespace Pacman
                             mapTransform.Position =
                             new Vector2Int(mapTransform.Position.X,
                             Math.Max(0, mapTransform.Position.Y - 1));
+                            previousDirection = pacmanDirection;
+                            break;
                         }
-                        break;
-
-                    case Direction.Right:
+                        else
+                        {
+                            if (pacmanDirection == previousDirection)
+                                break;
+                            pacmanDirection = previousDirection;
+                            Console.WriteLine($"Up -- {pacmanDirection}");
+                            continue;
+                        }
+                    }
+                    if (pacmanDirection == Direction.Right)
+                    {
                         if (map.Map[
                             Math.Min(xMax - 1, mapTransform.Position.X + 1),
                             mapTransform.Position.Y].
@@ -118,13 +112,25 @@ namespace Pacman
 
                             transform.Position =
                                 new Vector2Int(
-                                Math.Min(xMax * translateModifier - 1, 
+                                Math.Min(xMax * translateModifier - 1,
                                     transform.Position.X + translateModifier),
                                 transform.Position.Y);
-                        }
-                        break;
 
-                    case Direction.Down:
+                            previousDirection = pacmanDirection;
+                            break;
+                        }
+                        else
+                        {
+                            if (pacmanDirection == previousDirection)
+                                break;
+                            pacmanDirection = previousDirection;
+                            Console.WriteLine($"Right -- {pacmanDirection}");
+                            continue;
+                        }
+                    }
+
+                    if (pacmanDirection == Direction.Down)
+                    {
                         if (map.Map[mapTransform.Position.X,
                             Math.Min(yMax - 1, mapTransform.Position.Y + 1)].
                             Collider.Type != Cell.Wall)
@@ -136,10 +142,21 @@ namespace Pacman
                             mapTransform.Position =
                             new Vector2Int(mapTransform.Position.X,
                             Math.Min(yMax - 1, mapTransform.Position.Y + 1));
+                            previousDirection = pacmanDirection;
+                            break;
                         }
-                        break;
+                        else
+                        {
+                            if (pacmanDirection == previousDirection)
+                                break;
+                            pacmanDirection = previousDirection;
+                            Console.WriteLine($"Down -- {pacmanDirection}");
+                            continue;
+                        }
+                    }
 
-                    case Direction.Left:
+                    if (pacmanDirection == Direction.Left)
+                    {
                         if (map.Map[
                             Math.Max(0, mapTransform.Position.X - 1),
                             mapTransform.Position.Y].
@@ -153,11 +170,21 @@ namespace Pacman
 
                             transform.Position =
                             new Vector2Int(
-                            Math.Max(0, 
+                            Math.Max(0,
                                     transform.Position.X - translateModifier),
                             transform.Position.Y);
+                            previousDirection = pacmanDirection;
+                            break;
                         }
-                        break;
+                        else
+                        {
+                            if (pacmanDirection == previousDirection)
+                                break;
+                            pacmanDirection = previousDirection;
+                            Console.WriteLine($"Left -- {pacmanDirection}");
+                            continue;
+                        }
+                    }
                 }
             }
         }

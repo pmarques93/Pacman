@@ -90,7 +90,7 @@ namespace Pacman
 
             // Add renderer to the scene
             scene.AddGameObject(consoleRenderer);
-            scene.GameLoop(100);
+            scene.GameLoop(170);
         }
 
         /// <summary>
@@ -2511,7 +2511,7 @@ namespace Pacman
 
             scene.AddGameObject(walls);
             scene.AddGameObject(collisions);
-            scene.AddGameObject(score);
+            // scene.AddGameObject(score);
             scene.AddGameObject(gameState);
         }
 

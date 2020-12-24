@@ -8,7 +8,7 @@ namespace Pacman
     public class PacmanMovementBehaviour : IMovementBehaviour
     {
         // Last Key pressed for continuous movement
-        private Direction pacmanDirection;
+        public Direction pacmanDirection { get; private set; }
 
         private Direction previousDirection;
 
@@ -69,7 +69,6 @@ namespace Pacman
 
             if (pacmanDirection != Direction.None)
             {
-                Console.WriteLine($"Pacman Direction: {pacmanDirection}");
                 while (true)
                 {
                     if (pacmanDirection == Direction.Up)
@@ -90,10 +89,10 @@ namespace Pacman
                         }
                         else
                         {
-                            if (pacmanDirection == previousDirection)
+                            if (pacmanDirection == previousDirection ||
+                                previousDirection == Direction.None)
                                 break;
                             pacmanDirection = previousDirection;
-                            Console.WriteLine($"Up -- {pacmanDirection}");
                             continue;
                         }
                     }
@@ -121,10 +120,10 @@ namespace Pacman
                         }
                         else
                         {
-                            if (pacmanDirection == previousDirection)
+                            if (pacmanDirection == previousDirection ||
+                                previousDirection == Direction.None)
                                 break;
                             pacmanDirection = previousDirection;
-                            Console.WriteLine($"Right -- {pacmanDirection}");
                             continue;
                         }
                     }
@@ -147,10 +146,10 @@ namespace Pacman
                         }
                         else
                         {
-                            if (pacmanDirection == previousDirection)
+                            if (pacmanDirection == previousDirection ||
+                                previousDirection == Direction.None)
                                 break;
                             pacmanDirection = previousDirection;
-                            Console.WriteLine($"Down -- {pacmanDirection}");
                             continue;
                         }
                     }
@@ -178,10 +177,10 @@ namespace Pacman
                         }
                         else
                         {
-                            if (pacmanDirection == previousDirection)
+                            if (pacmanDirection == previousDirection ||
+                                previousDirection == Direction.None)
                                 break;
                             pacmanDirection = previousDirection;
-                            Console.WriteLine($"Left -- {pacmanDirection}");
                             continue;
                         }
                     }

@@ -18,6 +18,9 @@ namespace Pacman
         private GameObject selector;
         private GameObject startText;
         private GameObject quitText;
+        private GameObject controlsText;
+        private GameObject movementText;
+        private GameObject actionsText;
 
         private GameObject pacmanLogo;
 
@@ -35,7 +38,7 @@ namespace Pacman
             scene = new Scene(XSIZE, YSIZE, keyReader);
 
             fileWriter = new FileWriter(Path.lives);
-            fileWriter.CreateLivesText(2);
+            fileWriter.CreateLivesText(4);
         }
 
         public void Run()
@@ -122,8 +125,51 @@ namespace Pacman
                     ConsoleColor.White, ConsoleColor.DarkBlue);
 
             quitText.AddComponent(renderQuit);
+
+            ////////////////////////////////////////////////////////////////////
+
+            controlsText = new GameObject("ControlsText");
+            controlsText.AddComponent(new TransformComponent(70, 23));
+
+            RenderableStringComponent renderControls
+                = new RenderableStringComponent(
+                    () => "Controls:",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            controlsText.AddComponent(renderControls);
+
+            ////////////////////////////////////////////////////////////////////
+
+            movementText = new GameObject("MovementText");
+            movementText.AddComponent(new TransformComponent(54, 25));
+
+            RenderableStringComponent renderMovement
+                = new RenderableStringComponent(
+                    () => "Movement Keys: W, A, S, D",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            movementText.AddComponent(renderMovement);
+
+            ////////////////////////////////////////////////////////////////////
+
+            actionsText = new GameObject("ActionsText");
+            actionsText.AddComponent(new TransformComponent(50, 27));
+
+            RenderableStringComponent renderActions
+                = new RenderableStringComponent(
+                    () => "Confirm: Enter , Quit: Escape",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            actionsText.AddComponent(renderActions);
         }
 
+        /// <summary>
+        /// Creates pacman sprite
+        /// </summary>
+        /// <param name="testList"></param>
         private void CreatePacmanSprite(ICollection<Vector2Int[]> testList)
         {
             testList.Add(new Vector2Int[]
@@ -245,9 +291,6 @@ namespace Pacman
         private void AddGameObjectsToScene()
         {
             scene.AddGameObject(selector);
-            scene.AddGameObject(startText);
-            scene.AddGameObject(quitText);
-            scene.AddGameObject(pacmanLogo);
         }
 
         /// <summary>
@@ -259,12 +302,9 @@ namespace Pacman
             consoleRenderer.AddGameObject(startText);
             consoleRenderer.AddGameObject(quitText);
             consoleRenderer.AddGameObject(pacmanLogo);
-        }
-
-        private void CreateLevel()
-        {
-            LevelCreation levelCreation = new LevelCreation();
-            levelCreation.Create();
+            consoleRenderer.AddGameObject(controlsText);
+            consoleRenderer.AddGameObject(movementText);
+            consoleRenderer.AddGameObject(actionsText);
         }
     }
 }

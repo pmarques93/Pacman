@@ -8,8 +8,8 @@ namespace Pacman.MovementBehaviours
     {
 
         private readonly TransformComponent ghostTransform;
-        private readonly MapComponent map;
-        private readonly TransformComponent mapTransform;
+        protected readonly MapComponent map;
+        protected readonly TransformComponent mapTransform;
 
         protected readonly MoveComponent targetMove;
         private int translateModifier;

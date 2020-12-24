@@ -19,7 +19,7 @@ namespace Pacman
         private readonly Collision collisions;
         private readonly MapComponent map;
         private readonly GameState gameState;
-        
+
         // Pacman
         private GameObject pacman;
         private readonly KeyReaderComponent pacmanKeyReader;
@@ -29,7 +29,8 @@ namespace Pacman
         // Ghosts
         private GameObject pinky;
         private GameObject blinky;
-
+        private GameObject inky;
+        private GameObject clyde;
         // Foods
         private GameObject[] allFoods;
 
@@ -130,7 +131,7 @@ namespace Pacman
             TransformComponent pacmanTransform = new TransformComponent(42, 23);
             pacmanMapTransform = new TransformComponent(14, 23);
             MoveComponent pacmanMovement = new MoveComponent();
-            ColliderComponent pacmanCollider = 
+            ColliderComponent pacmanCollider =
                 new ColliderComponent(Cell.Pacman);
 
             pacman.AddComponent(pacmanKeyReader);
@@ -192,6 +193,7 @@ namespace Pacman
             };
             blinky = new GameObject("blinky");
             TransformComponent blinkyTransform = new TransformComponent(21, 10);
+            TransformComponent blinkyMapTransform = new TransformComponent(7,10);
             MoveComponent blinkyMovement = new MoveComponent();
             ColliderComponent blinkyCollider = new ColliderComponent(Cell.Ghost);
 
@@ -205,12 +207,71 @@ namespace Pacman
                                                 blinky,
                                                 pacman,
                                                 pacmanMapTransform,
-                                                new TransformComponent(7, 10),
+                                                blinkyMapTransform,
                                                 3));
 
             blinky.AddComponent(new ConsoleSprite(blinkySprite,
                                                   ConsoleColor.White,
                                                   ConsoleColor.Red));
+
+            char[,] inkySprite =
+            {
+                {' '},
+                {'I'},
+                {' '}
+            };
+            inky = new GameObject("inky");
+            TransformComponent inkyTransform = new TransformComponent(3, 15);
+            TransformComponent inkyMapTransform = new TransformComponent(8, 15);
+            MoveComponent inkyMovement = new MoveComponent();
+            ColliderComponent inkyCollider = new ColliderComponent(Cell.Ghost);
+
+            inky.AddComponent(inkyTransform);
+            inky.AddComponent(inkyMovement);
+            inky.AddComponent(inkyCollider);
+            inky.AddComponent(map);
+
+            // Adds a movement behaviour
+            inkyMovement.AddMovementBehaviour(new InkyChaseBehaviour(pacmanMovementBehaviour,
+                                                                     pacman,
+                                                                     pacmanMapTransform,
+                                                                     blinkyMapTransform,
+                                                                     inky,
+                                                                     inkyMapTransform,
+                                                                     3));
+
+            inky.AddComponent(new ConsoleSprite(inkySprite,
+                                                  ConsoleColor.White,
+                                                  ConsoleColor.Blue));
+
+            char[,] clydeSprite =
+            {
+                {' '},
+                {'C'},
+                {' '}
+            };
+            clyde = new GameObject("clyde");
+            TransformComponent clydeTransform = new TransformComponent(21, 15);
+            MoveComponent clydeMovement = new MoveComponent();
+            ColliderComponent clydeCollider = new ColliderComponent(Cell.Ghost);
+
+            clyde.AddComponent(clydeTransform);
+            clyde.AddComponent(clydeMovement);
+            clyde.AddComponent(clydeCollider);
+            clyde.AddComponent(map);
+
+            // Adds a movement behaviour
+            clydeMovement.AddMovementBehaviour(new ClydeChaseBehaviour(
+                                                pacmanMovementBehaviour,
+                                                clyde,
+                                                pacman,
+                                                pacmanMapTransform,
+                                                new TransformComponent(7, 15),
+                                                3));
+
+            clyde.AddComponent(new ConsoleSprite(clydeSprite,
+                                                  ConsoleColor.DarkBlue,
+                                                  ConsoleColor.Yellow));
         }
 
         /// <summary>
@@ -2572,6 +2633,8 @@ namespace Pacman
             collisions.AddPacman(pacman);
             collisions.AddGameObject(pinky);
             collisions.AddGameObject(blinky);
+            collisions.AddGameObject(inky);
+            collisions.AddGameObject(clyde);
 
             foreach (GameObject food in allFoods)
                 if (food != null) collisions.AddGameObject(food);
@@ -2587,6 +2650,8 @@ namespace Pacman
         {
             scene.AddGameObject(pinky);
             scene.AddGameObject(blinky);
+            scene.AddGameObject(inky);
+            scene.AddGameObject(clyde);
             scene.AddGameObject(pacman);
 
             foreach (GameObject food in allFoods)
@@ -2617,6 +2682,8 @@ namespace Pacman
 
             consoleRenderer.AddGameObject(pinky);
             consoleRenderer.AddGameObject(blinky);
+            consoleRenderer.AddGameObject(inky);
+            consoleRenderer.AddGameObject(clyde);
             consoleRenderer.AddGameObject(walls);
             consoleRenderer.AddGameObject(scoreText);
             consoleRenderer.AddGameObject(livesText);

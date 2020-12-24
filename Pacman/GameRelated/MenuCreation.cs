@@ -12,6 +12,7 @@ namespace Pacman
         private readonly ConsoleRenderer consoleRenderer;
         private readonly Scene scene;
         private readonly KeyReaderComponent keyReader;
+        private readonly FileWriter fileWriter;
 
         // Text to render
         private GameObject selector;
@@ -32,6 +33,9 @@ namespace Pacman
             keyReader = new KeyReaderComponent(ConsoleKey.Enter);
 
             scene = new Scene(XSIZE, YSIZE, keyReader);
+
+            fileWriter = new FileWriter(Path.lives);
+            fileWriter.CreateLivesText(2);
         }
 
         public void Run()

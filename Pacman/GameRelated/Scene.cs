@@ -16,6 +16,7 @@ namespace Pacman
 
         private readonly bool inGame;
         private bool createNewGame;
+        private bool createNewMenu;
 
         // Game objects in this scene
         private Dictionary<string, IGameObject> gameObjects;
@@ -24,6 +25,7 @@ namespace Pacman
         private readonly GameState gameState;
         private readonly Collision collisions;
         private readonly KeyReaderComponent keyReader;
+        private readonly LivesComponent lives;
 
         /// <summary>
         /// Constructor for scene inGame
@@ -34,7 +36,8 @@ namespace Pacman
         /// <param name="collision">Reference to a Collision class</param>
         /// <param name="keyReader">Reference to a keyreader class</param>
         public Scene(byte xdim, byte ydim, GameState gameState, 
-            Collision collision, KeyReaderComponent keyReader)
+            Collision collision, KeyReaderComponent keyReader,
+            LivesComponent lives)
         {
             this.xdim = xdim;
             this.ydim = ydim;
@@ -45,6 +48,7 @@ namespace Pacman
             inGame = true;
             createNewGame = false;
             this.keyReader = keyReader;
+            this.lives = lives;
         }
 
         /// <summary>
@@ -109,8 +113,9 @@ namespace Pacman
             keyReader.EscapePressed += () => terminate = true;
             if (inGame)
             {
+                lives.EndGame += CreateNewMenu;
                 collisions.FoodCollision += RemoveGameObject;
-                gameState.GhostChaseCollision += () => terminate = true;
+                gameState.GhostChaseCollision += CreateNewGame;
             }
 
             // Executes the Update() method of the GameObjects on the scene
@@ -150,8 +155,9 @@ namespace Pacman
             keyReader.EscapePressed -= () => terminate = true;
             if (inGame)
             {
+                lives.EndGame -= CreateNewMenu;
                 collisions.FoodCollision -= RemoveGameObject;
-                gameState.GhostChaseCollision -= () => terminate = true;
+                gameState.GhostChaseCollision -= CreateNewGame;
             }
 
             // After the loop, if true, creates a new game
@@ -160,12 +166,45 @@ namespace Pacman
                 LevelCreation levelCreation = new LevelCreation();
                 levelCreation.Create();
             }
+
+            if (createNewMenu)
+            {
+                MenuCreation menuCreation = new MenuCreation();
+                menuCreation.Run();
+            }
         }
 
+        /// <summary>
+        /// Creates a new menu
+        /// </summary>
+        private void CreateNewMenu()
+        {
+            createNewMenu = true;
+            terminate = true;
+        }
+
+        /// <summary>
+        /// Creates a new game.
+        /// Removes a life from pacman.
+        /// </summary>
         private void CreateNewGame()
         {
+            FileReader fileReader = new FileReader(Path.lives);
+            byte currentLives = fileReader.ReadLives();
+            FileWriter fileWriter = new FileWriter(Path.lives);
+            fileWriter.CreateLivesText(--currentLives);
+
             createNewGame = true;
             terminate = true;
+        }
+
+        /// <summary>
+        /// Deconstructor for scene
+        /// </summary>
+        ~Scene()
+        {
+            SelectorMovementBehaviour.QuitGame -= () => terminate = true;
+            SelectorMovementBehaviour.StartNewGame -= CreateNewGame;
         }
     }
 }

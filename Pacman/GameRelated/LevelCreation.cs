@@ -39,9 +39,12 @@ namespace Pacman
         // Walls
         private GameObject walls;
 
-        // Score
+        // UI
         private readonly ConsoleScore score;
         private GameObject scoreText;
+        private readonly LivesComponent lives;
+        private GameObject livesText;
+        private FileReader fileReader;
 
         /// <summary>
         /// Constructor for LevelCreation
@@ -53,15 +56,20 @@ namespace Pacman
 
             collisions = new Collision();
 
+            fileReader = new FileReader(Path.lives);
+
+            lives = new LivesComponent(fileReader.ReadLives());
+
             pacmanKeyReader = new KeyReaderComponent();
 
-            consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE + 1, 
+            consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE + 2, 
                                             backgroundPixel, collisions, 
                                             "Console Renderer");
 
             gameState = new GameState(collisions);
 
-            scene = new Scene(XSIZE, YSIZE, gameState, collisions, pacmanKeyReader);
+            scene = new Scene(XSIZE, YSIZE, gameState, collisions, pacmanKeyReader,
+                                lives);
 
 
             map = new MapComponent(XSIZE, YSIZE);
@@ -93,8 +101,8 @@ namespace Pacman
             // WALLS
             WallCreation(map);
 
-            // SCORE
-            ScoreCreation();
+            // UI
+            UICreation();
 
             // Add Gameobjects to collision check
             AddGameObjectsToCollisionCheck();
@@ -2527,7 +2535,7 @@ namespace Pacman
         /// <summary>
         /// Creates score related variables
         /// </summary>
-        private void ScoreCreation()
+        private void UICreation()
         {
             scoreText = new GameObject("Score Text");
 
@@ -2540,6 +2548,20 @@ namespace Pacman
                     ConsoleColor.White, ConsoleColor.DarkBlue);
 
             scoreText.AddComponent(renderScoreText);
+
+            ///////////////////////////////////////////////////////////
+
+            livesText = new GameObject("Lives Text");
+
+            livesText.AddComponent(new TransformComponent(0, YSIZE+1));
+
+            RenderableStringComponent renderLivesText
+                = new RenderableStringComponent(
+                    () => $"Lives: {lives.Lives}",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            livesText.AddComponent(renderLivesText);
         }
 
         /// <summary>
@@ -2597,6 +2619,7 @@ namespace Pacman
             consoleRenderer.AddGameObject(blinky);
             consoleRenderer.AddGameObject(walls);
             consoleRenderer.AddGameObject(scoreText);
+            consoleRenderer.AddGameObject(livesText);
         }
     }
 }

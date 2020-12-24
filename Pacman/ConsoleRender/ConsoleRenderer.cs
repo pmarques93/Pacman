@@ -54,7 +54,7 @@ namespace Pacman
             gameObjects = new List<IGameObject>();
             currentFrame = new ConsolePixel[xdim, ydim];
             nextFrame = new ConsolePixel[xdim, ydim];
-            collisions = collision;
+            this.collisions = collision;
             for (int y = 0; y < ydim; y++)
             {
                 for (int x = 0; x < xdim; x++)

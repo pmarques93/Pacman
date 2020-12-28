@@ -8,7 +8,7 @@
         /// <summary>
         /// Property with a bidemsnion array of MapStructs to create a map
         /// </summary>
-        public MapStruct[,] Map { get; private set; }
+        public MapStruct[,] Map { get; set; }
 
         /// <summary>
         /// Constructor for MapComponent

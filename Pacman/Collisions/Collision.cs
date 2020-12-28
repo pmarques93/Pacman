@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Pacman.Components;
 
 namespace Pacman
 {
@@ -13,6 +15,17 @@ namespace Pacman
         private GameObject pacman;
         // Transforms
         private TransformComponent pacmanTransform;
+        private MapComponent map;
+        private int counter = 0;
+
+        /// <summary>
+        /// Constructor for Collision
+        /// </summary>
+        public Collision(MapComponent map)
+        {
+            gameObjects = new List<GameObject>();
+            this.map = map;
+        }
 
         /// <summary>
         /// Adds GameObjects to a collection
@@ -35,13 +48,6 @@ namespace Pacman
         public void AddPacman(GameObject pacman)
             => this.pacman = pacman;
 
-        /// <summary>
-        /// Constructor for Collision
-        /// </summary>
-        public Collision()
-        {
-            gameObjects = new List<GameObject>();
-        }
 
         /// <summary>
         /// Start method for Collision
@@ -58,26 +64,31 @@ namespace Pacman
         /// </summary>
         public void Update()
         {
-
-            for (int i = 0; i < gameObjects.Count; i++)
+            for (int x = 0; x < map.Map.GetLength(0); x++)
             {
-                if (/*gameObjects?[i]?.GetComponent<TransformComponent>().Position 
-                        + new Vector2Int(1, 0) == pacmanTransform.Position ||
-                    gameObjects?[i]?.GetComponent<TransformComponent>().Position
-                        + new Vector2Int(0, 1) == pacmanTransform.Position ||
-                    gameObjects?[i]?.GetComponent<TransformComponent>().Position
-                        + new Vector2Int(-1, 0) == pacmanTransform.Position ||
-                    gameObjects?[i]?.GetComponent<TransformComponent>().Position
-                        + new Vector2Int(0, -1) == pacmanTransform.Position ||*/
-                    gameObjects?[i]?.GetComponent<TransformComponent>().Position 
-                        == pacmanTransform?.Position)
-                {         
-                    // Type of collider and gameobject that collided
-                    CollisionAction(gameObjects[i].
-                        GetComponent<ColliderComponent>().Type,
-                        gameObjects?[i]);
+                for (int y = 0; y < map.Map.GetLength(1); y++)
+                {
+                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) && map.Map[x, y].Collider.Type.HasFlag(Cell.Ghost))
+                    {
+                        OnGhostCollision();
+                        return;
+                    }
+                    else if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) && map.Map[x, y].Collider.Type.HasFlag(Cell.Food))
+                    {
+                        GameObject tempGO = gameObjects.
+                            Where(o => o.GetComponent<MapTransformComponent>()?.
+                                    Position != null).
+                            Where(o => o.GetComponent<MapTransformComponent>().
+                                    Position == new Vector2Int(x, y)).
+                            FirstOrDefault();
+
+                        OnFoodCollision(tempGO);
+                        RemoveGameObject(tempGO);
+                        OnScoreCollision(10);
+                        return;
+                    }
                 }
-            } 
+            }
         }
 
         /// <summary>
@@ -115,7 +126,7 @@ namespace Pacman
         /// <summary>
         /// On Ghost collision event method
         /// </summary>
-        protected virtual void OnGhostCollision() =>
+        public virtual void OnGhostCollision() =>
             GhostCollision?.Invoke();
 
         /// <summary>
@@ -141,7 +152,6 @@ namespace Pacman
         public event Action<ushort> ScoreCollision;
         public event Action PowerPillCollision;
         public event Action<GameObject> FoodCollision;
-
 
 
         public void Finish() { }

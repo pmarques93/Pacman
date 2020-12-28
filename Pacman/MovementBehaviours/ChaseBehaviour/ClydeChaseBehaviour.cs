@@ -1,23 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pacman.Components;
 
 namespace Pacman.MovementBehaviours.ChaseBehaviour
 {
     public class ClydeChaseBehaviour : GhostTargetMovementBehaviour
     {
         private PacmanMovementBehaviour pacmanMovementBehaviour;
-        public ClydeChaseBehaviour(PacmanMovementBehaviour pacmanMovementBehaviour,
+        public ClydeChaseBehaviour(Collision collision,
+                                    PacmanMovementBehaviour pacmanMovementBehaviour,
                                     GameObject ghost,
                                     GameObject pacMan,
-                                    TransformComponent pacmanMapTransform,
-                                    TransformComponent mapTransform,
+                                    MapTransformComponent pacmanMapTransform,
+                                    MapTransformComponent mapTransform,
                                     int translateModifier = 1) :
-                                    base(ghost,
-                                         pacMan,
-                                         pacmanMapTransform,
-                                         mapTransform,
-                                         translateModifier)
+                                    base(collision,
+                                        ghost,
+                                        pacMan,
+                                        pacmanMapTransform,
+                                        mapTransform,
+                                        translateModifier)
         {
             this.pacmanMovementBehaviour = pacmanMovementBehaviour;
         }

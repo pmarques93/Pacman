@@ -1,4 +1,5 @@
 ﻿using System;
+using Pacman.Components;
 
 namespace Pacman
 {
@@ -7,11 +8,15 @@ namespace Pacman
         // Components
         private readonly KeyReaderComponent keyReader;
         private readonly TransformComponent transform;
+        private readonly SceneChangerComponent sceneChanger;
 
-        public SelectorMovementBehaviour(GameObject gameObject)
+        public SelectorMovementBehaviour(GameObject gameObject,
+                                         SceneChangerComponent sceneChanger)
         {
             keyReader = gameObject.GetComponent<KeyReaderComponent>();
             transform = gameObject.GetComponent<TransformComponent>();
+            this.sceneChanger = sceneChanger;
+
             keyReader.EnterPressed += EnterPressed;
         }
 
@@ -47,22 +52,15 @@ namespace Pacman
             switch (transform.Position.Y)
             {
                 case 25:
-                    OnStartNewGame();
+                    sceneChanger.ChangeScene();
+                    keyReader.EnterPressed -= EnterPressed;
                     break;
                 case 27:
-                    OnQuitGame();
+                    sceneChanger.sceneHandler.TerminateCurrentScene();
+                    keyReader.EnterPressed -= EnterPressed;
                     break;
             }
         }
-
-        protected virtual void OnStartNewGame()
-            => StartNewGame?.Invoke();
-
-        protected virtual void OnQuitGame()
-            => QuitGame?.Invoke();
-
-        public static event Action StartNewGame;
-        public static event Action QuitGame;
 
         ~SelectorMovementBehaviour()
         {

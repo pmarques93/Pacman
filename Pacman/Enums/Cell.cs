@@ -1,16 +1,20 @@
-﻿namespace Pacman
+﻿using System;
+
+namespace Pacman
 {
     /// <summary>
     /// Enum with cell types
     /// </summary>
+    [Flags]
     public enum Cell
     {
-        Walkable,
-        Wall,
-        Pacman,
-        Ghost,
-        Fruit,
-        Food,
-        PowerPill
+        None = 0,
+        Walkable = 1,
+        Wall = 2,
+        Pacman = 4,
+        Ghost = 8,
+        Fruit = 16,
+        Food = 32,
+        PowerPill = 64
     }
 }

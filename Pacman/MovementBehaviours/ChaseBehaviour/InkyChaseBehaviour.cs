@@ -1,26 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
+using Pacman.Components;
 
 namespace Pacman.MovementBehaviours.ChaseBehaviour
 {
     public class InkyChaseBehaviour : GhostTargetMovementBehaviour
     {
         private PacmanMovementBehaviour pacmanMovementBehaviour;
-        private GameObject blinky;
-        private TransformComponent blinkyMapTransform;
-        public InkyChaseBehaviour(PacmanMovementBehaviour pacmanMovementBehaviour,
+        private MapTransformComponent blinkyMapTransform;
+        public InkyChaseBehaviour(Collision collision,
+                                    PacmanMovementBehaviour pacmanMovementBehaviour,
                                     GameObject pacMan,
-                                    TransformComponent pacmanMapTransform,
-                                    TransformComponent blinkyMapTransform,
+                                    MapTransformComponent pacmanMapTransform,
+                                    MapTransformComponent blinkyMapTransform,
                                     GameObject inky,
-                                    TransformComponent mapTransform,
+                                    MapTransformComponent mapTransform,
                                     int translateModifier = 1) :
-                                    base(inky,
-                                         pacMan,
-                                         pacmanMapTransform,
-                                         mapTransform,
-                                         translateModifier)
+                                    base(collision,
+                                        inky,
+                                        pacMan,
+                                        pacmanMapTransform,
+                                        mapTransform,
+                                        translateModifier)
         {
             this.pacmanMovementBehaviour = pacmanMovementBehaviour;
             this.blinkyMapTransform = blinkyMapTransform;
@@ -49,7 +49,7 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
 
             Vector2Int tempPacmanPosition = new Vector2Int(0, 0);
             Vector2Int tempBlinkyPosition = blinkyPosition - pacmanPosition;
-            tempBlinkyPosition = new Vector2Int(tempBlinkyPosition.X * -1 , 
+            tempBlinkyPosition = new Vector2Int(tempBlinkyPosition.X * -1,
                                                 tempBlinkyPosition.Y * -1);
             // tempBlinkyPosition += pacmanPosition;
             TargetPosition = tempBlinkyPosition + pacmanPosition;

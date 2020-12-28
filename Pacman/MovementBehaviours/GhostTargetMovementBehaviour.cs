@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pacman.Components;
 
 namespace Pacman.MovementBehaviours
 {
@@ -9,22 +10,25 @@ namespace Pacman.MovementBehaviours
 
         private readonly TransformComponent ghostTransform;
         protected readonly MapComponent map;
-        protected readonly TransformComponent mapTransform;
+        protected readonly MapTransformComponent mapTransform;
 
         protected readonly MoveComponent targetMove;
+        private readonly Collision collision;
         private int translateModifier;
 
         private Direction CurrentDirection { get; set; }
 
-        protected readonly TransformComponent targetTransform;
+        protected readonly MapTransformComponent targetTransform;
         protected Vector2Int TargetPosition { get; set; }
 
-        public GhostTargetMovementBehaviour(GameObject ghost,
+        public GhostTargetMovementBehaviour(Collision collision,
+                                    GameObject ghost,
                                     GameObject pacMan,
-                                    TransformComponent pacmanMapTransform,
-                                    TransformComponent mapTransform,
+                                    MapTransformComponent pacmanMapTransform,
+                                    MapTransformComponent mapTransform,
                                     int translateModifier = 1)
         {
+            this.collision = collision;
             ghostTransform = ghost.GetComponent<TransformComponent>();
             targetTransform = pacmanMapTransform;
             this.mapTransform = mapTransform;
@@ -95,8 +99,8 @@ namespace Pacman.MovementBehaviours
 
             foreach (Direction d in test)
             {
-                if (map.Map[directionVector[d].X,
-                            directionVector[d].Y].Collider.Type != Cell.Wall)
+                if (!map.Map[directionVector[d].X,
+                        directionVector[d].Y].Collider.Type.HasFlag(Cell.Wall))
                 {
                     if (CurrentDirection == Direction.Left
                         && d == Direction.Right
@@ -109,11 +113,19 @@ namespace Pacman.MovementBehaviours
                     {
                         continue;
                     }
+
+                    map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
                     mapTransform.Position = directionVector[d];
                     ghostTransform.Position = new Vector2Int(directionVector[d].X
                                                         * translateModifier,
                                                         directionVector[d].Y);
                     CurrentDirection = d;
+                    map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type |= Cell.Ghost;
+                    if (map.Map[directionVector[d].X,
+                            directionVector[d].Y].Collider.Type.HasFlag(Cell.Pacman))
+                    {
+                        collision.OnGhostCollision();
+                    }
                     break;
                 }
             }

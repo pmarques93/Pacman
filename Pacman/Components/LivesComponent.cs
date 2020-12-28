@@ -5,12 +5,12 @@ namespace Pacman
     /// <summary>
     /// Class for lives component. Extends Component
     /// </summary>
-    public class LivesComponent: Component
+    public class LivesComponent : Component
     {
         /// <summary>
         /// Property with lives
         /// </summary>
-        public byte Lives { get; }
+        public byte Lives { get; set; }
 
         /// <summary>
         /// Constructor for lives component
@@ -39,6 +39,6 @@ namespace Pacman
             => EndGame?.Invoke();
 
         public event Action EndGame;
-        
+
     }
 }

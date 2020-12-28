@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using Pacman.GameRelated;
 
 namespace Pacman
 {
@@ -12,18 +14,18 @@ namespace Pacman
         // Scene dimensions
         public readonly byte xdim;
         public readonly byte ydim;
-        private bool terminate;
+        public bool terminate;
 
         private readonly bool inGame;
-        private bool createNewGame;
-        private bool createNewMenu;
 
         // Game objects in this scene
         private Dictionary<string, IGameObject> gameObjects;
+        private HashSet<string> gameObjectsNames;
+
+        public SceneHandler sceneHandler;
 
         // Component
         private readonly GameState gameState;
-        private readonly Collision collisions;
         private readonly KeyReaderComponent keyReader;
         private readonly LivesComponent lives;
 
@@ -35,18 +37,16 @@ namespace Pacman
         /// <param name="gameState">Reference to a GameState class</param>
         /// <param name="collision">Reference to a Collision class</param>
         /// <param name="keyReader">Reference to a keyreader class</param>
-        public Scene(byte xdim, byte ydim, GameState gameState, 
-            Collision collision, KeyReaderComponent keyReader,
+        public Scene(byte xdim, byte ydim, GameState gameState, KeyReaderComponent keyReader,
             LivesComponent lives)
         {
             this.xdim = xdim;
             this.ydim = ydim;
             terminate = false;
             gameObjects = new Dictionary<string, IGameObject>();
+            gameObjectsNames = new HashSet<string>();
             this.gameState = gameState;
-            this.collisions = collision;
             inGame = true;
-            createNewGame = false;
             this.keyReader = keyReader;
             this.lives = lives;
         }
@@ -63,12 +63,9 @@ namespace Pacman
             this.ydim = ydim;
             terminate = false;
             gameObjects = new Dictionary<string, IGameObject>();
+            gameObjectsNames = new HashSet<string>();
             inGame = false;
             this.keyReader = keyReader;
-
-            createNewGame = false;
-            SelectorMovementBehaviour.QuitGame += () => terminate = true;
-            SelectorMovementBehaviour.StartNewGame += CreateNewGame;
         }
 
         /// <summary>
@@ -78,6 +75,7 @@ namespace Pacman
         public void AddGameObject(IGameObject gameObject)
         {
             gameObjects.Add(gameObject.Name ?? " ", gameObject);
+            gameObjectsNames.Add(gameObject.Name ?? " ");
         }
 
         /// <summary>
@@ -110,13 +108,7 @@ namespace Pacman
                 gameObject.Start();
             }
 
-            keyReader.EscapePressed += () => terminate = true;
-            if (inGame)
-            {
-                lives.EndGame += CreateNewMenu;
-                collisions.FoodCollision += RemoveGameObject;
-                gameState.GhostChaseCollision += CreateNewGame;
-            }
+            keyReader.EscapePressed += sceneHandler.TerminateCurrentScene;
 
             // Executes the Update() method of the GameObjects on the scene
             while (!terminate)
@@ -127,10 +119,15 @@ namespace Pacman
                 long start = DateTime.Now.Ticks;
 
                 // Update game objects
-                foreach (IGameObject gameObject in gameObjects.Values)
+                // foreach (IGameObject gameObject in gameObjects.Values)
+                // {
+                //     gameObject.Update();
+                // }
+                for (int i = 0; i < gameObjectsNames.Count; i++)
                 {
-                    gameObject.Update();
+                    gameObjects[gameObjectsNames.ElementAt(i)].Update();
                 }
+
 
                 // Time to wait until next frame
                 timeToWait = (int)(start / TimeSpan.TicksPerMillisecond
@@ -152,35 +149,8 @@ namespace Pacman
                 gameObject.Finish();
             }
 
-            keyReader.EscapePressed -= () => terminate = true;
-            if (inGame)
-            {
-                lives.EndGame -= CreateNewMenu;
-                collisions.FoodCollision -= RemoveGameObject;
-                gameState.GhostChaseCollision -= CreateNewGame;
-            }
+            keyReader.EscapePressed -= sceneHandler.TerminateCurrentScene;
 
-            // After the loop, if true, creates a new game
-            if (createNewGame)
-            {
-                LevelCreation levelCreation = new LevelCreation();
-                levelCreation.Create();
-            }
-
-            if (createNewMenu)
-            {
-                MenuCreation menuCreation = new MenuCreation();
-                menuCreation.Run();
-            }
-        }
-
-        /// <summary>
-        /// Creates a new menu
-        /// </summary>
-        private void CreateNewMenu()
-        {
-            createNewMenu = true;
-            terminate = true;
         }
 
         /// <summary>
@@ -194,17 +164,7 @@ namespace Pacman
             FileWriter fileWriter = new FileWriter(Path.lives);
             fileWriter.CreateLivesText(--currentLives);
 
-            createNewGame = true;
             terminate = true;
-        }
-
-        /// <summary>
-        /// Deconstructor for scene
-        /// </summary>
-        ~Scene()
-        {
-            SelectorMovementBehaviour.QuitGame -= () => terminate = true;
-            SelectorMovementBehaviour.StartNewGame -= CreateNewGame;
         }
     }
 }

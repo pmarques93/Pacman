@@ -1,4 +1,5 @@
 ﻿using System;
+using Pacman.Components;
 
 namespace Pacman
 {
@@ -19,7 +20,7 @@ namespace Pacman
         private int translateModifier;
 
 
-        private readonly TransformComponent mapTransform;
+        private readonly MapTransformComponent mapTransform;
         private readonly MapComponent map;
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace Pacman
         /// </summary>
         /// <param name="pacman">Object to get components from</param>
         public PacmanMovementBehaviour(GameObject pacman,
-                                       TransformComponent mapTransform,
+                                       MapTransformComponent mapTransform,
                                        int translateModifier = 1)
         {
             keyReader = pacman.GetComponent<KeyReaderComponent>();
@@ -75,8 +76,9 @@ namespace Pacman
                     {
                         if (map.Map[mapTransform.Position.X,
                             Math.Max(0, mapTransform.Position.Y - 1)].
-                            Collider.Type != Cell.Wall)
+                            Collider.Type.HasFlag(Cell.Wall) == false)
                         {
+                            map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type &= ~Cell.Pacman;
                             transform.Position =
                             new Vector2Int(transform.Position.X,
                             Math.Max(0, transform.Position.Y - 1));
@@ -85,6 +87,9 @@ namespace Pacman
                             new Vector2Int(mapTransform.Position.X,
                             Math.Max(0, mapTransform.Position.Y - 1));
                             previousDirection = pacmanDirection;
+
+                            map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type |= Cell.Pacman;
+
                             break;
                         }
                         else
@@ -101,8 +106,9 @@ namespace Pacman
                         if (map.Map[
                             Math.Min(xMax - 1, mapTransform.Position.X + 1),
                             mapTransform.Position.Y].
-                            Collider.Type != Cell.Wall)
+                            Collider.Type.HasFlag(Cell.Wall) == false)
                         {
+                            map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type &= ~Cell.Pacman;
 
                             mapTransform.Position =
                             new Vector2Int(
@@ -116,6 +122,7 @@ namespace Pacman
                                 transform.Position.Y);
 
                             previousDirection = pacmanDirection;
+                            map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type |= Cell.Pacman;
                             break;
                         }
                         else
@@ -132,8 +139,9 @@ namespace Pacman
                     {
                         if (map.Map[mapTransform.Position.X,
                             Math.Min(yMax - 1, mapTransform.Position.Y + 1)].
-                            Collider.Type != Cell.Wall)
+                            Collider.Type.HasFlag(Cell.Wall) == false)
                         {
+                            map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type &= ~Cell.Pacman;
                             transform.Position =
                             new Vector2Int(transform.Position.X,
                             Math.Min(yMax - 1, transform.Position.Y + 1));
@@ -142,6 +150,7 @@ namespace Pacman
                             new Vector2Int(mapTransform.Position.X,
                             Math.Min(yMax - 1, mapTransform.Position.Y + 1));
                             previousDirection = pacmanDirection;
+                            map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type |= Cell.Pacman;
                             break;
                         }
                         else
@@ -159,8 +168,9 @@ namespace Pacman
                         if (map.Map[
                             Math.Max(0, mapTransform.Position.X - 1),
                             mapTransform.Position.Y].
-                            Collider.Type != Cell.Wall)
+                            Collider.Type.HasFlag(Cell.Wall) == false)
                         {
+                            map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type &= ~Cell.Pacman;
                             mapTransform.Position =
                             new Vector2Int(
                             Math.Max(0, mapTransform.Position.X - 1),
@@ -173,6 +183,7 @@ namespace Pacman
                                     transform.Position.X - translateModifier),
                             transform.Position.Y);
                             previousDirection = pacmanDirection;
+                            map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type |= Cell.Pacman;
                             break;
                         }
                         else

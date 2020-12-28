@@ -20,7 +20,7 @@ namespace Pacman
         private ConsolePixel[,] currentFrame, nextFrame;
 
         private ICollection<IGameObject> gameObjects;
-        
+
         // Scene dimensions
         private int xdim, ydim;
 
@@ -130,19 +130,19 @@ namespace Pacman
             // foreach (Renderable rend in stuffToRender)
             foreach (GameObject gameObj in gameObjects)
             {
-                RenderableComponent rendComp = 
+                RenderableComponent rendComp =
                                     gameObj.GetComponent<RenderableComponent>();
-                TransformComponent transform = 
+                TransformComponent transform =
                                     gameObj.GetComponent<TransformComponent>();
 
                 // Cycle through all pixels in sprite
-                foreach (KeyValuePair<Vector2Int, ConsolePixel> pixel in 
+                foreach (KeyValuePair<Vector2Int, ConsolePixel> pixel in
                                                             rendComp.Pixels)
                 {
                     // Get absolute position of current pixel
                     int y = (int)(transform.Position.Y + pixel.Key.Y);
                     int x = (int)(transform.Position.X + pixel.Key.X);
-                    
+
                     // Throw exception if any of these is out of bounds
                     if (x < 0 || x >= xdim || y < 0 || y >= ydim)
                         throw new IndexOutOfRangeException(

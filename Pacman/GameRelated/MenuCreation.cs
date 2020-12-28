@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Pacman.Components;
+using Pacman.GameRelated;
 
 namespace Pacman
 {
@@ -10,7 +12,7 @@ namespace Pacman
 
         private readonly ConsolePixel backgroundPixel;
         private readonly ConsoleRenderer consoleRenderer;
-        private readonly Scene scene;
+        public Scene MenuScene { get; }
         private readonly KeyReaderComponent keyReader;
         private readonly FileWriter fileWriter;
 
@@ -21,11 +23,15 @@ namespace Pacman
         private GameObject controlsText;
         private GameObject movementText;
         private GameObject actionsText;
+        private GameObject sceneChanger;
+        private SceneHandler sceneHandler;
 
         private GameObject pacmanLogo;
 
-        public MenuCreation()
+        public MenuCreation(KeyReaderComponent keyReader, SceneHandler sceneHandler)
         {
+            this.sceneHandler = sceneHandler;
+
             backgroundPixel = new ConsolePixel(' ', ConsoleColor.White,
                                                 ConsoleColor.DarkBlue);
 
@@ -33,15 +39,15 @@ namespace Pacman
                                             backgroundPixel,
                                             "Console Renderer");
 
-            keyReader = new KeyReaderComponent(ConsoleKey.Enter);
+            this.keyReader = keyReader;
 
-            scene = new Scene(XSIZE, YSIZE, keyReader);
+            MenuScene = new Scene(XSIZE, YSIZE, keyReader);
 
             fileWriter = new FileWriter(Path.lives);
             fileWriter.CreateLivesText(4);
         }
 
-        public void Run()
+        public void GenerateScene()
         {
             CreateGameObjects();
 
@@ -49,12 +55,21 @@ namespace Pacman
 
             AddGameObjectsToRenderer();
 
-            scene.AddGameObject(consoleRenderer);
-            scene.GameLoop(100);
+            MenuScene.AddGameObject(consoleRenderer);
         }
 
         private void CreateGameObjects()
         {
+            keyReader.quitKeys.Add(ConsoleKey.Enter);
+            sceneChanger = new GameObject("Scene Changer");
+            SceneChangerComponent sceneChangerComponent =
+                                new SceneChangerComponent(keyReader,
+                                                          MenuScene,
+                                                          sceneHandler);
+
+            sceneChanger.AddComponent(sceneChangerComponent);
+            sceneChangerComponent.sceneToLoad = "LevelScene";
+
 
             pacmanLogo = new GameObject("Pacman Logo");
             ConsolePixel logoPixel = new ConsolePixel(
@@ -94,11 +109,15 @@ namespace Pacman
             selector.AddComponent(new ConsoleSprite(selectorSprite,
                                                   ConsoleColor.White,
                                                   ConsoleColor.DarkBlue));
+            SelectorMovementBehaviour selectorMovementBehaviour =
+                                 new SelectorMovementBehaviour(
+                                        selector,
+                                        sceneChanger.
+                                        GetComponent<SceneChangerComponent>());
 
             // Adds a movement behaviour
-            selectorMovement.AddMovementBehaviour(
-                                    new SelectorMovementBehaviour(
-                                    selector));
+            selectorMovement.AddMovementBehaviour(selectorMovementBehaviour);
+
 
             ////////////////////////////////////////////////////////////////////
 
@@ -286,11 +305,12 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Adds game objects to scene
+        /// Adds game objects to MenuScene
         /// </summary>
         private void AddGameObjectsToScene()
         {
-            scene.AddGameObject(selector);
+            MenuScene.AddGameObject(selector);
+            MenuScene.AddGameObject(sceneChanger);
         }
 
         /// <summary>

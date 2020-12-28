@@ -27,10 +27,16 @@ namespace Pacman
         /// </summary>
         public event Action EscapePressed;
 
-        private ConsoleKey quitKey;
+        public ICollection<ConsoleKey> quitKeys;
         public KeyReaderComponent(ConsoleKey quitKey = ConsoleKey.Escape)
         {
-            this.quitKey = quitKey;
+            quitKeys = new List<ConsoleKey>();
+            quitKeys.Add(quitKey);
+        }
+
+        public KeyReaderComponent(ICollection<ConsoleKey> quitKeys)
+        {
+            this.quitKeys = quitKeys;
         }
 
         private System.Timers.Timer myTimer;
@@ -86,6 +92,9 @@ namespace Pacman
                     case ConsoleKey.Escape:
                         OnEscapePressed();
                         break;
+                    case ConsoleKey.Spacebar:
+                        OnSpacePressed();
+                        break;
                     default:
                         Direction = Direction.None;
                         break;
@@ -97,7 +106,7 @@ namespace Pacman
             }
             input = new BlockingCollection<ConsoleKey>();
         }
-        
+
         /// <summary>
         /// Method that runs once on finish.
         /// </summary>
@@ -118,7 +127,7 @@ namespace Pacman
             {
                 key = Console.ReadKey(true).Key;
                 input.Add(key);
-            } while (key != quitKey);
+            } while (!quitKeys.Contains(key));
         }
 
 
@@ -132,8 +141,16 @@ namespace Pacman
         /// Invokes the EnterPressed event.
         /// </summary>
         protected virtual void OnEnterPressed()
-            => EnterPressed?.Invoke();
+        {
+            EnterPressed?.Invoke();
+        }
+
+        private void OnSpacePressed()
+        {
+            SpaceBarPressed?.Invoke();
+        }
 
         public event Action EnterPressed;
+        public event Action SpaceBarPressed;
     }
 }

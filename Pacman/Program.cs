@@ -1,4 +1,6 @@
-﻿namespace Pacman
+﻿using Pacman.GameRelated;
+
+namespace Pacman
 {
     class Program
     {
@@ -7,9 +9,24 @@
             /*LevelCreation level = new LevelCreation();
             level.Create();*/
 
-            MenuCreation menu = new MenuCreation();
 
-            menu.Run();
+            KeyReaderComponent keyReader = new KeyReaderComponent();
+            SceneHandler sceneHandler = new SceneHandler();
+
+
+            LevelCreation levelCreation = new LevelCreation(keyReader, sceneHandler);
+            sceneHandler.AddScene(levelCreation.LevelScene, "LevelScene");
+
+            MenuCreation menuCreation = new MenuCreation(keyReader, sceneHandler);
+            sceneHandler.AddScene(menuCreation.MenuScene, "MenuScene");
+
+            menuCreation.GenerateScene();
+            levelCreation.GenerateScene();
+
+            Scene menuScene = menuCreation.MenuScene;
+            sceneHandler.currentScene = menuScene;
+
+            sceneHandler.RunScene();
         }
     }
 }

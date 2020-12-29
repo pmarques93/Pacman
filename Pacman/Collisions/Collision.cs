@@ -73,7 +73,7 @@ namespace Pacman
                         OnGhostCollision();
                         return;
                     }
-                    else if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) && map.Map[x, y].Collider.Type.HasFlag(Cell.Food))
+                    else if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman))
                     {
                         GameObject tempGO = gameObjects.
                             Where(o => o.GetComponent<MapTransformComponent>()?.
@@ -82,9 +82,7 @@ namespace Pacman
                                     Position == new Vector2Int(x, y)).
                             FirstOrDefault();
 
-                        OnFoodCollision(tempGO);
-                        RemoveGameObject(tempGO);
-                        OnScoreCollision(10);
+                        CollisionAction(map.Map[x, y].Collider.Type, tempGO);
                         return;
                     }
                 }
@@ -99,27 +97,24 @@ namespace Pacman
         /// <param name="collision">Gameobject of that collider</param>
         private void CollisionAction(Cell collisionType, GameObject collision)
         {
-            switch (collisionType)
+            if (collisionType.HasFlag(Cell.Fruit))
             {
-                case Cell.Ghost:
-                    OnGhostCollision();
-                    break;
-                case Cell.Fruit:
-                    OnFoodCollision(collision);
-                    RemoveGameObject(collision);
-                    OnScoreCollision(250);
-                    break;
-                case Cell.Food:
-                    OnFoodCollision(collision);
-                    RemoveGameObject(collision);
-                    OnScoreCollision(10);
-                    break;
-                case Cell.PowerPill:
-                    OnFoodCollision(collision);
-                    RemoveGameObject(collision);
-                    OnScoreCollision(50);
-                    OnPowerPillCollision();
-                    break;
+                OnFoodCollision(collision);
+                RemoveGameObject(collision);
+                OnScoreCollision(250);
+            }
+            else if (collisionType.HasFlag(Cell.Food))
+            {
+                OnFoodCollision(collision);
+                RemoveGameObject(collision);
+                OnScoreCollision(10);
+            }
+            else if (collisionType.HasFlag(Cell.PowerPill))
+            {
+                OnFoodCollision(collision);
+                RemoveGameObject(collision);
+                OnScoreCollision(50);
+                OnPowerPillCollision();
             }
         }
 

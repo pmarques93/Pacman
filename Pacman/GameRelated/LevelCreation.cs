@@ -121,9 +121,23 @@ namespace Pacman
             // Add GameObjects to the renderer
             AddGameObjectsToRender();
 
+            collisions.GhostCollision += ResetPositions;
+
             // Add renderer to the LevelScene
             LevelScene.AddGameObject(consoleRenderer);
-            // LevelScene.GameLoop(170);
+        }
+
+        private void ResetPositions()
+        {
+            map.Map[pacmanMapTransform.Position.X, pacmanMapTransform.Position.Y].Collider.Type &= ~Cell.Pacman;
+            pacman.GetComponent<TransformComponent>().Position = new Vector2Int(42, 23);
+            pacmanMapTransform.Position = new Vector2Int(14, 23);
+
+            blinky.GetComponent<TransformComponent>().Position = new Vector2Int(21,10);
+            MapTransformComponent blinkyMapTransform = blinky.GetComponent<MapTransformComponent>();
+
+            map.Map[blinkyMapTransform.Position.X, blinkyMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
+            blinkyMapTransform.Position = new Vector2Int(7,10);
         }
 
         /// <summary>
@@ -142,15 +156,9 @@ namespace Pacman
             ColliderComponent pacmanCollider =
                 new ColliderComponent(Cell.Pacman);
 
-            collisions.GhostCollision += () =>
-            {
-                pacmanTransform.Position = new Vector2Int(42, 23);
-                pacmanMapTransform.Position = new Vector2Int(14, 23);
-                map.Map[pacmanMapTransform.Position.X, pacmanMapTransform.Position.Y].Collider.Type &= ~Cell.Pacman;
-            };
-
             pacman.AddComponent(pacmanKeyReader);
             pacman.AddComponent(pacmanTransform);
+            pacman.AddComponent(pacmanMapTransform);
             pacman.AddComponent(pacmanMovement);
             pacman.AddComponent(pacmanCollider);
             pacman.AddComponent(map);
@@ -184,6 +192,7 @@ namespace Pacman
             MoveComponent pinkyMovement = new MoveComponent();
             ColliderComponent pinkyCollider = new ColliderComponent(Cell.Ghost);
 
+
             pinky.AddComponent(pinkyTransform);
             pinky.AddComponent(pinkyMovement);
             pinky.AddComponent(pinkyCollider);
@@ -215,6 +224,7 @@ namespace Pacman
             ColliderComponent blinkyCollider = new ColliderComponent(Cell.Ghost);
 
             blinky.AddComponent(blinkyTransform);
+            blinky.AddComponent(blinkyMapTransform);
             blinky.AddComponent(blinkyMovement);
             blinky.AddComponent(blinkyCollider);
             blinky.AddComponent(map);
@@ -2641,10 +2651,16 @@ namespace Pacman
             char[,] powerPill0Sprite = { { ' ' }, { ' ' }, { ' ' }, };
             TransformComponent powerPill0Transform =
                 new TransformComponent(3, 3);
+            MapTransformComponent powerPill0MapTransform =
+                new MapTransformComponent(1, 3);
+            map.Map[powerPill0MapTransform.Position.X,
+                    powerPill0MapTransform.Position.Y].
+                    Collider.Type = Cell.PowerPill;
 
             ColliderComponent powerPill0Collider =
                 new ColliderComponent(Cell.PowerPill);
 
+            allPowerPills[0].AddComponent(powerPill0MapTransform);
             allPowerPills[0].AddComponent(powerPill0Transform);
             allPowerPills[0].AddComponent(powerPill0Collider);
             allPowerPills[0].AddComponent(new ConsoleSprite(
@@ -2655,11 +2671,17 @@ namespace Pacman
             char[,] powerPill1Sprite = { { ' ' }, { ' ' }, { ' ' }, };
             TransformComponent powerPill1Transform =
                 new TransformComponent(78, 3);
+            MapTransformComponent powerPill1MapTransform =
+                new MapTransformComponent(26, 3);
+            map.Map[powerPill1MapTransform.Position.X,
+                    powerPill1MapTransform.Position.Y].
+                    Collider.Type = Cell.PowerPill;
 
             ColliderComponent powerPill1Collider =
                 new ColliderComponent(Cell.PowerPill);
 
             allPowerPills[1].AddComponent(powerPill1Transform);
+            allPowerPills[1].AddComponent(powerPill1MapTransform);
             allPowerPills[1].AddComponent(powerPill1Collider);
             allPowerPills[1].AddComponent(new ConsoleSprite(
                 powerPill1Sprite, ConsoleColor.White, ConsoleColor.White));
@@ -2670,10 +2692,17 @@ namespace Pacman
             TransformComponent powerPill2Transform =
                 new TransformComponent(3, 23);
 
+            MapTransformComponent powerPill2MapTransform =
+                new MapTransformComponent(1, 23);
+            map.Map[powerPill2MapTransform.Position.X,
+                    powerPill2MapTransform.Position.Y].
+                    Collider.Type = Cell.PowerPill;
+
             ColliderComponent powerPill2Collider =
                 new ColliderComponent(Cell.PowerPill);
 
             allPowerPills[2].AddComponent(powerPill2Transform);
+            allPowerPills[2].AddComponent(powerPill2MapTransform);
             allPowerPills[2].AddComponent(powerPill2Collider);
             allPowerPills[2].AddComponent(new ConsoleSprite(
                 powerPill2Sprite, ConsoleColor.White, ConsoleColor.White));
@@ -2684,10 +2713,16 @@ namespace Pacman
             TransformComponent powerPill3Transform =
                 new TransformComponent(78, 23);
 
+            MapTransformComponent powerPill3MapTransform =
+                new MapTransformComponent(26, 23);
+            map.Map[powerPill3MapTransform.Position.X,
+                    powerPill3MapTransform.Position.Y].
+                    Collider.Type = Cell.PowerPill;
             ColliderComponent powerPill3Collider =
                 new ColliderComponent(Cell.PowerPill);
 
             allPowerPills[3].AddComponent(powerPill3Transform);
+            allPowerPills[3].AddComponent(powerPill3MapTransform);
             allPowerPills[3].AddComponent(powerPill3Collider);
             allPowerPills[3].AddComponent(new ConsoleSprite(
                 powerPill3Sprite, ConsoleColor.White, ConsoleColor.White));

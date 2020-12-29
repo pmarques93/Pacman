@@ -16,7 +16,7 @@ namespace Pacman
         public Scene MenuScene { get; }
         private readonly KeyReaderComponent keyReader;
 
-        // Text to render
+        // UI
         private GameObject selector;
         private GameObject startText;
         private GameObject quitText;
@@ -26,9 +26,16 @@ namespace Pacman
         private GameObject movementText;
         private GameObject actionsText;
         private GameObject sceneChanger;
+        private GameObject rules;
+        private GameObject rule1;
+        private GameObject rule2;
+        private GameObject rule3;
+        private GameObject pacmanLogo;
+
+        // Scene
         private SceneHandler sceneHandler;
 
-        private GameObject pacmanLogo;
+        
 
         public MenuCreation(KeyReaderComponent keyReader, SceneHandler sceneHandler)
         {
@@ -95,6 +102,8 @@ namespace Pacman
             pacmanLogo.AddComponent(new TransformComponent(20, 1));
             pacmanLogo.AddComponent(new ConsoleSprite(logoPixels));
 
+            ////////////////////////////////////////////////////////////////////
+
             selector = new GameObject("Selector");
             char[,] selectorSprite = { { '-' }, { '-' }, { '>' }, };
 
@@ -102,7 +111,7 @@ namespace Pacman
             MoveComponent selectorMovement = new MoveComponent();
 
             selector.AddComponent(keyReader);
-            selector.AddComponent(new TransformComponent(2, 25));
+            selector.AddComponent(new TransformComponent(2, 26));
             selector.AddComponent(selectorMovement);
             selector.AddComponent(map);
             selector.AddComponent(new ConsoleSprite(selectorSprite,
@@ -121,7 +130,7 @@ namespace Pacman
             ////////////////////////////////////////////////////////////////////
 
             startText = new GameObject("Start Game");
-            startText.AddComponent(new TransformComponent(6, 25));
+            startText.AddComponent(new TransformComponent(6, 26));
 
             RenderableStringComponent renderStartGame
                 = new RenderableStringComponent(
@@ -134,7 +143,7 @@ namespace Pacman
             ////////////////////////////////////////////////////////////////////
 
             quitText = new GameObject("Quit");
-            quitText.AddComponent(new TransformComponent(6, 27));
+            quitText.AddComponent(new TransformComponent(6, 28));
 
             RenderableStringComponent renderQuit
                 = new RenderableStringComponent(
@@ -184,7 +193,7 @@ namespace Pacman
 
 
             controlsText = new GameObject("ControlsText");
-            controlsText.AddComponent(new TransformComponent(70, 23));
+            controlsText.AddComponent(new TransformComponent(70, 18));
 
             RenderableStringComponent renderControls
                 = new RenderableStringComponent(
@@ -197,7 +206,7 @@ namespace Pacman
             ////////////////////////////////////////////////////////////////////
 
             movementText = new GameObject("MovementText");
-            movementText.AddComponent(new TransformComponent(54, 25));
+            movementText.AddComponent(new TransformComponent(54, 20));
 
             RenderableStringComponent renderMovement
                 = new RenderableStringComponent(
@@ -210,7 +219,7 @@ namespace Pacman
             ////////////////////////////////////////////////////////////////////
 
             actionsText = new GameObject("ActionsText");
-            actionsText.AddComponent(new TransformComponent(50, 27));
+            actionsText.AddComponent(new TransformComponent(50, 21));
 
             RenderableStringComponent renderActions
                 = new RenderableStringComponent(
@@ -219,6 +228,58 @@ namespace Pacman
                     ConsoleColor.White, ConsoleColor.DarkBlue);
 
             actionsText.AddComponent(renderActions);
+
+            ////////////////////////////////////////////////////////////////////
+
+            rules = new GameObject("RulesText");
+            rules.AddComponent(new TransformComponent(73, 24));
+
+            RenderableStringComponent renderRules
+                = new RenderableStringComponent(
+                    () => "Rules:",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            rules.AddComponent(renderRules);
+
+            ////////////////////////////////////////////////////////////////////
+
+            rule1 = new GameObject("Rule1");
+            rule1.AddComponent(new TransformComponent(52, 26));
+
+            RenderableStringComponent renderRule1
+                = new RenderableStringComponent(
+                    () => "Pacman must run from ghosts",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            rule1.AddComponent(renderRule1);
+
+            ////////////////////////////////////////////////////////////////////
+
+            rule2 = new GameObject("Rule2");
+            rule2.AddComponent(new TransformComponent(33, 27));
+
+            RenderableStringComponent renderRule2
+                = new RenderableStringComponent(
+                    () => "Pacman can pick power pills and eat the ghosts",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            rule2.AddComponent(renderRule2);
+
+            ////////////////////////////////////////////////////////////////////
+
+            rule3 = new GameObject("Rule3");
+            rule3.AddComponent(new TransformComponent(37, 28));
+
+            RenderableStringComponent renderRule3
+                = new RenderableStringComponent(
+                    () => "Pacman must eat every food to end the game",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            rule3.AddComponent(renderRule3);
         }
 
         /// <summary>
@@ -363,6 +424,10 @@ namespace Pacman
             consoleRenderer.AddGameObject(controlsText);
             consoleRenderer.AddGameObject(movementText);
             consoleRenderer.AddGameObject(actionsText);
+            consoleRenderer.AddGameObject(rules);
+            consoleRenderer.AddGameObject(rule1);
+            consoleRenderer.AddGameObject(rule2);
+            consoleRenderer.AddGameObject(rule3);
         }
     }
 }

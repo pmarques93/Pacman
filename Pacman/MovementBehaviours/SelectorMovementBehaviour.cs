@@ -35,12 +35,12 @@ namespace Pacman
                 switch (keyPressed)
                 {
                     case Direction.Up:
-                        if (transform.Position.Y == 27)
+                        if (transform.Position.Y == 28)
                             transform.Position += new Vector2Int(0, -2);
                         break;
 
                     case Direction.Down:
-                        if (transform.Position.Y == 25)
+                        if (transform.Position.Y == 26)
                             transform.Position += new Vector2Int(0, 2);
                         break;
                 }
@@ -51,11 +51,11 @@ namespace Pacman
         {
             switch (transform.Position.Y)
             {
-                case 25:
+                case 26:
                     sceneChanger.ChangeScene();
                     keyReader.EnterPressed -= EnterPressed;
                     break;
-                case 27:
+                case 28:
                     sceneChanger.sceneHandler.TerminateCurrentScene();
                     keyReader.EnterPressed -= EnterPressed;
                     break;

@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace Pacman
 {
     /// <summary>
@@ -20,25 +19,5 @@ namespace Pacman
         {
             Lives = lives;
         }
-
-        /// <summary>
-        /// Method that runs once on the beggining
-        /// </summary>
-        public override void Start()
-        {
-            if (Lives < 1)
-            {
-                OnEndGame();
-            }
-        }
-
-        /// <summary>
-        /// Method that calls EndGame event
-        /// </summary>
-        protected virtual void OnEndGame()
-            => EndGame?.Invoke();
-
-        public event Action EndGame;
-
     }
 }

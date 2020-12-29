@@ -152,19 +152,5 @@ namespace Pacman
             keyReader.EscapePressed -= sceneHandler.TerminateCurrentScene;
 
         }
-
-        /// <summary>
-        /// Creates a new game.
-        /// Removes a life from pacman.
-        /// </summary>
-        private void CreateNewGame()
-        {
-            FileReader fileReader = new FileReader(Path.lives);
-            byte currentLives = fileReader.ReadLives();
-            FileWriter fileWriter = new FileWriter(Path.lives);
-            fileWriter.CreateLivesText(--currentLives);
-
-            terminate = true;
-        }
     }
 }

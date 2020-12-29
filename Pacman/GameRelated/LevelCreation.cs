@@ -46,7 +46,8 @@ namespace Pacman
         // UI
         private readonly ConsoleScore score;
         private GameObject scoreText;
-        private readonly LivesComponent lives;
+        private LivesComponent lives;
+        //private readonly FileWriter fileWriter;
         private GameObject livesText;
         private FileReader fileReader;
         private SceneHandler sceneHandler;
@@ -64,7 +65,13 @@ namespace Pacman
 
             fileReader = new FileReader(Path.lives);
 
-            lives = new LivesComponent(fileReader.ReadLives());
+
+            //fileWriter = new FileWriter(Path.lives);
+            //fileWriter.CreateLivesText(3);
+            //lives = new LivesComponent(fileReader.ReadLives());
+            lives = new LivesComponent(3);
+
+
             collisions = new Collision(map);
 
             pacmanKeyReader = keyReader;
@@ -128,8 +135,31 @@ namespace Pacman
             LevelScene.AddGameObject(consoleRenderer);
         }
 
+        /// <summary>
+        /// Happens when the game is over
+        /// </summary>
+        private void GameOver()
+        {
+            uint highScore = fileReader.ReadLives();
+            FileWriter fileWriter = new FileWriter(Path.lives);
+
+            sceneHandler.TerminateCurrentScene();
+        }
+
         private void ResetPositions()
         {
+            /*
+            // Reads lives from path and writes new lives
+            uint currentLives = fileReader.ReadLives();
+            FileWriter fileWriter = new FileWriter(Path.lives);
+            fileWriter.CreateLivesText(--currentLives);
+            // Reads lives from that same file
+            lives = new LivesComponent(fileReader.ReadLives());
+            */
+            lives.Lives--;
+
+            if (lives.Lives == 0) GameOver();
+
             map.Map[pacmanMapTransform.Position.X, pacmanMapTransform.Position.Y].Collider.Type &= ~Cell.Pacman;
             pacman.GetComponent<TransformComponent>().Position = new Vector2Int(42, 23);
             pacmanMapTransform.Position = new Vector2Int(14, 23);
@@ -2794,8 +2824,6 @@ namespace Pacman
             // /////////////////////////////////////////////////////////
 
             livesText = new GameObject("Lives Text");
-
-            collisions.GhostCollision += () => lives.Lives--;
 
             livesText.AddComponent(new TransformComponent(0, YSIZE + 1));
 

@@ -12,7 +12,6 @@ namespace Pacman.MovementBehaviours
         protected readonly MapComponent map;
         protected readonly MapTransformComponent mapTransform;
 
-        protected readonly MoveComponent targetMove;
         private readonly Collision collision;
         private int translateModifier;
 
@@ -24,17 +23,16 @@ namespace Pacman.MovementBehaviours
         public GhostTargetMovementBehaviour(Collision collision,
                                     GameObject ghost,
                                     GameObject pacMan,
-                                    MapTransformComponent pacmanMapTransform,
+                                    MapTransformComponent targetMapTransform,
                                     MapTransformComponent mapTransform,
                                     int translateModifier = 1)
         {
             this.collision = collision;
             ghostTransform = ghost.GetComponent<TransformComponent>();
-            targetTransform = pacmanMapTransform;
+            targetTransform = targetMapTransform;
             this.mapTransform = mapTransform;
             this.translateModifier = translateModifier;
             map = pacMan.GetComponent<MapComponent>();
-            targetMove = pacMan.GetComponent<MoveComponent>();
             CurrentDirection = Direction.None;
         }
 

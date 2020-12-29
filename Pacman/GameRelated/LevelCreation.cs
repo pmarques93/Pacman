@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Pacman.Components;
 using Pacman.GameRelated;
 using Pacman.MovementBehaviours.ChaseBehaviour;
+using Pacman.MovementBehaviours.ScatterBehaviour;
 
 namespace Pacman
 {
@@ -133,11 +134,18 @@ namespace Pacman
             pacman.GetComponent<TransformComponent>().Position = new Vector2Int(42, 23);
             pacmanMapTransform.Position = new Vector2Int(14, 23);
 
-            blinky.GetComponent<TransformComponent>().Position = new Vector2Int(21,10);
+            blinky.GetComponent<TransformComponent>().Position = new Vector2Int(21, 10);
             MapTransformComponent blinkyMapTransform = blinky.GetComponent<MapTransformComponent>();
 
             map.Map[blinkyMapTransform.Position.X, blinkyMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
-            blinkyMapTransform.Position = new Vector2Int(7,10);
+            blinkyMapTransform.Position = new Vector2Int(7, 10);
+            blinky.GetComponent<MoveComponent>().AddMovementBehaviour(
+                                            new ScatterMovementBehaviour(
+                                                collisions,
+                                                blinky,
+                                                pacman,
+                                                new MapTransformComponent(1, 1),
+                                                blinkyMapTransform, 3));
         }
 
         /// <summary>

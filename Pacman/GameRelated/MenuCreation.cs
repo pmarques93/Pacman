@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Pacman.Components;
 using Pacman.GameRelated;
+using System.IO;
 
 namespace Pacman
 {
@@ -19,6 +20,8 @@ namespace Pacman
         private GameObject selector;
         private GameObject startText;
         private GameObject quitText;
+        private GameObject highScoreText;
+        private GameObject highScoreNumberText;
         private GameObject controlsText;
         private GameObject movementText;
         private GameObject actionsText;
@@ -142,6 +145,43 @@ namespace Pacman
             quitText.AddComponent(renderQuit);
 
             ////////////////////////////////////////////////////////////////////
+
+            highScoreText = new GameObject("HighScore Text");
+
+            highScoreText.AddComponent(new TransformComponent(6, 20));
+
+            RenderableStringComponent renderHighScoreText
+                = new RenderableStringComponent(
+                    () => $"HighScore:",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            highScoreText.AddComponent(renderHighScoreText);
+
+            ////////////////////////////////////////////////////////////////////
+
+            highScoreNumberText = new GameObject("HighScore Number Text");
+
+            highScoreNumberText.AddComponent(new TransformComponent(6, 22));
+
+            // If file doesn't exist, highscore is 0
+            uint highScore = 0;
+            if (File.Exists(Path.highscore))
+            {
+                FileReader fileReader = new FileReader(Path.highscore);
+                highScore = fileReader.ReadHighScore();
+            }
+
+            RenderableStringComponent renderHighScoreNumberText
+                = new RenderableStringComponent(
+                    () => $"{highScore}",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            highScoreNumberText.AddComponent(renderHighScoreNumberText);
+
+            ////////////////////////////////////////////////////////////////////
+
 
             controlsText = new GameObject("ControlsText");
             controlsText.AddComponent(new TransformComponent(70, 23));
@@ -318,6 +358,8 @@ namespace Pacman
             consoleRenderer.AddGameObject(startText);
             consoleRenderer.AddGameObject(quitText);
             consoleRenderer.AddGameObject(pacmanLogo);
+            consoleRenderer.AddGameObject(highScoreText);
+            consoleRenderer.AddGameObject(highScoreNumberText);
             consoleRenderer.AddGameObject(controlsText);
             consoleRenderer.AddGameObject(movementText);
             consoleRenderer.AddGameObject(actionsText);

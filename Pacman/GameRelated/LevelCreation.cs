@@ -4,6 +4,7 @@ using Pacman.Components;
 using Pacman.GameRelated;
 using Pacman.MovementBehaviours.ChaseBehaviour;
 using Pacman.MovementBehaviours.ScatterBehaviour;
+using System.IO;
 
 namespace Pacman
 {
@@ -44,12 +45,13 @@ namespace Pacman
         private GameObject walls;
 
         // UI
-        private readonly ConsoleScore score;
+        private readonly Score score;
         private GameObject scoreText;
+        private GameObject highScoreText;
         private LivesComponent lives;
-        //private readonly FileWriter fileWriter;
         private GameObject livesText;
-        private FileReader fileReader;
+
+        // Scene
         private SceneHandler sceneHandler;
 
         /// <summary>
@@ -62,21 +64,13 @@ namespace Pacman
                                                 ConsoleColor.DarkBlue);
             map = new MapComponent(XSIZE, YSIZE);
 
-
-            fileReader = new FileReader(Path.lives);
-
-
-            //fileWriter = new FileWriter(Path.lives);
-            //fileWriter.CreateLivesText(3);
-            //lives = new LivesComponent(fileReader.ReadLives());
             lives = new LivesComponent(3);
-
 
             collisions = new Collision(map);
 
             pacmanKeyReader = keyReader;
 
-            consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE + 2,
+            consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE + 3,
                                             backgroundPixel, collisions,
                                             "Console Renderer");
 
@@ -88,7 +82,7 @@ namespace Pacman
 
 
 
-            score = new ConsoleScore(collisions);
+            score = new Score(collisions);
 
             allFoods = new GameObject[246];
 
@@ -137,25 +131,34 @@ namespace Pacman
 
         /// <summary>
         /// Happens when the game is over
+        /// Writes high score and terminates current scene
         /// </summary>
         private void GameOver()
         {
-            uint highScore = fileReader.ReadLives();
-            FileWriter fileWriter = new FileWriter(Path.lives);
+            if (File.Exists(Path.highscore))
+            {
+                FileReader fileReader = new FileReader(Path.highscore);
+                uint highScore = fileReader.ReadHighScore();
 
+                uint.TryParse(score.GetScore, out uint tempScore);
+                if (tempScore > highScore)
+                {
+                    FileWriter fileWriter = new FileWriter(Path.highscore);
+                    fileWriter.CreateHighScoreTXT(tempScore);
+                }
+            }
+            else
+            {
+                FileWriter fileWriter = new FileWriter(Path.highscore);
+                uint.TryParse(score.GetScore, out uint tempScore);
+                fileWriter.CreateHighScoreTXT(tempScore);
+            }
+          
             sceneHandler.TerminateCurrentScene();
         }
 
         private void ResetPositions()
         {
-            /*
-            // Reads lives from path and writes new lives
-            uint currentLives = fileReader.ReadLives();
-            FileWriter fileWriter = new FileWriter(Path.lives);
-            fileWriter.CreateLivesText(--currentLives);
-            // Reads lives from that same file
-            lives = new LivesComponent(fileReader.ReadLives());
-            */
             lives.Lives--;
 
             if (lives.Lives == 0) GameOver();
@@ -2815,17 +2818,39 @@ namespace Pacman
 
             RenderableStringComponent renderScoreText
                 = new RenderableStringComponent(
-                    () => $"Score: {score.Score}",
+                    () => $"Score: {score.GetScore}",
                     i => new Vector2Int(i, 0),
                     ConsoleColor.White, ConsoleColor.DarkBlue);
 
             scoreText.AddComponent(renderScoreText);
 
-            // /////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////
+  
+            highScoreText = new GameObject("HighScore Text");
+
+            highScoreText.AddComponent(new TransformComponent(0, YSIZE + 1));
+
+            // If file doesn't exist, highscore is 0
+            uint highScore = 0;
+            if (File.Exists(Path.highscore))
+            {
+                FileReader fileReader = new FileReader(Path.highscore);
+                highScore = fileReader.ReadHighScore();
+            }
+
+            RenderableStringComponent renderHighScoreText
+                = new RenderableStringComponent(
+                    () => $"HighScore: {highScore}",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            highScoreText.AddComponent(renderHighScoreText);
+
+            ////////////////////////////////////////////////////////////////////
 
             livesText = new GameObject("Lives Text");
 
-            livesText.AddComponent(new TransformComponent(0, YSIZE + 1));
+            livesText.AddComponent(new TransformComponent(0, YSIZE + 2));
 
             RenderableStringComponent renderLivesText
                 = new RenderableStringComponent(
@@ -2897,6 +2922,7 @@ namespace Pacman
             // consoleRenderer.AddGameObject(clyde);
             consoleRenderer.AddGameObject(walls);
             consoleRenderer.AddGameObject(scoreText);
+            consoleRenderer.AddGameObject(highScoreText);
             consoleRenderer.AddGameObject(livesText);
         }
     }

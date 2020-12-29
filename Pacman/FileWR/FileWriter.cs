@@ -19,14 +19,14 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Creates a text file with pacman lives
+        /// Creates a text file with pacman highscore
         /// </summary>
-        /// <param name="lives"></param>
-        public void CreateLivesText(byte lives)
+        /// <param name="highscore"></param>
+        public void CreateHighScoreTXT(uint highscore)
         {
             using (StreamWriter sw = File.CreateText(path))
             {
-                sw.WriteLine($"{lives}");
+                sw.WriteLine($"{highscore}");
             }
         }
     }

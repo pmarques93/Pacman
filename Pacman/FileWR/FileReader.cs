@@ -19,20 +19,20 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Reads lives from lives txt file
+        /// Reads lives from highscore txt file
         /// </summary>
-        /// <returns>Returns a byte with lives</returns>
-        public byte ReadLives()
+        /// <returns>Returns an uint with highscore</returns>
+        public uint ReadHighScore()
         {
-            byte lives = 0;
+            uint highscore = 0;
 
             using (StreamReader sr = File.OpenText(path))
             {
-                byte.TryParse(sr.ReadLine(), out byte result);
-                lives = result;
+                uint.TryParse(sr.ReadLine(), out uint result);
+                highscore = result;
             }
 
-            return lives;
+            return highscore;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace Pacman
 {
@@ -8,8 +7,8 @@ namespace Pacman
     /// </summary>
     public class Path
     {
-        private static string temp = Directory.GetCurrentDirectory();
+        private static string dirPath = Directory.GetCurrentDirectory();
 
-        public static readonly string lives = temp + "/lives.txt";
+        public static readonly string highscore = dirPath + "/highscore.txt";
     }
 }

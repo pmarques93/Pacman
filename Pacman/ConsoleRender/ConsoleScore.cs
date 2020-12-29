@@ -1,11 +1,10 @@
-﻿using System;
-
+﻿
 namespace Pacman
 {
     /// <summary>
     /// Class for ConsoleScore. Implements IGameObject
     /// </summary>
-    class ConsoleScore : IGameObject
+    class Score : IGameObject
     {
         /// <summary>
         /// Property with this class's name
@@ -14,18 +13,18 @@ namespace Pacman
 
         private readonly Collision collisions;
 
-        private ushort score;
+        private uint score;
 
         /// <summary>
         /// Property that returns a string with current score
         /// </summary>
-        public string Score { get => score.ToString(); }
+        public string GetScore { get => score.ToString(); }
 
         /// <summary>
-        /// Constructor for ConsoleScore
+        /// Constructor for Score
         /// </summary>
         /// <param name="collision">Collision parameter</param>
-        public ConsoleScore(Collision collision)
+        public Score(Collision collision)
         {
             collisions = collision;
             score = 0;

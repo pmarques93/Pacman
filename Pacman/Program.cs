@@ -1,4 +1,5 @@
-﻿using Pacman.GameRelated;
+﻿using System;
+using Pacman.GameRelated;
 
 namespace Pacman
 {
@@ -9,12 +10,12 @@ namespace Pacman
             /*LevelCreation level = new LevelCreation();
             level.Create();*/
 
-
+            Random random = new Random();
             KeyReaderComponent keyReader = new KeyReaderComponent();
             SceneHandler sceneHandler = new SceneHandler();
 
 
-            LevelCreation levelCreation = new LevelCreation(keyReader, sceneHandler);
+            LevelCreation levelCreation = new LevelCreation(keyReader, sceneHandler, random);
             sceneHandler.AddScene(levelCreation.LevelScene, "LevelScene");
 
             MenuCreation menuCreation = new MenuCreation(keyReader, sceneHandler);

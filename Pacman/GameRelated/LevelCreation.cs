@@ -5,6 +5,7 @@ using Pacman.GameRelated;
 using Pacman.MovementBehaviours.ChaseBehaviour;
 using Pacman.MovementBehaviours.ScatterBehaviour;
 using System.IO;
+using Pacman.MovementBehaviours;
 
 namespace Pacman
 {
@@ -52,14 +53,14 @@ namespace Pacman
         private LivesComponent lives;
         private GameObject livesText;
         private GameObject sceneChanger;
-
         // Scene
         private SceneHandler sceneHandler;
+        private Random random;
 
         /// <summary>
         /// Constructor for LevelCreation
         /// </summary>
-        public LevelCreation(KeyReaderComponent keyReader, SceneHandler sceneHandler)
+        public LevelCreation(KeyReaderComponent keyReader, SceneHandler sceneHandler, Random random)
         {
             this.sceneHandler = sceneHandler;
             backgroundPixel = new ConsolePixel(' ', ConsoleColor.White,
@@ -81,14 +82,12 @@ namespace Pacman
             LevelScene = new Scene(XSIZE, YSIZE, gameState, pacmanKeyReader,
                                 lives);
 
-
-
-
             score = new Score(collisions);
 
             allFoods = new GameObject[246];
 
             allPowerPills = new GameObject[4];
+            this.random = random;
         }
 
         /// <summary>
@@ -200,13 +199,22 @@ namespace Pacman
 
             map.Map[blinkyMapTransform.Position.X, blinkyMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
             blinkyMapTransform.Position = new Vector2Int(7, 10);
-            blinky.GetComponent<MoveComponent>().AddMovementBehaviour(
-                                            new ScatterMovementBehaviour(
-                                                collisions,
-                                                blinky,
-                                                pacman,
-                                                new MapTransformComponent(1, 1),
-                                                blinkyMapTransform, 3));
+
+            // blinky.GetComponent<MoveComponent>().AddMovementBehaviour(
+            //                                 new FrightenedMovementBehaviour(
+            //                                     collisions,
+            //                                     blinky,
+            //                                     pacman,
+            //                                     new MapTransformComponent(1, 1),
+            //                                     blinkyMapTransform, random, 3));
+
+            // blinky.GetComponent<MoveComponent>().AddMovementBehaviour(
+            //                                 new ScatterMovementBehaviour(
+            //                                     collisions,
+            //                                     blinky,
+            //                                     pacman,
+            //                                     new MapTransformComponent(XSIZE, 1),
+            //                                     blinkyMapTransform, 3));
         }
 
         /// <summary>
@@ -320,6 +328,17 @@ namespace Pacman
                         AddGameObject(new SpawnStruct(blinkyTransform.Position,
                                                       blinkyMapTransform.Position,
                                                       blinky));
+
+            collisions.PowerPillCollision += () =>
+            {
+                blinky.GetComponent<MoveComponent>().AddMovementBehaviour(
+                                                new FrightenedMovementBehaviour(
+                                                    collisions,
+                                                    blinky,
+                                                    pacman,
+                                                    new MapTransformComponent(1, 1),
+                                                    blinkyMapTransform, random, 3));
+            };
 
             char[,] inkySprite =
             {

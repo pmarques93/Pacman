@@ -22,9 +22,8 @@ namespace Pacman.Components
         public void ChangeScene()
         {
             sceneHandler.currentScene.terminate = true;
-            keyReader.quitKeys.Clear();
-            keyReader.quitKeys.Add(System.ConsoleKey.Escape);
             sceneHandler.currentScene = sceneHandler.FindSceneByName(sceneToLoad);
+            sceneHandler.currentScene.terminate = false;
         }
 
     }

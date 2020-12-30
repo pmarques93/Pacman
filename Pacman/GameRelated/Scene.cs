@@ -15,6 +15,7 @@ namespace Pacman
         public readonly byte xdim;
         public readonly byte ydim;
         public bool terminate;
+        public bool unload;
 
         private readonly bool inGame;
 
@@ -43,6 +44,7 @@ namespace Pacman
             this.xdim = xdim;
             this.ydim = ydim;
             terminate = false;
+            unload = false;
             gameObjects = new Dictionary<string, IGameObject>();
             gameObjectsNames = new HashSet<string>();
             this.gameState = gameState;
@@ -108,7 +110,7 @@ namespace Pacman
                 gameObject.Start();
             }
 
-            keyReader.EscapePressed += sceneHandler.TerminateCurrentScene;
+            // keyReader.EscapePressed += sceneHandler.TerminateCurrentScene;
 
             // Executes the Update() method of the GameObjects on the scene
             while (!terminate)
@@ -127,8 +129,7 @@ namespace Pacman
                 {
                     gameObjects[gameObjectsNames.ElementAt(i)].Update();
                 }
-
-
+                
                 // Time to wait until next frame
                 timeToWait = (int)(start / TimeSpan.TicksPerMillisecond
                     + msFramesPerSecond
@@ -144,12 +145,15 @@ namespace Pacman
 
             // Executes the Finish() method of the GameObjects on the scene
             // tearing them down
-            foreach (IGameObject gameObject in gameObjects.Values)
+            if (!unload)
             {
-                gameObject.Finish();
+                foreach (IGameObject gameObject in gameObjects.Values)
+                {
+                    gameObject.Finish();
+                }
             }
 
-            keyReader.EscapePressed -= sceneHandler.TerminateCurrentScene;
+            // keyReader.EscapePressed -= sceneHandler.TerminateCurrentScene;
 
         }
     }

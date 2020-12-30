@@ -16,6 +16,7 @@ namespace Pacman
         /// </summary>
         public string Name { get; }
         private bool cursorVisibleBefore = true;
+        private bool firstFrame;
 
         private ConsolePixel[,] currentFrame, nextFrame;
 
@@ -63,6 +64,7 @@ namespace Pacman
                 }
             }
             inGame = true;
+            firstFrame = true;
         }
 
         /// <summary>
@@ -93,6 +95,7 @@ namespace Pacman
                 }
             }
             inGame = false;
+            firstFrame = true;
         }
 
         /// <summary>
@@ -108,6 +111,7 @@ namespace Pacman
 
             // Render the first frame
             RenderFrame();
+            firstFrame = false;
 
             if (inGame) collisions.FoodCollision += RemoveGameObject;
         }
@@ -191,7 +195,8 @@ namespace Pacman
 
                     // If current pixel is the same as previous pixel, don't
                     // draw it
-                    if (pix.Equals(prevPix)) continue;
+                    if (pix.Equals(prevPix) && !pix.Equals(bgPix))
+                        continue;
 
 
                     bgColor = pix.backgroundColor;

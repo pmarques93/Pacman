@@ -31,6 +31,7 @@ namespace Pacman
         private PacmanMovementBehaviour pacmanMovementBehaviour;
 
         // Ghosts
+        private GameObject spawner;
         private GameObject pinky;
         private GameObject blinky;
         private GameObject inky;
@@ -50,6 +51,7 @@ namespace Pacman
         private GameObject highScoreText;
         private LivesComponent lives;
         private GameObject livesText;
+        private GameObject sceneChanger;
 
         // Scene
         private SceneHandler sceneHandler;
@@ -94,6 +96,19 @@ namespace Pacman
         /// </summary>
         public void GenerateScene()
         {
+
+            sceneChanger = new GameObject("SceneChanger");
+            SceneChangerComponent sceneChangerComponent =
+                     new SceneChangerComponent(pacmanKeyReader,
+                                               LevelScene,
+                                               sceneHandler);
+            sceneChanger.AddComponent(sceneChangerComponent);
+            pacmanKeyReader.EscapePressed += GameOver;
+
+            spawner = new GameObject("Spawner");
+            SpawnerComponent spawnerComponent = new SpawnerComponent();
+            spawner.AddComponent(spawnerComponent);
+
 
             // PACMAN
             PacmanCreation(map);
@@ -153,8 +168,21 @@ namespace Pacman
                 uint.TryParse(score.GetScore, out uint tempScore);
                 fileWriter.CreateHighScoreTXT(tempScore);
             }
-          
-            sceneHandler.TerminateCurrentScene();
+
+            // LevelScene.FindGameObjectByName("Console Renderer").Finish();
+
+            pacmanKeyReader.quitKeys.Clear();
+            pacmanKeyReader.quitKeys.Add(System.ConsoleKey.Enter);
+
+            SceneChangerComponent sceneChangerComponent =
+                sceneChanger.GetComponent<SceneChangerComponent>();
+
+            sceneChangerComponent.sceneToLoad = "MenuScene";
+            Scene sceneToLoad = sceneChangerComponent.sceneHandler.FindSceneByName("MenuScene");
+            sceneChangerComponent.sceneHandler.currentScene.unload = true;
+            sceneChangerComponent.ChangeScene();
+            sceneChangerComponent.sceneHandler.currentScene.unload = false;
+            // sceneHandler.TerminateCurrentScene();
         }
 
         private void ResetPositions()
@@ -213,6 +241,11 @@ namespace Pacman
             pacman.AddComponent(new ConsoleSprite(pacmanSprite,
                                                   ConsoleColor.White,
                                                   ConsoleColor.DarkYellow));
+
+            spawner.GetComponent<SpawnerComponent>().
+                        AddGameObject(new SpawnStruct(pacmanTransform.Position,
+                                                      pacmanMapTransform.Position,
+                                                      pacman));
         }
 
         /// <summary>
@@ -282,6 +315,11 @@ namespace Pacman
             blinky.AddComponent(new ConsoleSprite(blinkySprite,
                                                   ConsoleColor.White,
                                                   ConsoleColor.Red));
+
+            spawner.GetComponent<SpawnerComponent>().
+                        AddGameObject(new SpawnStruct(blinkyTransform.Position,
+                                                      blinkyMapTransform.Position,
+                                                      blinky));
 
             char[,] inkySprite =
             {
@@ -2825,7 +2863,7 @@ namespace Pacman
             scoreText.AddComponent(renderScoreText);
 
             ////////////////////////////////////////////////////////////////////
-  
+
             highScoreText = new GameObject("HighScore Text");
 
             highScoreText.AddComponent(new TransformComponent(0, YSIZE + 1));
@@ -2884,6 +2922,7 @@ namespace Pacman
         /// </summary>
         private void AddGameObjectsToScene()
         {
+            LevelScene.AddGameObject(spawner);
             // LevelScene.AddGameObject(pinky);
             LevelScene.AddGameObject(blinky);
             // LevelScene.AddGameObject(inky);

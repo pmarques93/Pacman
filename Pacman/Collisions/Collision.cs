@@ -84,6 +84,7 @@ namespace Pacman
 
                         CollisionAction(map.Map[x, y].Collider.Type, tempGO);
                         map.Map[x, y].Collider.Type &= ~map.Map[x, y].Collider.Type;
+                        map.Map[x, y].Collider.Type |= Cell.Pacman;
                         return;
                     }
                 }

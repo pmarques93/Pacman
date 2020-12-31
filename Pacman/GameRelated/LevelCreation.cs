@@ -31,6 +31,7 @@ namespace Pacman
         private readonly KeyReaderComponent pacmanKeyReader;
         private MapTransformComponent pacmanMapTransform;
         private PacmanMovementBehaviour pacmanMovementBehaviour;
+        private byte numberOfLives;
 
         // Ghosts
         private GameObject spawner;
@@ -49,6 +50,7 @@ namespace Pacman
         private GameObject[] allFruits;
         private uint fruitName;
         private uint fruitSlot;
+        private uint fruitSpawnTime;
 
         // Walls
         private GameObject walls;
@@ -74,7 +76,8 @@ namespace Pacman
                                                 ConsoleColor.DarkBlue);
             map = new MapComponent(XSIZE, YSIZE);
 
-            lives = new LivesComponent(3);
+            numberOfLives = 3;
+            lives = new LivesComponent(numberOfLives);
 
             collisions = new Collision(map);
 
@@ -137,7 +140,8 @@ namespace Pacman
             // FRUITS
             fruitName = 0;
             fruitSlot = 0;
-            Timer fruitTimer = new Timer(1000);
+            fruitSpawnTime = 15000;
+            Timer fruitTimer = new Timer(fruitSpawnTime);
             fruitTimer.Elapsed += FruitCreation;
             fruitTimer.Enabled = true;
 

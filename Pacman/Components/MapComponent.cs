@@ -68,6 +68,33 @@
             Map[0, 9] = new MapStruct(
                         new TransformComponent(0, 9),
                         new ColliderComponent(Cell.Wall));
+            Map[0, 10] = new MapStruct(
+                        new TransformComponent(0, 10),
+                        new ColliderComponent(Cell.Wall));
+            Map[0, 11] = new MapStruct(
+                        new TransformComponent(0, 11),
+                        new ColliderComponent(Cell.Wall));
+            Map[0, 12] = new MapStruct(
+                        new TransformComponent(0, 12),
+                        new ColliderComponent(Cell.Wall));
+            Map[0, 13] = new MapStruct(
+                        new TransformComponent(0, 13),
+                        new ColliderComponent(Cell.Wall));
+            Map[0, 14] = new MapStruct(
+                        new TransformComponent(0, 14),
+                        new ColliderComponent(Cell.Wall));
+            Map[0, 15] = new MapStruct(
+                        new TransformComponent(0, 15),
+                        new ColliderComponent(Cell.Wall));
+            Map[0, 16] = new MapStruct(
+                        new TransformComponent(0, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[0, 17] = new MapStruct(
+                        new TransformComponent(0, 17),
+                        new ColliderComponent(Cell.Wall));
+            Map[0, 18] = new MapStruct(
+                        new TransformComponent(0, 18),
+                        new ColliderComponent(Cell.Wall));
             Map[0, 19] = new MapStruct(
                         new TransformComponent(0, 19),
                         new ColliderComponent(Cell.Wall));
@@ -111,6 +138,33 @@
             Map[1, 9] = new MapStruct(
                         new TransformComponent(1, 9),
                         new ColliderComponent(Cell.Wall));
+            Map[1, 10] = new MapStruct(
+                        new TransformComponent(1, 10),
+                        new ColliderComponent(Cell.Wall));
+            Map[1, 11] = new MapStruct(
+                        new TransformComponent(1, 11),
+                        new ColliderComponent(Cell.Wall));
+            Map[1, 12] = new MapStruct(
+                        new TransformComponent(1, 12),
+                        new ColliderComponent(Cell.Wall));
+            Map[1, 13] = new MapStruct(
+                        new TransformComponent(1, 13),
+                        new ColliderComponent(Cell.Wall));
+            Map[1, 14] = new MapStruct(
+                        new TransformComponent(1, 14),
+                        new ColliderComponent(Cell.Wall));
+            Map[1, 15] = new MapStruct(
+                        new TransformComponent(1, 15),
+                        new ColliderComponent(Cell.Wall));
+            Map[1, 16] = new MapStruct(
+                        new TransformComponent(1, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[1, 17] = new MapStruct(
+                        new TransformComponent(1, 17),
+                        new ColliderComponent(Cell.Wall));
+            Map[1, 18] = new MapStruct(
+                        new TransformComponent(1, 18),
+                        new ColliderComponent(Cell.Wall));
             Map[1, 19] = new MapStruct(
                         new TransformComponent(1, 19),
                         new ColliderComponent(Cell.Wall));
@@ -144,6 +198,33 @@
                         new ColliderComponent(Cell.Wall));
             Map[2, 9] = new MapStruct(
                         new TransformComponent(2, 9),
+                        new ColliderComponent(Cell.Wall));
+            Map[2, 10] = new MapStruct(
+                        new TransformComponent(2, 10),
+                        new ColliderComponent(Cell.Wall));
+            Map[2, 11] = new MapStruct(
+                        new TransformComponent(2, 11),
+                        new ColliderComponent(Cell.Wall));
+            Map[2, 12] = new MapStruct(
+                        new TransformComponent(2, 12),
+                        new ColliderComponent(Cell.Wall));
+            Map[2, 13] = new MapStruct(
+                        new TransformComponent(2, 13),
+                        new ColliderComponent(Cell.Wall));
+            Map[2, 14] = new MapStruct(
+                        new TransformComponent(2, 14),
+                        new ColliderComponent(Cell.Wall));
+            Map[2, 15] = new MapStruct(
+                        new TransformComponent(2, 15),
+                        new ColliderComponent(Cell.Wall));
+            Map[2, 16] = new MapStruct(
+                        new TransformComponent(2, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[2, 17] = new MapStruct(
+                        new TransformComponent(2, 17),
+                        new ColliderComponent(Cell.Wall));
+            Map[2, 18] = new MapStruct(
+                        new TransformComponent(2, 18),
                         new ColliderComponent(Cell.Wall));
             Map[2, 19] = new MapStruct(
                         new TransformComponent(2, 19),
@@ -191,6 +272,33 @@
             Map[3, 9] = new MapStruct(
                         new TransformComponent(3, 9),
                         new ColliderComponent(Cell.Wall));
+            Map[3, 10] = new MapStruct(
+                        new TransformComponent(3, 10),
+                        new ColliderComponent(Cell.Wall));
+            Map[3, 11] = new MapStruct(
+                        new TransformComponent(3, 11),
+                        new ColliderComponent(Cell.Wall));
+            Map[3, 12] = new MapStruct(
+                        new TransformComponent(3, 12),
+                        new ColliderComponent(Cell.Wall));
+            Map[3, 13] = new MapStruct(
+                        new TransformComponent(3, 13),
+                        new ColliderComponent(Cell.Wall));
+            Map[3, 14] = new MapStruct(
+                        new TransformComponent(3, 14),
+                        new ColliderComponent(Cell.Wall));
+            Map[3, 15] = new MapStruct(
+                        new TransformComponent(3, 15),
+                        new ColliderComponent(Cell.Wall));
+            Map[3, 16] = new MapStruct(
+                        new TransformComponent(3, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[3, 17] = new MapStruct(
+                        new TransformComponent(3, 17),
+                        new ColliderComponent(Cell.Wall));
+            Map[3, 18] = new MapStruct(
+                        new TransformComponent(3, 18),
+                        new ColliderComponent(Cell.Wall));
             Map[3, 19] = new MapStruct(
                         new TransformComponent(3, 19),
                         new ColliderComponent(Cell.Wall));
@@ -230,6 +338,33 @@
                         new ColliderComponent(Cell.Wall));
             Map[4, 9] = new MapStruct(
                         new TransformComponent(4, 9),
+                        new ColliderComponent(Cell.Wall));
+            Map[4, 10] = new MapStruct(
+                        new TransformComponent(4, 10),
+                        new ColliderComponent(Cell.Wall));
+            Map[4, 11] = new MapStruct(
+                        new TransformComponent(4, 11),
+                        new ColliderComponent(Cell.Wall));
+            Map[4, 12] = new MapStruct(
+                        new TransformComponent(4, 12),
+                        new ColliderComponent(Cell.Wall));
+            Map[4, 13] = new MapStruct(
+                        new TransformComponent(4, 13),
+                        new ColliderComponent(Cell.Wall));
+            Map[4, 14] = new MapStruct(
+                        new TransformComponent(4, 14),
+                        new ColliderComponent(Cell.Wall));
+            Map[4, 15] = new MapStruct(
+                        new TransformComponent(4, 15),
+                        new ColliderComponent(Cell.Wall));
+            Map[4, 16] = new MapStruct(
+                        new TransformComponent(4, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[4, 17] = new MapStruct(
+                        new TransformComponent(4, 17),
+                        new ColliderComponent(Cell.Wall));
+            Map[4, 18] = new MapStruct(
+                        new TransformComponent(4, 18),
                         new ColliderComponent(Cell.Wall));
             Map[4, 19] = new MapStruct(
                         new TransformComponent(4, 19),
@@ -1298,6 +1433,33 @@
             Map[23, 9] = new MapStruct(
                         new TransformComponent(23, 9),
                         new ColliderComponent(Cell.Wall));
+            Map[23, 10] = new MapStruct(
+                        new TransformComponent(23, 10),
+                        new ColliderComponent(Cell.Wall));
+            Map[23, 11] = new MapStruct(
+                        new TransformComponent(23, 11),
+                        new ColliderComponent(Cell.Wall));
+            Map[23, 12] = new MapStruct(
+                        new TransformComponent(23, 12),
+                        new ColliderComponent(Cell.Wall));
+            Map[23, 13] = new MapStruct(
+                        new TransformComponent(23, 13),
+                        new ColliderComponent(Cell.Wall));
+            Map[23, 14] = new MapStruct(
+                        new TransformComponent(23, 14),
+                        new ColliderComponent(Cell.Wall));
+            Map[23, 15] = new MapStruct(
+                        new TransformComponent(23, 15),
+                        new ColliderComponent(Cell.Wall));
+            Map[23, 16] = new MapStruct(
+                        new TransformComponent(23, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[23, 17] = new MapStruct(
+                        new TransformComponent(23, 17),
+                        new ColliderComponent(Cell.Wall));
+            Map[23, 18] = new MapStruct(
+                        new TransformComponent(23, 18),
+                        new ColliderComponent(Cell.Wall));
             Map[23, 19] = new MapStruct(
                         new TransformComponent(23, 19),
                         new ColliderComponent(Cell.Wall));
@@ -1348,6 +1510,33 @@
             Map[24, 9] = new MapStruct(
                         new TransformComponent(24, 9),
                         new ColliderComponent(Cell.Wall));
+            Map[24, 10] = new MapStruct(
+                        new TransformComponent(24, 10),
+                        new ColliderComponent(Cell.Wall));
+            Map[24, 11] = new MapStruct(
+                        new TransformComponent(24, 11),
+                        new ColliderComponent(Cell.Wall));
+            Map[24, 12] = new MapStruct(
+                        new TransformComponent(24, 12),
+                        new ColliderComponent(Cell.Wall));
+            Map[24, 13] = new MapStruct(
+                        new TransformComponent(24, 13),
+                        new ColliderComponent(Cell.Wall));
+            Map[24, 14] = new MapStruct(
+                        new TransformComponent(24, 14),
+                        new ColliderComponent(Cell.Wall));
+            Map[24, 15] = new MapStruct(
+                        new TransformComponent(24, 15),
+                        new ColliderComponent(Cell.Wall));
+            Map[24, 16] = new MapStruct(
+                        new TransformComponent(24, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[24, 17] = new MapStruct(
+                        new TransformComponent(24, 17),
+                        new ColliderComponent(Cell.Wall));
+            Map[24, 18] = new MapStruct(
+                        new TransformComponent(24, 18),
+                        new ColliderComponent(Cell.Wall));
             Map[24, 19] = new MapStruct(
                         new TransformComponent(24, 19),
                         new ColliderComponent(Cell.Wall));
@@ -1389,6 +1578,33 @@
             Map[25, 9] = new MapStruct(
                         new TransformComponent(25, 9),
                         new ColliderComponent(Cell.Wall));
+            Map[25, 10] = new MapStruct(
+                        new TransformComponent(25, 10),
+                        new ColliderComponent(Cell.Wall));
+            Map[25, 11] = new MapStruct(
+                        new TransformComponent(25, 11),
+                        new ColliderComponent(Cell.Wall));
+            Map[25, 12] = new MapStruct(
+                        new TransformComponent(25, 12),
+                        new ColliderComponent(Cell.Wall));
+            Map[25, 13] = new MapStruct(
+                        new TransformComponent(25, 13),
+                        new ColliderComponent(Cell.Wall));
+            Map[25, 14] = new MapStruct(
+                        new TransformComponent(25, 14),
+                        new ColliderComponent(Cell.Wall));
+            Map[25, 15] = new MapStruct(
+                        new TransformComponent(25, 15),
+                        new ColliderComponent(Cell.Wall));
+            Map[25, 16] = new MapStruct(
+                        new TransformComponent(25, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[25, 17] = new MapStruct(
+                        new TransformComponent(25, 17),
+                        new ColliderComponent(Cell.Wall));
+            Map[25, 18] = new MapStruct(
+                        new TransformComponent(25, 18),
+                        new ColliderComponent(Cell.Wall));
             Map[25, 19] = new MapStruct(
                         new TransformComponent(25, 19),
                         new ColliderComponent(Cell.Wall));
@@ -1419,6 +1635,33 @@
                         new ColliderComponent(Cell.Wall));
             Map[26, 9] = new MapStruct(
                         new TransformComponent(26, 9),
+                        new ColliderComponent(Cell.Wall));
+            Map[26, 10] = new MapStruct(
+                        new TransformComponent(26, 10),
+                        new ColliderComponent(Cell.Wall));
+            Map[26, 11] = new MapStruct(
+                        new TransformComponent(26, 11),
+                        new ColliderComponent(Cell.Wall));
+            Map[26, 12] = new MapStruct(
+                        new TransformComponent(26, 12),
+                        new ColliderComponent(Cell.Wall));
+            Map[26, 13] = new MapStruct(
+                        new TransformComponent(26, 13),
+                        new ColliderComponent(Cell.Wall));
+            Map[26, 14] = new MapStruct(
+                        new TransformComponent(26, 14),
+                        new ColliderComponent(Cell.Wall));
+            Map[26, 15] = new MapStruct(
+                        new TransformComponent(26, 15),
+                        new ColliderComponent(Cell.Wall));
+            Map[26, 16] = new MapStruct(
+                        new TransformComponent(26, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[26, 17] = new MapStruct(
+                        new TransformComponent(26, 17),
+                        new ColliderComponent(Cell.Wall));
+            Map[26, 18] = new MapStruct(
+                        new TransformComponent(26, 18),
                         new ColliderComponent(Cell.Wall));
             Map[26, 19] = new MapStruct(
                         new TransformComponent(26, 19),
@@ -1464,6 +1707,33 @@
             Map[27, 9] = new MapStruct(
                         new TransformComponent(27, 9),
                         new ColliderComponent(Cell.Wall));
+            Map[27, 10] = new MapStruct(
+                        new TransformComponent(27, 10),
+                        new ColliderComponent(Cell.Wall));
+            Map[27, 11] = new MapStruct(
+                        new TransformComponent(27, 11),
+                        new ColliderComponent(Cell.Wall));
+            Map[27, 12] = new MapStruct(
+                        new TransformComponent(27, 12),
+                        new ColliderComponent(Cell.Wall));
+            Map[27, 13] = new MapStruct(
+                        new TransformComponent(27, 13),
+                        new ColliderComponent(Cell.Wall));
+            Map[27, 14] = new MapStruct(
+                        new TransformComponent(27, 14),
+                        new ColliderComponent(Cell.Wall));
+            Map[27, 15] = new MapStruct(
+                        new TransformComponent(27, 15),
+                        new ColliderComponent(Cell.Wall));
+            Map[27, 16] = new MapStruct(
+                        new TransformComponent(27, 16),
+                        new ColliderComponent(Cell.Wall));
+            Map[27, 17] = new MapStruct(
+                        new TransformComponent(27, 17),
+                        new ColliderComponent(Cell.Wall));
+            Map[27, 18] = new MapStruct(
+                        new TransformComponent(27, 18),
+                        new ColliderComponent(Cell.Wall));
             Map[27, 19] = new MapStruct(
                         new TransformComponent(27, 19),
                         new ColliderComponent(Cell.Wall));
@@ -1500,8 +1770,6 @@
             Map[27, 30] = new MapStruct(
                         new TransformComponent(27, 30),
                         new ColliderComponent(Cell.Wall));
-
-
         }
     }
 }

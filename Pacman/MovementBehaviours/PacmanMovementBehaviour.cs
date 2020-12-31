@@ -63,7 +63,7 @@ namespace Pacman
         public void Movement(int xMax, int yMax)
         {
             Direction keyPressed = keyReader.Direction;
-
+            
             // When the user presses a key, pacman changes direction
             if (keyPressed != Direction.None && keyPressed != previousDirection)
                 pacmanDirection = keyPressed;

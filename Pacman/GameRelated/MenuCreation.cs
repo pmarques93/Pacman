@@ -9,7 +9,7 @@ namespace Pacman
     class MenuCreation
     {
         private const byte XSIZE = 28;
-        private const byte YSIZE = 31;
+        private const byte YSIZE = 39;
 
         private readonly ConsolePixel backgroundPixel;
         private readonly ConsoleRenderer consoleRenderer;
@@ -30,12 +30,17 @@ namespace Pacman
         private GameObject rule1;
         private GameObject rule2;
         private GameObject rule3;
+        private GameObject icons;
+        private GameObject icon1;
+        private GameObject icon2;
+        private GameObject icon3;
+        private GameObject icon4;
+        private GameObject icon5;
+
         private GameObject pacmanLogo;
 
         // Scene
         private SceneHandler sceneHandler;
-
-        
 
         public MenuCreation(KeyReaderComponent keyReader, SceneHandler sceneHandler)
         {
@@ -107,11 +112,11 @@ namespace Pacman
             selector = new GameObject("Selector");
             char[,] selectorSprite = { { '-' }, { '-' }, { '>' }, };
 
-            MapComponent map = new MapComponent(28, 31);
+            MapComponent map = new MapComponent(XSIZE, YSIZE);
             MoveComponent selectorMovement = new MoveComponent();
 
             selector.AddComponent(keyReader);
-            selector.AddComponent(new TransformComponent(2, 26));
+            selector.AddComponent(new TransformComponent(2, 34));
             selector.AddComponent(selectorMovement);
             selector.AddComponent(map);
             selector.AddComponent(new ConsoleSprite(selectorSprite,
@@ -130,20 +135,20 @@ namespace Pacman
             ////////////////////////////////////////////////////////////////////
 
             startText = new GameObject("Start Game");
-            startText.AddComponent(new TransformComponent(6, 26));
+            startText.AddComponent(new TransformComponent(6, 34));
 
             RenderableStringComponent renderStartGame
                 = new RenderableStringComponent(
                     () => "START GAME",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.Yellow, ConsoleColor.DarkBlue);
 
             startText.AddComponent(renderStartGame);
 
             ////////////////////////////////////////////////////////////////////
 
             quitText = new GameObject("Quit");
-            quitText.AddComponent(new TransformComponent(6, 28));
+            quitText.AddComponent(new TransformComponent(6, 36));
 
             RenderableStringComponent renderQuit
                 = new RenderableStringComponent(
@@ -157,7 +162,7 @@ namespace Pacman
 
             highScoreText = new GameObject("HighScore Text");
 
-            highScoreText.AddComponent(new TransformComponent(6, 20));
+            highScoreText.AddComponent(new TransformComponent(6, 28));
 
             RenderableStringComponent renderHighScoreText
                 = new RenderableStringComponent(
@@ -171,7 +176,7 @@ namespace Pacman
 
             highScoreNumberText = new GameObject("HighScore Number Text");
 
-            highScoreNumberText.AddComponent(new TransformComponent(6, 22));
+            highScoreNumberText.AddComponent(new TransformComponent(6, 30));
 
             // If file doesn't exist, highscore is 0
             uint highScore = 0;
@@ -193,7 +198,7 @@ namespace Pacman
 
 
             controlsText = new GameObject("ControlsText");
-            controlsText.AddComponent(new TransformComponent(70, 18));
+            controlsText.AddComponent(new TransformComponent(70, 19));
 
             RenderableStringComponent renderControls
                 = new RenderableStringComponent(
@@ -206,7 +211,7 @@ namespace Pacman
             ////////////////////////////////////////////////////////////////////
 
             movementText = new GameObject("MovementText");
-            movementText.AddComponent(new TransformComponent(54, 20));
+            movementText.AddComponent(new TransformComponent(54, 21));
 
             RenderableStringComponent renderMovement
                 = new RenderableStringComponent(
@@ -219,7 +224,7 @@ namespace Pacman
             ////////////////////////////////////////////////////////////////////
 
             actionsText = new GameObject("ActionsText");
-            actionsText.AddComponent(new TransformComponent(50, 21));
+            actionsText.AddComponent(new TransformComponent(50, 22));
 
             RenderableStringComponent renderActions
                 = new RenderableStringComponent(
@@ -280,6 +285,84 @@ namespace Pacman
                     ConsoleColor.White, ConsoleColor.DarkBlue);
 
             rule3.AddComponent(renderRule3);
+
+            ////////////////////////////////////////////////////////////////////
+
+            icons = new GameObject("Icons");
+            icons.AddComponent(new TransformComponent(73, 30));
+
+            RenderableStringComponent renderIcons
+                = new RenderableStringComponent(
+                    () => "Icons:",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            icons.AddComponent(renderIcons);
+
+            ////////////////////////////////////////////////////////////////////
+
+            icon1 = new GameObject("Icon1");
+            icon1.AddComponent(new TransformComponent(68, 32));
+
+            RenderableStringComponent renderIcon1
+                = new RenderableStringComponent(
+                    () => "P -> Pacman",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            icon1.AddComponent(renderIcon1);
+
+            ////////////////////////////////////////////////////////////////////
+
+            icon2 = new GameObject("Icon2");
+            icon2.AddComponent(new TransformComponent(54, 33));
+
+            RenderableStringComponent renderIcon2
+                = new RenderableStringComponent(
+                    () => "Colored Squares -> Ghosts",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            icon2.AddComponent(renderIcon2);
+
+            ////////////////////////////////////////////////////////////////////
+
+            icon3 = new GameObject("Icon3");
+            icon3.AddComponent(new TransformComponent(68, 34));
+
+            RenderableStringComponent renderIcon3
+                = new RenderableStringComponent(
+                    () => "F -> Fruits",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            icon3.AddComponent(renderIcon3);
+
+            ////////////////////////////////////////////////////////////////////
+
+            icon4 = new GameObject("Icon4");
+            icon4.AddComponent(new TransformComponent(62, 35));
+
+            RenderableStringComponent renderIcon4
+                = new RenderableStringComponent(
+                    () => "PUP -> Power Pill",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            icon4.AddComponent(renderIcon4);
+
+            ////////////////////////////////////////////////////////////////////
+
+            icon5 = new GameObject("Icon5");
+            icon5.AddComponent(new TransformComponent(70, 36));
+
+            RenderableStringComponent renderIcon5
+                = new RenderableStringComponent(
+                    () => ". -> Food",
+                    i => new Vector2Int(i, 0),
+                    ConsoleColor.White, ConsoleColor.DarkBlue);
+
+            icon5.AddComponent(renderIcon5);
         }
 
         /// <summary>
@@ -428,6 +511,12 @@ namespace Pacman
             consoleRenderer.AddGameObject(rule1);
             consoleRenderer.AddGameObject(rule2);
             consoleRenderer.AddGameObject(rule3);
+            consoleRenderer.AddGameObject(icons);
+            consoleRenderer.AddGameObject(icon1);
+            consoleRenderer.AddGameObject(icon2);
+            consoleRenderer.AddGameObject(icon3);
+            consoleRenderer.AddGameObject(icon4);
+            consoleRenderer.AddGameObject(icon5);
         }
     }
 }

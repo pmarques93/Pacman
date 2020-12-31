@@ -103,7 +103,7 @@ namespace Pacman
             {
                 OnFoodCollision(collision);
                 RemoveGameObject(collision);
-                OnScoreCollision(250);
+                OnScoreCollision(100);
             }
             else if (collisionType.HasFlag(Cell.Food))
             {

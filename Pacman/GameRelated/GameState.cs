@@ -48,7 +48,7 @@ namespace Pacman
 
 
         /// <summary>
-        /// On Ghost Chase collision method. Triggers terminate on scene
+        /// On Ghost Chase collision method. Calls GhostChaseCollision event
         /// </summary>
         private void OnGhostChaseCollision()
             => GhostChaseCollision?.Invoke();

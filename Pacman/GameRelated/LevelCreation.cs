@@ -6,6 +6,7 @@ using Pacman.MovementBehaviours.ChaseBehaviour;
 using Pacman.MovementBehaviours.ScatterBehaviour;
 using System.IO;
 using Pacman.MovementBehaviours;
+using System.Timers;
 
 namespace Pacman
 {
@@ -30,6 +31,7 @@ namespace Pacman
         private readonly KeyReaderComponent pacmanKeyReader;
         private MapTransformComponent pacmanMapTransform;
         private PacmanMovementBehaviour pacmanMovementBehaviour;
+        private byte numberOfLives;
 
         // Ghosts
         private GameObject spawner;
@@ -37,11 +39,19 @@ namespace Pacman
         private GameObject blinky;
         private GameObject inky;
         private GameObject clyde;
+
         // Foods
         private GameObject[] allFoods;
 
         // Powerpills
         private GameObject[] allPowerPills;
+
+        // Fruits
+        Timer fruitTimer;
+        private GameObject[] allFruits;
+        private uint fruitName;
+        private uint fruitSlot;
+        private uint fruitSpawnTime;
 
         // Walls
         private GameObject walls;
@@ -67,7 +77,8 @@ namespace Pacman
                                                 ConsoleColor.DarkBlue);
             map = new MapComponent(XSIZE, YSIZE);
 
-            lives = new LivesComponent(3);
+            numberOfLives = 3;
+            lives = new LivesComponent(numberOfLives);
 
             collisions = new Collision(map);
 
@@ -87,6 +98,9 @@ namespace Pacman
             allFoods = new GameObject[246];
 
             allPowerPills = new GameObject[4];
+
+            allFruits = new GameObject[1];
+
             this.random = random;
         }
 
@@ -115,15 +129,20 @@ namespace Pacman
             // GHOST
             GhostCreation(map);
 
-            // FOOD
+            // WALLS
             WallCreation(map);
 
+            // FOOD
             FoodCreation();
 
             // POWERPILLS
             PowerPillsCreation();
 
-            // WALLS
+            // FRUITS
+            fruitName = 0;
+            fruitSlot = 0;
+            fruitSpawnTime = 15000;
+            FruitTimerCreation();
 
             // UI
             UICreation();
@@ -150,6 +169,9 @@ namespace Pacman
         /// </summary>
         private void GameOver()
         {
+            fruitTimer.Elapsed -= FruitCreation;
+            fruitTimer.Dispose();
+
             if (File.Exists(Path.highscore))
             {
                 FileReader fileReader = new FileReader(Path.highscore);
@@ -185,6 +207,9 @@ namespace Pacman
             // sceneHandler.TerminateCurrentScene();
         }
 
+        /// <summary>
+        /// Resets pacman position
+        /// </summary>
         private void ResetPositions()
         {
             lives.Lives--;
@@ -224,7 +249,7 @@ namespace Pacman
         /// <param name="map">Map reference to the game map</param>
         private void PacmanCreation(MapComponent map)
         {
-            char[,] pacmanSprite = { { ' ' }, { 'C' }, { ' ' }, };
+            char[,] pacmanSprite = { { ' ' }, { 'P' }, { ' ' }, };
             pacman = new GameObject("Pacman");
             // Components ///////////////////////////////////
             TransformComponent pacmanTransform = new TransformComponent(42, 23);
@@ -248,8 +273,8 @@ namespace Pacman
             pacmanMovement.AddMovementBehaviour(pacmanMovementBehaviour);
 
             pacman.AddComponent(new ConsoleSprite(pacmanSprite,
-                                                  ConsoleColor.White,
-                                                  ConsoleColor.DarkYellow));
+                                                  ConsoleColor.Yellow,
+                                                  ConsoleColor.DarkBlue));
 
             spawner.GetComponent<SpawnerComponent>().
                         AddGameObject(new SpawnStruct(pacmanTransform.Position,
@@ -266,7 +291,7 @@ namespace Pacman
             char[,] pinkySprite =
             {
                 {' '},
-                {' '},
+                {'P'},
                 {' '}
             };
             pinky = new GameObject("pinky");
@@ -297,7 +322,7 @@ namespace Pacman
             char[,] blinkySprite =
             {
                 {' '},
-                {' '},
+                {'B'},
                 {' '}
             };
             blinky = new GameObject("blinky");
@@ -344,7 +369,7 @@ namespace Pacman
             char[,] inkySprite =
             {
                 {' '},
-                {' '},
+                {'I'},
                 {' '}
             };
             inky = new GameObject("inky");
@@ -376,7 +401,7 @@ namespace Pacman
             char[,] clydeSprite =
             {
                 {' '},
-                {' '},
+                {'C'},
                 {' '}
             };
             clyde = new GameObject("clyde");
@@ -402,7 +427,17 @@ namespace Pacman
 
             clyde.AddComponent(new ConsoleSprite(clydeSprite,
                                                   ConsoleColor.DarkBlue,
-                                                  ConsoleColor.Yellow));
+                                                  ConsoleColor.DarkYellow));
+        }
+
+        /// <summary>
+        /// Creates timer for fruits
+        /// </summary>
+        private void FruitTimerCreation()
+        {
+            fruitTimer = new Timer(fruitSpawnTime);
+            fruitTimer.Elapsed += FruitCreation;
+            fruitTimer.Enabled = true;
         }
 
         /// <summary>
@@ -2744,10 +2779,60 @@ namespace Pacman
             #endregion
         }
 
+        /// <summary>
+        /// Creates a fruit in a random position
+        /// </summary>
+        /// <param name="source">Source</param>
+        /// <param name="e">Elapsed event arguments</param>
+        private void FruitCreation(object source, ElapsedEventArgs e)
+        {
+            // Creates a random position
+            int randX = random.Next(1, XSIZE-1);
+            int randY = random.Next(1, YSIZE -1);
+
+            // If the position is free to spawn a fruit
+            if (map.Map[randX, randY].Collider.Type != Cell.Ghost &&
+                map.Map[randX, randY].Collider.Type != Cell.Pacman &&
+                map.Map[randX, randY].Collider.Type != Cell.Fruit &&
+                map.Map[randX, randY].Collider.Type != Cell.PowerPill &&
+                map.Map[randX, randY].Collider.Type != Cell.Wall)
+            {
+                allFruits[fruitSlot] = new GameObject($"Fruit{fruitName}");
+                char[,] fruitSprite = { { ' ' }, { 'F' }, { ' ' }, };
+                TransformComponent fruitTransform = new TransformComponent(randX * 3, randY);
+                MapTransformComponent fruitMapTransform = new MapTransformComponent(randX, randY);
+                map.Map[fruitMapTransform.Position.X, fruitMapTransform.Position.Y].Collider.Type |= Cell.Fruit;
+                ColliderComponent fruitCollider = new ColliderComponent(Cell.Fruit);
+                allFruits[fruitSlot].AddComponent(fruitTransform);
+                allFruits[fruitSlot].AddComponent(fruitMapTransform);
+                allFruits[fruitSlot].AddComponent(fruitCollider);
+                allFruits[fruitSlot].AddComponent(new ConsoleSprite(
+                    fruitSprite, ConsoleColor.White, ConsoleColor.DarkBlue));
+
+                // Adds fruit
+                collisions.AddGameObject(allFruits[fruitSlot]);
+                LevelScene.AddGameObject(allFruits[fruitSlot]);
+                consoleRenderer.AddGameObject(allFruits[fruitSlot]);
+
+                fruitName++;
+                fruitSlot++;
+
+                allFruits = new GameObject[fruitSlot + 1];
+            }
+            else
+            {
+                // Finds a new position
+                FruitCreation(source, e);
+            }
+        }
+
+        /// <summary>
+        /// Creates power pills
+        /// </summary>
         private void PowerPillsCreation()
         {
             allPowerPills[0] = new GameObject("PowerPill1");
-            char[,] powerPill0Sprite = { { ' ' }, { ' ' }, { ' ' }, };
+            char[,] powerPill0Sprite = { { 'P' }, { 'U' }, { 'P' }, };
             TransformComponent powerPill0Transform =
                 new TransformComponent(3, 3);
             MapTransformComponent powerPill0MapTransform =
@@ -2763,11 +2848,11 @@ namespace Pacman
             allPowerPills[0].AddComponent(powerPill0Transform);
             allPowerPills[0].AddComponent(powerPill0Collider);
             allPowerPills[0].AddComponent(new ConsoleSprite(
-                powerPill0Sprite, ConsoleColor.White, ConsoleColor.White));
+                powerPill0Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
             /////////////////
             allPowerPills[1] = new GameObject("PowerPill2");
-            char[,] powerPill1Sprite = { { ' ' }, { ' ' }, { ' ' }, };
+            char[,] powerPill1Sprite = { { 'P' }, { 'U' }, { 'P' }, };
             TransformComponent powerPill1Transform =
                 new TransformComponent(78, 3);
             MapTransformComponent powerPill1MapTransform =
@@ -2783,11 +2868,11 @@ namespace Pacman
             allPowerPills[1].AddComponent(powerPill1MapTransform);
             allPowerPills[1].AddComponent(powerPill1Collider);
             allPowerPills[1].AddComponent(new ConsoleSprite(
-                powerPill1Sprite, ConsoleColor.White, ConsoleColor.White));
+                powerPill1Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
             /////////////////
             allPowerPills[2] = new GameObject("PowerPill3");
-            char[,] powerPill2Sprite = { { ' ' }, { ' ' }, { ' ' }, };
+            char[,] powerPill2Sprite = { { 'P' }, { 'U' }, { 'P' }, };
             TransformComponent powerPill2Transform =
                 new TransformComponent(3, 23);
 
@@ -2804,11 +2889,11 @@ namespace Pacman
             allPowerPills[2].AddComponent(powerPill2MapTransform);
             allPowerPills[2].AddComponent(powerPill2Collider);
             allPowerPills[2].AddComponent(new ConsoleSprite(
-                powerPill2Sprite, ConsoleColor.White, ConsoleColor.White));
+                powerPill2Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
             /////////////////
             allPowerPills[3] = new GameObject("PowerPill4");
-            char[,] powerPill3Sprite = { { ' ' }, { ' ' }, { ' ' }, };
+            char[,] powerPill3Sprite = { { 'P' }, { 'U' }, { 'P' }, };
             TransformComponent powerPill3Transform =
                 new TransformComponent(78, 23);
 
@@ -2824,7 +2909,7 @@ namespace Pacman
             allPowerPills[3].AddComponent(powerPill3MapTransform);
             allPowerPills[3].AddComponent(powerPill3Collider);
             allPowerPills[3].AddComponent(new ConsoleSprite(
-                powerPill3Sprite, ConsoleColor.White, ConsoleColor.White));
+                powerPill3Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
         }
 
         /// <summary>

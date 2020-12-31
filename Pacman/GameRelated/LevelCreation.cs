@@ -246,7 +246,7 @@ namespace Pacman
         /// <param name="map">Map reference to the game map</param>
         private void PacmanCreation(MapComponent map)
         {
-            char[,] pacmanSprite = { { ' ' }, { 'C' }, { ' ' }, };
+            char[,] pacmanSprite = { { ' ' }, { 'P' }, { ' ' }, };
             pacman = new GameObject("Pacman");
             // Components ///////////////////////////////////
             TransformComponent pacmanTransform = new TransformComponent(42, 23);
@@ -270,8 +270,8 @@ namespace Pacman
             pacmanMovement.AddMovementBehaviour(pacmanMovementBehaviour);
 
             pacman.AddComponent(new ConsoleSprite(pacmanSprite,
-                                                  ConsoleColor.White,
-                                                  ConsoleColor.DarkYellow));
+                                                  ConsoleColor.Yellow,
+                                                  ConsoleColor.DarkBlue));
 
             spawner.GetComponent<SpawnerComponent>().
                         AddGameObject(new SpawnStruct(pacmanTransform.Position,
@@ -288,7 +288,7 @@ namespace Pacman
             char[,] pinkySprite =
             {
                 {' '},
-                {' '},
+                {'P'},
                 {' '}
             };
             pinky = new GameObject("pinky");
@@ -319,7 +319,7 @@ namespace Pacman
             char[,] blinkySprite =
             {
                 {' '},
-                {' '},
+                {'B'},
                 {' '}
             };
             blinky = new GameObject("blinky");
@@ -366,7 +366,7 @@ namespace Pacman
             char[,] inkySprite =
             {
                 {' '},
-                {' '},
+                {'I'},
                 {' '}
             };
             inky = new GameObject("inky");
@@ -398,7 +398,7 @@ namespace Pacman
             char[,] clydeSprite =
             {
                 {' '},
-                {' '},
+                {'C'},
                 {' '}
             };
             clyde = new GameObject("clyde");
@@ -424,7 +424,7 @@ namespace Pacman
 
             clyde.AddComponent(new ConsoleSprite(clydeSprite,
                                                   ConsoleColor.DarkBlue,
-                                                  ConsoleColor.Yellow));
+                                                  ConsoleColor.DarkYellow));
         }
 
         /// <summary>
@@ -2794,7 +2794,7 @@ namespace Pacman
                 allFruits[fruitSlot].AddComponent(fruitMapTransform);
                 allFruits[fruitSlot].AddComponent(fruitCollider);
                 allFruits[fruitSlot].AddComponent(new ConsoleSprite(
-                    fruitSprite, ConsoleColor.Red, ConsoleColor.DarkBlue));
+                    fruitSprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
                 // Adds fruit
                 collisions.AddGameObject(allFruits[fruitSlot]);
@@ -2819,7 +2819,7 @@ namespace Pacman
         private void PowerPillsCreation()
         {
             allPowerPills[0] = new GameObject("PowerPill1");
-            char[,] powerPill0Sprite = { { ' ' }, { ' ' }, { ' ' }, };
+            char[,] powerPill0Sprite = { { 'P' }, { 'U' }, { 'P' }, };
             TransformComponent powerPill0Transform =
                 new TransformComponent(3, 3);
             MapTransformComponent powerPill0MapTransform =
@@ -2835,11 +2835,11 @@ namespace Pacman
             allPowerPills[0].AddComponent(powerPill0Transform);
             allPowerPills[0].AddComponent(powerPill0Collider);
             allPowerPills[0].AddComponent(new ConsoleSprite(
-                powerPill0Sprite, ConsoleColor.White, ConsoleColor.White));
+                powerPill0Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
             /////////////////
             allPowerPills[1] = new GameObject("PowerPill2");
-            char[,] powerPill1Sprite = { { ' ' }, { ' ' }, { ' ' }, };
+            char[,] powerPill1Sprite = { { 'P' }, { 'U' }, { 'P' }, };
             TransformComponent powerPill1Transform =
                 new TransformComponent(78, 3);
             MapTransformComponent powerPill1MapTransform =
@@ -2855,11 +2855,11 @@ namespace Pacman
             allPowerPills[1].AddComponent(powerPill1MapTransform);
             allPowerPills[1].AddComponent(powerPill1Collider);
             allPowerPills[1].AddComponent(new ConsoleSprite(
-                powerPill1Sprite, ConsoleColor.White, ConsoleColor.White));
+                powerPill1Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
             /////////////////
             allPowerPills[2] = new GameObject("PowerPill3");
-            char[,] powerPill2Sprite = { { ' ' }, { ' ' }, { ' ' }, };
+            char[,] powerPill2Sprite = { { 'P' }, { 'U' }, { 'P' }, };
             TransformComponent powerPill2Transform =
                 new TransformComponent(3, 23);
 
@@ -2876,11 +2876,11 @@ namespace Pacman
             allPowerPills[2].AddComponent(powerPill2MapTransform);
             allPowerPills[2].AddComponent(powerPill2Collider);
             allPowerPills[2].AddComponent(new ConsoleSprite(
-                powerPill2Sprite, ConsoleColor.White, ConsoleColor.White));
+                powerPill2Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
             /////////////////
             allPowerPills[3] = new GameObject("PowerPill4");
-            char[,] powerPill3Sprite = { { ' ' }, { ' ' }, { ' ' }, };
+            char[,] powerPill3Sprite = { { 'P' }, { 'U' }, { 'P' }, };
             TransformComponent powerPill3Transform =
                 new TransformComponent(78, 23);
 
@@ -2896,7 +2896,7 @@ namespace Pacman
             allPowerPills[3].AddComponent(powerPill3MapTransform);
             allPowerPills[3].AddComponent(powerPill3Collider);
             allPowerPills[3].AddComponent(new ConsoleSprite(
-                powerPill3Sprite, ConsoleColor.White, ConsoleColor.White));
+                powerPill3Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
         }
 
         /// <summary>

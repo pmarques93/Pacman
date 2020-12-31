@@ -18,9 +18,15 @@ namespace Pacman
         }
 
         public override void Start()
-            => collisions.GhostCollision += GhostCollision;
+        {
+            collisions.GhostCollision += GhostCollision;
+            collisions.PowerPillCollision += () => movementState = MovementState.Frightened;
+        }
         public override void Finish()
-            => collisions.GhostCollision -= GhostCollision;
+        {
+            collisions.GhostCollision -= GhostCollision;
+            collisions.PowerPillCollision -= () => movementState = MovementState.Frightened;
+        }
 
         /// <summary>
         /// Happens once when there's a collision with a ghost
@@ -40,12 +46,17 @@ namespace Pacman
             }
         }
 
+
         /// <summary>
         /// On Ghost Chase collision method. Triggers terminate on scene
         /// </summary>
-        protected virtual void OnGhostChaseCollision()
+        private void OnGhostChaseCollision()
             => GhostChaseCollision?.Invoke();
 
+        private void OnGhostFrightenedCollision()
+            => GhostFrightenedCollision?.Invoke();
+
         public event Action GhostChaseCollision;
+        public event Action GhostFrightenedCollision;
     }
 }

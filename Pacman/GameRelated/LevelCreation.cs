@@ -137,7 +137,8 @@ namespace Pacman
             // Add GameObjects to the renderer
             AddGameObjectsToRender();
 
-            collisions.GhostCollision += ResetPositions;
+            // collisions.GhostCollision += ResetPositions;
+            gameState.GhostChaseCollision += ResetPositions;
 
             // Add renderer to the LevelScene
             LevelScene.AddGameObject(consoleRenderer);

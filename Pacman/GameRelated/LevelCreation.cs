@@ -141,9 +141,7 @@ namespace Pacman
             fruitName = 0;
             fruitSlot = 0;
             fruitSpawnTime = 15000;
-            Timer fruitTimer = new Timer(fruitSpawnTime);
-            fruitTimer.Elapsed += FruitCreation;
-            fruitTimer.Enabled = true;
+            FruitTimerCreation();
 
             // UI
             UICreation();
@@ -425,6 +423,16 @@ namespace Pacman
             clyde.AddComponent(new ConsoleSprite(clydeSprite,
                                                   ConsoleColor.DarkBlue,
                                                   ConsoleColor.DarkYellow));
+        }
+
+        /// <summary>
+        /// Creates timer for fruits
+        /// </summary>
+        private void FruitTimerCreation()
+        {
+            Timer fruitTimer = new Timer(fruitSpawnTime);
+            fruitTimer.Elapsed += FruitCreation;
+            fruitTimer.Enabled = true;
         }
 
         /// <summary>

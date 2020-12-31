@@ -47,6 +47,7 @@ namespace Pacman
         private GameObject[] allPowerPills;
 
         // Fruits
+        Timer fruitTimer;
         private GameObject[] allFruits;
         private uint fruitName;
         private uint fruitSlot;
@@ -167,6 +168,9 @@ namespace Pacman
         /// </summary>
         private void GameOver()
         {
+            fruitTimer.Elapsed -= FruitCreation;
+            fruitTimer.Dispose();
+
             if (File.Exists(Path.highscore))
             {
                 FileReader fileReader = new FileReader(Path.highscore);
@@ -430,7 +434,7 @@ namespace Pacman
         /// </summary>
         private void FruitTimerCreation()
         {
-            Timer fruitTimer = new Timer(fruitSpawnTime);
+            fruitTimer = new Timer(fruitSpawnTime);
             fruitTimer.Elapsed += FruitCreation;
             fruitTimer.Enabled = true;
         }

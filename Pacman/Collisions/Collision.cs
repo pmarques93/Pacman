@@ -107,6 +107,7 @@ namespace Pacman
             }
             else if (collisionType.HasFlag(Cell.Food))
             {
+                OnFoodCount();
                 OnFoodCollision(collision);
                 RemoveGameObject(collision);
                 OnScoreCollision(10);
@@ -145,10 +146,14 @@ namespace Pacman
         protected virtual void OnFoodCollision(GameObject gameObject) =>
             FoodCollision?.Invoke(gameObject);
 
+        protected virtual void OnFoodCount() =>
+            FoodCount?.Invoke();
+
         public event Action GhostCollision;
         public event Action<ushort> ScoreCollision;
         public event Action PowerPillCollision;
         public event Action<GameObject> FoodCollision;
+        public event Action FoodCount;
 
 
         public void Finish() { }

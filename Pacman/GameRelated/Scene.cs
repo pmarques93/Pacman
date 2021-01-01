@@ -127,7 +127,11 @@ namespace Pacman
                 // }
                 for (int i = 0; i < gameObjectsNames.Count; i++)
                 {
-                    gameObjects[gameObjectsNames.ElementAt(i)].Update();
+                    try
+                    {
+                        gameObjects[gameObjectsNames.ElementAt(i)].Update();
+                    }
+                    catch (InvalidOperationException) { }
                 }
                 
                 // Time to wait until next frame

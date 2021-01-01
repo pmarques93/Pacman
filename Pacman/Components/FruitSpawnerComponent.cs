@@ -21,12 +21,13 @@ namespace Pacman
         /// <summary>
         /// Constructor for FruitSpawnerComponent
         /// </summary>
-        /// <param name="lvl"></param>
-        public FruitSpawnerComponent(LevelCreation lvl)
+        /// <param name="fruitSpawnTime">Time to spawn each fruit</param>
+        /// <param name="lvl">Level Creation variable</param>
+        public FruitSpawnerComponent(uint fruitSpawnTime, LevelCreation lvl)
         {
             this.lvl = lvl;
 
-            fruitSpawnTime = 15000;
+            this.fruitSpawnTime = fruitSpawnTime;
         }
 
         /// <summary>

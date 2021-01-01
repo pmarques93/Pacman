@@ -7,20 +7,22 @@ namespace Pacman
     /// </summary>
     class GameOverCheckComponent: Component
     {
-        private GameObject[] allFoods;
+        private ushort numberOfFoodsToCheck;
 
         private Collision collisions;
 
-        ushort foodsEatenCount;
+        private ushort foodsEatenCount;
+        public ushort FoodsEaten => foodsEatenCount;
 
         /// <summary>
         /// Constructor for GameOverCheckComponent
         /// </summary>
-        /// <param name="foods">Array with all foods</param>
+        /// <param name="numberOfFoodsToCheck">Number of foods to check</param>
         /// <param name="collision">Collisions component</param>
-        public GameOverCheckComponent(GameObject[] foods, Collision collision)
+        public GameOverCheckComponent(ushort numberOfFoodsToCheck, 
+            Collision collision)
         {
-            allFoods = foods;
+            this.numberOfFoodsToCheck = numberOfFoodsToCheck;
             collisions = collision;
         }
 
@@ -30,24 +32,24 @@ namespace Pacman
         public override void Start()
         {
             foodsEatenCount = 0;
-            collisions.FoodCollision += CheckAllFoods;
+            collisions.FoodCount += CheckAllFoods;
         }
 
         /// <summary>
         /// Method that runs once on finish
         /// </summary>
         public override void Finish()
-            => collisions.FoodCollision -= CheckAllFoods;
+            => collisions.FoodCount -= CheckAllFoods;
 
         /// <summary>
         /// Checks if foodseaten number is the same as the array length
         /// </summary>
-        /// <param name="temp">Temporary gameobject parameter</param>
-        private void CheckAllFoods(GameObject temp)
+        private void CheckAllFoods()
         {
             foodsEatenCount++;
 
-            if (foodsEatenCount == allFoods.Length)
+            // Foods array has 4 more empty spaces because of power pills
+            if (foodsEatenCount == numberOfFoodsToCheck)
                 OnNoFoodsLeft();
         }
 

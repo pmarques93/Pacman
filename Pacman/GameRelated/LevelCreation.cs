@@ -164,14 +164,14 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Creates GameOverCheck
+        /// Creates GameOverCheck. Used to check if there are foods left
         /// </summary>
         private void GameOverCheckCreation()
         {
             gameOverCheck = gameOverCheck = new GameObject("Game Over Check");
 
             GameOverCheckComponent gameOverCheckComponent =
-                new GameOverCheckComponent(allFoods, collisions);
+                new GameOverCheckComponent(240, collisions);
 
             gameOverCheck.AddComponent(gameOverCheckComponent);
 
@@ -3412,7 +3412,7 @@ namespace Pacman
             fruitSpawner = new GameObject("Fruit Spwaner");
 
             FruitSpawnerComponent fruitSpawnerComponent =
-                new FruitSpawnerComponent(this);
+                new FruitSpawnerComponent(15000, this);
 
             fruitSpawner.AddComponent(fruitSpawnerComponent);
         }
@@ -3424,44 +3424,51 @@ namespace Pacman
         /// <param name="e">Elapsed event arguments</param>
         public void FruitCreation(object source, ElapsedEventArgs e)
         {
-            // Creates a random position
-            int randX = random.Next(1, XSIZE-1);
-            int randY = random.Next(1, YSIZE -1);
+            ushort foodsEaten =
+                gameOverCheck.GetComponent<GameOverCheckComponent>().FoodsEaten;
 
-            // If the position is free to spawn a fruit
-            if (!map.Map[randX, randY].Collider.Type.HasFlag(Cell.Ghost) &&
-                !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Pacman) &&
-                !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Fruit) &&
-                !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Food) &&
-                !map.Map[randX, randY].Collider.Type.HasFlag(Cell.PowerPill) &&
-                !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Wall))
+            // Only happens if the player is eating foods
+            if (foodsEaten > allFruits.Length)
             {
-                allFruits[fruitSlot] = new GameObject($"Fruit{fruitName}");
-                char[,] fruitSprite = { { ' ' }, { 'F' }, { ' ' }, };
-                TransformComponent fruitTransform = new TransformComponent(randX * 3, randY);
-                MapTransformComponent fruitMapTransform = new MapTransformComponent(randX, randY);
-                map.Map[fruitMapTransform.Position.X, fruitMapTransform.Position.Y].Collider.Type |= Cell.Fruit;
-                ColliderComponent fruitCollider = new ColliderComponent(Cell.Fruit);
-                allFruits[fruitSlot].AddComponent(fruitTransform);
-                allFruits[fruitSlot].AddComponent(fruitMapTransform);
-                allFruits[fruitSlot].AddComponent(fruitCollider);
-                allFruits[fruitSlot].AddComponent(new ConsoleSprite(
-                    fruitSprite, ConsoleColor.White, ConsoleColor.DarkBlue));
+                // Creates a random position
+                int randX = random.Next(1, XSIZE - 1);
+                int randY = random.Next(1, YSIZE - 1);
 
-                // Adds fruit
-                collisions.AddGameObject(allFruits[fruitSlot]);
-                LevelScene.AddGameObject(allFruits[fruitSlot]);
-                consoleRenderer.AddGameObject(allFruits[fruitSlot]);
+                // If the position is free to spawn a fruit
+                if (!map.Map[randX, randY].Collider.Type.HasFlag(Cell.Ghost) &&
+                    !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Pacman) &&
+                    !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Fruit) &&
+                    !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Food) &&
+                    !map.Map[randX, randY].Collider.Type.HasFlag(Cell.PowerPill) &&
+                    !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Wall))
+                {
+                    allFruits[fruitSlot] = new GameObject($"Fruit{fruitName}");
+                    char[,] fruitSprite = { { ' ' }, { 'F' }, { ' ' }, };
+                    TransformComponent fruitTransform = new TransformComponent(randX * 3, randY);
+                    MapTransformComponent fruitMapTransform = new MapTransformComponent(randX, randY);
+                    map.Map[fruitMapTransform.Position.X, fruitMapTransform.Position.Y].Collider.Type |= Cell.Fruit;
+                    ColliderComponent fruitCollider = new ColliderComponent(Cell.Fruit);
+                    allFruits[fruitSlot].AddComponent(fruitTransform);
+                    allFruits[fruitSlot].AddComponent(fruitMapTransform);
+                    allFruits[fruitSlot].AddComponent(fruitCollider);
+                    allFruits[fruitSlot].AddComponent(new ConsoleSprite(
+                        fruitSprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
-                fruitName++;
-                fruitSlot++;
+                    // Adds fruit
+                    collisions.AddGameObject(allFruits[fruitSlot]);
+                    LevelScene.AddGameObject(allFruits[fruitSlot]);
+                    consoleRenderer.AddGameObject(allFruits[fruitSlot]);
 
-                allFruits = new GameObject[fruitSlot + 1];
-            }
-            else
-            {
-                // Finds a new position
-                FruitCreation(source, e);
+                    fruitName++;
+                    fruitSlot++;
+
+                    allFruits = new GameObject[fruitSlot + 1];
+                }
+                else
+                {
+                    // Finds a new position
+                    FruitCreation(source, e);
+                }
             }
         }
 

@@ -26,6 +26,7 @@ namespace Pacman
         private readonly MapComponent map;
         private readonly GameState gameState;
         private GameObject gameOverCheck;
+        private GameOverCheckComponent gameOverCheckComponent;
 
         // Pacman
         private GameObject pacman;
@@ -49,6 +50,7 @@ namespace Pacman
 
         // Fruits
         private GameObject fruitSpawner;
+        private FruitSpawnerComponent fruitSpawnerComponent;
         private GameObject[] allFruits;
         private uint fruitName;
         private uint fruitSlot;
@@ -170,7 +172,7 @@ namespace Pacman
         {
             gameOverCheck = gameOverCheck = new GameObject("Game Over Check");
 
-            GameOverCheckComponent gameOverCheckComponent =
+            gameOverCheckComponent =
                 new GameOverCheckComponent(240, collisions);
 
             gameOverCheck.AddComponent(gameOverCheckComponent);
@@ -3411,18 +3413,24 @@ namespace Pacman
         {
             fruitSpawner = new GameObject("Fruit Spwaner");
 
-            FruitSpawnerComponent fruitSpawnerComponent =
-                new FruitSpawnerComponent(15000, this);
+            fruitSpawnerComponent = new FruitSpawnerComponent(15000);
 
             fruitSpawner.AddComponent(fruitSpawnerComponent);
+
+            // After fruitSpawnerComponent calls Start() method, this
+            // class subscribes to FruitTimer event
+            fruitSpawnerComponent.RegisterToTimerEvent += () => 
+                fruitSpawnerComponent.FruitTimer.Elapsed += FruitCreation;
         }
 
         /// <summary>
         /// Creates a fruit in a random position
+        /// This method is called with a timed event created on
+        /// FruitSpawnerComponent script
         /// </summary>
         /// <param name="source">Source</param>
         /// <param name="e">Elapsed event arguments</param>
-        public void FruitCreation(object source, ElapsedEventArgs e)
+        private void FruitCreation(object source, ElapsedEventArgs e)
         {
             ushort foodsEaten =
                 gameOverCheck.GetComponent<GameOverCheckComponent>().FoodsEaten;
@@ -3716,6 +3724,20 @@ namespace Pacman
             consoleRenderer.AddGameObject(scoreText);
             consoleRenderer.AddGameObject(highScoreText);
             consoleRenderer.AddGameObject(livesText);
+        }
+
+        /// <summary>
+        /// Destructor for LevelCreation
+        /// Unsubscribes from events
+        /// </summary>
+        ~LevelCreation()
+        {
+            gameOverCheckComponent.NoFoodsLeft -= GameOver;
+
+            fruitSpawnerComponent.RegisterToTimerEvent -= () =>
+                fruitSpawnerComponent.FruitTimer.Elapsed -= FruitCreation;
+
+            fruitSpawnerComponent.FruitTimer.Elapsed -= FruitCreation;
         }
     }
 }

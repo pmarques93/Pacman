@@ -1,4 +1,5 @@
 ﻿using System.Timers;
+using System;
 
 namespace Pacman
 {
@@ -8,40 +9,34 @@ namespace Pacman
     class FruitSpawnerComponent: Component
     {
         // Timer
-        private Timer fruitTimer;
+        public Timer FruitTimer { get; set; }
 
         // Fruit spawn
         public uint FruitName { get; set; }
         public uint FruitSlot { get; set; }
         private uint fruitSpawnTime;
 
-        // Component
-        private LevelCreation lvl;
-
         /// <summary>
         /// Constructor for FruitSpawnerComponent
         /// </summary>
         /// <param name="fruitSpawnTime">Time to spawn each fruit</param>
-        /// <param name="lvl">Level Creation variable</param>
-        public FruitSpawnerComponent(uint fruitSpawnTime, LevelCreation lvl)
+        public FruitSpawnerComponent(uint fruitSpawnTime)
         {
-            this.lvl = lvl;
-
             this.fruitSpawnTime = fruitSpawnTime;
         }
 
         /// <summary>
         /// Method that happens once on start
-        /// Creates a timer and registers an event to spawn fruits
         /// </summary>
         public override void Start()
         {
             FruitName = 0;
             FruitSlot = 0;
 
-            fruitTimer = new Timer(fruitSpawnTime);
-            fruitTimer.Elapsed += lvl.FruitCreation;
-            fruitTimer.Enabled = true;
+            FruitTimer = new Timer(fruitSpawnTime);
+            FruitTimer.Enabled = true;
+
+            OnRegisterToTimerEvent();
         }
 
         /// <summary>
@@ -49,8 +44,15 @@ namespace Pacman
         /// </summary>
         public override void Finish()
         {
-            fruitTimer.Elapsed -= lvl.FruitCreation;
-            fruitTimer.Dispose();
+            FruitTimer.Dispose();
         }
+
+        /// <summary>
+        /// Method that calls RegisterToTimerEvent event
+        /// </summary>
+        protected virtual void OnRegisterToTimerEvent() =>
+            RegisterToTimerEvent?.Invoke();
+
+        public event Action RegisterToTimerEvent;
     }
 }

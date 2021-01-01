@@ -25,6 +25,7 @@ namespace Pacman
         private readonly Collision collisions;
         private readonly MapComponent map;
         private readonly GameState gameState;
+        private GameObject gameOverCheck;
 
         // Pacman
         private GameObject pacman;
@@ -143,6 +144,9 @@ namespace Pacman
             // UI
             UICreation();
 
+            // GAME OVER CHECK
+            GameOverCheckCreation();
+
             // Add Gameobjects to collision check
             AddGameObjectsToCollisionCheck();
 
@@ -157,6 +161,18 @@ namespace Pacman
 
             // Add renderer to the LevelScene
             LevelScene.AddGameObject(consoleRenderer);
+        }
+
+        private void GameOverCheckCreation()
+        {
+            gameOverCheck = gameOverCheck = new GameObject("Game Over Check");
+
+            GameOverCheckComponent gameOverCheckComponent =
+                new GameOverCheckComponent(allFoods, collisions);
+
+            gameOverCheck.AddComponent(gameOverCheckComponent);
+
+            gameOverCheckComponent.NoFoodsLeft += GameOver;
         }
 
         /// <summary>
@@ -3051,6 +3067,7 @@ namespace Pacman
             LevelScene.AddGameObject(scoreText);
             LevelScene.AddGameObject(gameState);
             LevelScene.AddGameObject(fruitSpawner);
+            LevelScene.AddGameObject(gameOverCheck);
         }
 
         /// <summary>

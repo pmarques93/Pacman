@@ -68,7 +68,7 @@ namespace Pacman
                 if (input.TryDequeue(out key))
                 {
 
-                    Console.WriteLine($"key: {key}");
+                    // Console.WriteLine($"key: {key}");
                     switch (key)
                     {
                         case ConsoleKey.W:

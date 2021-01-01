@@ -73,7 +73,7 @@ namespace Pacman
                         OnGhostCollision();
                         return;
                     }
-                    else if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman))
+                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman))
                     {
                         GameObject tempGO = gameObjects.
                             Where(o => o.GetComponent<MapTransformComponent>()?.

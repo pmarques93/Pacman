@@ -8,14 +8,14 @@ namespace Pacman.MovementBehaviours
         private Random random;
         public FrightenedMovementBehaviour(Collision collision,
                                     GameObject ghost,
-                                    GameObject pacMan,
+                                    MapComponent map,
                                     MapTransformComponent targetMapTransform,
                                     MapTransformComponent mapTransform,
                                     Random random,
                                     int translateModifier = 1) :
                                     base(collision,
                                         ghost,
-                                        pacMan,
+                                        map,
                                         targetMapTransform,
                                         mapTransform,
                                         translateModifier)

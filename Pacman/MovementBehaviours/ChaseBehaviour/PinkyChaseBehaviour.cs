@@ -11,13 +11,13 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
         public PinkyChaseBehaviour(Collision collision,
                                     PacmanMovementBehaviour pacmanMovementBehaviour,
                                     GameObject ghost,
-                                    GameObject pacMan,
+                                    MapComponent map,
                                     MapTransformComponent pacmanMapTransform,
                                     MapTransformComponent mapTransform,
                                     int translateModifier = 1) :
                                     base(collision,
                                         ghost,
-                                        pacMan,
+                                        map,
                                         pacmanMapTransform,
                                         mapTransform,
                                         translateModifier)

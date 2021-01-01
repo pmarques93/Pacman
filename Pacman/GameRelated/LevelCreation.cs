@@ -169,6 +169,7 @@ namespace Pacman
         /// </summary>
         private void GameOver()
         {
+            gameState.GhostChaseCollision -= ResetPositions;
             fruitTimer.Elapsed -= FruitCreation;
             fruitTimer.Dispose();
 
@@ -216,31 +217,20 @@ namespace Pacman
 
             if (lives.Lives == 0) GameOver();
 
-            map.Map[pacmanMapTransform.Position.X, pacmanMapTransform.Position.Y].Collider.Type &= ~Cell.Pacman;
-            pacman.GetComponent<TransformComponent>().Position = new Vector2Int(42, 23);
-            pacmanMapTransform.Position = new Vector2Int(14, 23);
+            // map.Map[pacmanMapTransform.Position.X, pacmanMapTransform.Position.Y].Collider.Type &= ~Cell.Pacman;
+            // pacman.GetComponent<TransformComponent>().Position = new Vector2Int(42, 23);
+            // pacmanMapTransform.Position = new Vector2Int(14, 23);
 
-            blinky.GetComponent<TransformComponent>().Position = new Vector2Int(21, 10);
+            // MapTransformComponent pinkyMapTransform = pinky.GetComponent<MapTransformComponent>();
+            // map.Map[pinkyMapTransform.Position.X, pinkyMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
+            // pinky.GetComponent<TransformComponent>().Position = new Vector2Int(21, 5);
+            // pinkyMapTransform.Position = new Vector2Int(7, 5);
+
             MapTransformComponent blinkyMapTransform = blinky.GetComponent<MapTransformComponent>();
-
             map.Map[blinkyMapTransform.Position.X, blinkyMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
-            blinkyMapTransform.Position = new Vector2Int(7, 10);
-
-            // blinky.GetComponent<MoveComponent>().AddMovementBehaviour(
-            //                                 new FrightenedMovementBehaviour(
-            //                                     collisions,
-            //                                     blinky,
-            //                                     pacman,
-            //                                     new MapTransformComponent(1, 1),
-            //                                     blinkyMapTransform, random, 3));
-
-            // blinky.GetComponent<MoveComponent>().AddMovementBehaviour(
-            //                                 new ScatterMovementBehaviour(
-            //                                     collisions,
-            //                                     blinky,
-            //                                     pacman,
-            //                                     new MapTransformComponent(XSIZE, 1),
-            //                                     blinkyMapTransform, 3));
+            blinky.GetComponent<TransformComponent>().Position = new Vector2Int(39, 11);
+            blinkyMapTransform.Position = new Vector2Int(13, 11);
+            blinkyMapTransform.Direction = Direction.Up;
         }
 
         /// <summary>
@@ -302,6 +292,7 @@ namespace Pacman
 
 
             pinky.AddComponent(pinkyTransform);
+            pinky.AddComponent(pinkyMapTransform);
             pinky.AddComponent(pinkyMovement);
             pinky.AddComponent(pinkyCollider);
             pinky.AddComponent(map);
@@ -311,7 +302,7 @@ namespace Pacman
                                                 collisions,
                                                 pacmanMovementBehaviour,
                                                 pinky,
-                                                pacman,
+                                                map,
                                                 pacmanMapTransform,
                                                 pinkyMapTransform,
                                                 3));
@@ -326,8 +317,8 @@ namespace Pacman
                 {' '}
             };
             blinky = new GameObject("blinky");
-            TransformComponent blinkyTransform = new TransformComponent(21, 10);
-            MapTransformComponent blinkyMapTransform = new MapTransformComponent(7, 10);
+            TransformComponent blinkyTransform = new TransformComponent(39, 11);
+            MapTransformComponent blinkyMapTransform = new MapTransformComponent(13, 11);
             MoveComponent blinkyMovement = new MoveComponent();
             ColliderComponent blinkyCollider = new ColliderComponent(Cell.Ghost);
 
@@ -341,7 +332,7 @@ namespace Pacman
             blinkyMovement.AddMovementBehaviour(new BlinkyChaseBehaviour(
                                                 collisions,
                                                 blinky,
-                                                pacman,
+                                                map,
                                                 pacmanMapTransform,
                                                 blinkyMapTransform,
                                                 3));
@@ -350,10 +341,10 @@ namespace Pacman
                                                   ConsoleColor.White,
                                                   ConsoleColor.Red));
 
-            spawner.GetComponent<SpawnerComponent>().
-                        AddGameObject(new SpawnStruct(blinkyTransform.Position,
-                                                      blinkyMapTransform.Position,
-                                                      blinky));
+            // spawner.GetComponent<SpawnerComponent>().
+            //             AddGameObject(new SpawnStruct(blinkyTransform.Position,
+            //                                           blinkyMapTransform.Position,
+            //                                           blinky));
 
             collisions.PowerPillCollision += () =>
             {
@@ -361,9 +352,25 @@ namespace Pacman
                                                 new FrightenedMovementBehaviour(
                                                     collisions,
                                                     blinky,
-                                                    pacman,
+                                                    map,
                                                     new MapTransformComponent(1, 1),
                                                     blinkyMapTransform, random, 3));
+                MapTransformComponent tempMapTrans = blinky.GetComponent<MapTransformComponent>();
+                switch (tempMapTrans.Direction)
+                {
+                    case Direction.Down:
+                        tempMapTrans.Direction = Direction.Up;
+                        break;
+                    case Direction.Up:
+                        tempMapTrans.Direction = Direction.Down;
+                        break;
+                    case Direction.Left:
+                        tempMapTrans.Direction = Direction.Right;
+                        break;
+                    case Direction.Right:
+                        tempMapTrans.Direction = Direction.Left;
+                        break;
+                }
             };
 
             char[,] inkySprite =
@@ -387,7 +394,7 @@ namespace Pacman
             inkyMovement.AddMovementBehaviour(
                                     new InkyChaseBehaviour(collisions,
                                                             pacmanMovementBehaviour,
-                                                            pacman,
+                                                            map,
                                                             pacmanMapTransform,
                                                             blinkyMapTransform,
                                                             inky,
@@ -420,7 +427,7 @@ namespace Pacman
                                                 collisions,
                                                 pacmanMovementBehaviour,
                                                 clyde,
-                                                pacman,
+                                                map,
                                                 pacmanMapTransform,
                                                 clydeMapTransform,
                                                 3));

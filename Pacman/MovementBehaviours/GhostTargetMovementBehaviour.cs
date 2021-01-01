@@ -22,7 +22,7 @@ namespace Pacman.MovementBehaviours
 
         public GhostTargetMovementBehaviour(Collision collision,
                                     GameObject ghost,
-                                    GameObject pacMan,
+                                    MapComponent map,
                                     MapTransformComponent targetMapTransform,
                                     MapTransformComponent mapTransform,
                                     int translateModifier = 1)
@@ -32,7 +32,7 @@ namespace Pacman.MovementBehaviours
             targetTransform = targetMapTransform;
             this.mapTransform = mapTransform;
             this.translateModifier = translateModifier;
-            map = pacMan.GetComponent<MapComponent>();
+            this.map = map;
             CurrentDirection = Direction.None;
         }
 
@@ -100,13 +100,13 @@ namespace Pacman.MovementBehaviours
                 if (!map.Map[directionVector[d].X,
                         directionVector[d].Y].Collider.Type.HasFlag(Cell.Wall))
                 {
-                    if (CurrentDirection == Direction.Left
+                    if (mapTransform.Direction == Direction.Left
                         && d == Direction.Right
-                        || CurrentDirection == Direction.Right
+                        || mapTransform.Direction == Direction.Right
                         && d == Direction.Left
-                        || CurrentDirection == Direction.Up
+                        || mapTransform.Direction == Direction.Up
                         && d == Direction.Down
-                        || CurrentDirection == Direction.Down
+                        || mapTransform.Direction == Direction.Down
                         && d == Direction.Up)
                     {
                         continue;
@@ -117,7 +117,7 @@ namespace Pacman.MovementBehaviours
                     ghostTransform.Position = new Vector2Int(directionVector[d].X
                                                         * translateModifier,
                                                         directionVector[d].Y);
-                    CurrentDirection = d;
+                    mapTransform.Direction = d;
                     map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type |= Cell.Ghost;
                     if (map.Map[directionVector[d].X,
                             directionVector[d].Y].Collider.Type.HasFlag(Cell.Pacman))

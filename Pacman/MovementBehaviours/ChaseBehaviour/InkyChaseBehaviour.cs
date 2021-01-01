@@ -9,7 +9,7 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
         private MapTransformComponent blinkyMapTransform;
         public InkyChaseBehaviour(Collision collision,
                                     PacmanMovementBehaviour pacmanMovementBehaviour,
-                                    GameObject pacMan,
+                                    MapComponent map,
                                     MapTransformComponent pacmanMapTransform,
                                     MapTransformComponent blinkyMapTransform,
                                     GameObject inky,
@@ -17,7 +17,7 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
                                     int translateModifier = 1) :
                                     base(collision,
                                         inky,
-                                        pacMan,
+                                        map,
                                         pacmanMapTransform,
                                         mapTransform,
                                         translateModifier)

@@ -6,13 +6,13 @@ namespace Pacman.MovementBehaviours.ScatterBehaviour
     {
         public ScatterMovementBehaviour(Collision collision,
                                     GameObject ghost,
-                                    GameObject pacMan,
+                                    MapComponent map,
                                     MapTransformComponent targetMapTransform,
                                     MapTransformComponent mapTransform,
                                     int translateModifier = 1) :
                                     base(collision,
                                         ghost,
-                                        pacMan,
+                                        map,
                                         targetMapTransform,
                                         mapTransform,
                                         translateModifier)

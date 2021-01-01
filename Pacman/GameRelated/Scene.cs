@@ -105,9 +105,9 @@ namespace Pacman
         /// <param name="msFramesPerSecond">Miliseconds to wait</param>
         public void GameLoop(int msFramesPerSecond)
         {
-            foreach (IGameObject gameObject in gameObjects.Values)
+            for (int i = 0; i < gameObjectsNames.Count; i++)
             {
-                gameObject.Start();
+                gameObjects[gameObjectsNames.ElementAt(i)].Start();
             }
 
             // keyReader.EscapePressed += sceneHandler.TerminateCurrentScene;
@@ -147,9 +147,9 @@ namespace Pacman
             // tearing them down
             if (!unload)
             {
-                foreach (IGameObject gameObject in gameObjects.Values)
+                for (int i = 0; i < gameObjectsNames.Count; i++)
                 {
-                    gameObject.Finish();
+                    gameObjects[gameObjectsNames.ElementAt(i)].Finish();
                 }
             }
 

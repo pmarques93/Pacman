@@ -47,11 +47,10 @@ namespace Pacman
         private GameObject[] allPowerPills;
 
         // Fruits
-        Timer fruitTimer;
+        private GameObject fruitSpawner;
         private GameObject[] allFruits;
         private uint fruitName;
         private uint fruitSlot;
-        private uint fruitSpawnTime;
 
         // Walls
         private GameObject walls;
@@ -139,10 +138,7 @@ namespace Pacman
             PowerPillsCreation();
 
             // FRUITS
-            fruitName = 0;
-            fruitSlot = 0;
-            fruitSpawnTime = 15000;
-            FruitTimerCreation();
+            FruitSpawnerCreation();
 
             // UI
             UICreation();
@@ -170,8 +166,6 @@ namespace Pacman
         private void GameOver()
         {
             gameState.GhostChaseCollision -= ResetPositions;
-            fruitTimer.Elapsed -= FruitCreation;
-            fruitTimer.Dispose();
 
             if (File.Exists(Path.highscore))
             {
@@ -435,16 +429,6 @@ namespace Pacman
             clyde.AddComponent(new ConsoleSprite(clydeSprite,
                                                   ConsoleColor.DarkBlue,
                                                   ConsoleColor.DarkYellow));
-        }
-
-        /// <summary>
-        /// Creates timer for fruits
-        /// </summary>
-        private void FruitTimerCreation()
-        {
-            fruitTimer = new Timer(fruitSpawnTime);
-            fruitTimer.Elapsed += FruitCreation;
-            fruitTimer.Enabled = true;
         }
 
         /// <summary>
@@ -2787,22 +2771,36 @@ namespace Pacman
         }
 
         /// <summary>
+        /// Creates fruit spawner and adds fruit spawner component
+        /// </summary>
+        private void FruitSpawnerCreation()
+        {
+            fruitSpawner = new GameObject("Fruit Spwaner");
+
+            FruitSpawnerComponent fruitSpawnerComponent =
+                new FruitSpawnerComponent(this);
+
+            fruitSpawner.AddComponent(fruitSpawnerComponent);
+        }
+
+        /// <summary>
         /// Creates a fruit in a random position
         /// </summary>
         /// <param name="source">Source</param>
         /// <param name="e">Elapsed event arguments</param>
-        private void FruitCreation(object source, ElapsedEventArgs e)
+        public void FruitCreation(object source, ElapsedEventArgs e)
         {
             // Creates a random position
             int randX = random.Next(1, XSIZE-1);
             int randY = random.Next(1, YSIZE -1);
 
             // If the position is free to spawn a fruit
-            if (map.Map[randX, randY].Collider.Type != Cell.Ghost &&
-                map.Map[randX, randY].Collider.Type != Cell.Pacman &&
-                map.Map[randX, randY].Collider.Type != Cell.Fruit &&
-                map.Map[randX, randY].Collider.Type != Cell.PowerPill &&
-                map.Map[randX, randY].Collider.Type != Cell.Wall)
+            if (!map.Map[randX, randY].Collider.Type.HasFlag(Cell.Ghost) &&
+                !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Pacman) &&
+                !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Fruit) &&
+                !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Food) &&
+                !map.Map[randX, randY].Collider.Type.HasFlag(Cell.PowerPill) &&
+                !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Wall))
             {
                 allFruits[fruitSlot] = new GameObject($"Fruit{fruitName}");
                 char[,] fruitSprite = { { ' ' }, { 'F' }, { ' ' }, };
@@ -3052,6 +3050,7 @@ namespace Pacman
             LevelScene.AddGameObject(score);
             LevelScene.AddGameObject(scoreText);
             LevelScene.AddGameObject(gameState);
+            LevelScene.AddGameObject(fruitSpawner);
         }
 
         /// <summary>

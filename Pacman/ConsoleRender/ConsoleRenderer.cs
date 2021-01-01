@@ -20,7 +20,7 @@ namespace Pacman
 
         private ConsolePixel[,] currentFrame, nextFrame;
 
-        private ICollection<IGameObject> gameObjects;
+        private IList<GameObject> gameObjects;
 
         // Scene dimensions
         private int xdim, ydim;
@@ -52,7 +52,7 @@ namespace Pacman
             this.ydim = ydim;
             this.bgPix = bgPix;
             Name = name;
-            gameObjects = new List<IGameObject>();
+            gameObjects = new List<GameObject>();
             currentFrame = new ConsolePixel[xdim, ydim];
             nextFrame = new ConsolePixel[xdim, ydim];
             this.collisions = collision;
@@ -84,7 +84,7 @@ namespace Pacman
             this.ydim = ydim;
             this.bgPix = bgPix;
             Name = name;
-            gameObjects = new List<IGameObject>();
+            gameObjects = new List<GameObject>();
             currentFrame = new ConsolePixel[xdim, ydim];
             nextFrame = new ConsolePixel[xdim, ydim];
             for (int y = 0; y < ydim; y++)
@@ -131,13 +131,12 @@ namespace Pacman
         /// </summary>
         public void Update()
         {
-            // foreach (Renderable rend in stuffToRender)
-            foreach (GameObject gameObj in gameObjects)
+            for (int i = 0; i < gameObjects.Count; i++)
             {
                 RenderableComponent rendComp =
-                                    gameObj.GetComponent<RenderableComponent>();
+                                    gameObjects[i].GetComponent<RenderableComponent>();
                 TransformComponent transform =
-                                    gameObj.GetComponent<TransformComponent>();
+                                    gameObjects[i].GetComponent<TransformComponent>();
 
                 // Cycle through all pixels in sprite
                 foreach (KeyValuePair<Vector2Int, ConsolePixel> pixel in
@@ -151,7 +150,7 @@ namespace Pacman
                     if (x < 0 || x >= xdim || y < 0 || y >= ydim)
                         throw new IndexOutOfRangeException(
                             $"Out of bounds pixel at ({x},{y}) in game object"
-                            + $" '{gameObj.Name}'");
+                            + $" '{gameObjects[i].Name}'");
 
                     // Put pixel in frame
                     nextFrame[x, y] = pixel.Value;
@@ -226,7 +225,7 @@ namespace Pacman
         /// Adds an object to be rendered.
         /// </summary>
         /// <param name="gameObject">Object to be rendered.</param>
-        public void AddGameObject(IGameObject gameObject)
+        public void AddGameObject(GameObject gameObject)
         {
             gameObjects.Add(gameObject);
         }
@@ -235,7 +234,7 @@ namespace Pacman
         /// Removes an object from being rendered.
         /// </summary>
         /// <param name="gameObject">Object to remove</param>
-        public void RemoveGameObject(IGameObject gameObject)
+        public void RemoveGameObject(GameObject gameObject)
         {
             gameObjects.Remove(gameObject);
         }

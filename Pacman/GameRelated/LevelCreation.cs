@@ -91,8 +91,7 @@ namespace Pacman
                                             "Console Renderer");
 
 
-            LevelScene = new Scene(XSIZE, YSIZE, gameState, pacmanKeyReader,
-                                lives);
+            LevelScene = new Scene();
 
             score = new Score(collisions);
 

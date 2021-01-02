@@ -1,13 +1,12 @@
-﻿
-namespace Pacman
+﻿namespace Pacman
 {
     /// <summary>
-    /// Class for ConsoleScore. Implements IGameObject
+    /// Class for ConsoleScore. Implements IGameObject.
     /// </summary>
-    class Score : IGameObject
+    public class Score : IGameObject
     {
         /// <summary>
-        /// Property with this class's name
+        /// Gets this class's name.
         /// </summary>
         public string Name => "Score";
 
@@ -16,14 +15,14 @@ namespace Pacman
         private uint score;
 
         /// <summary>
-        /// Property that returns a string with current score
+        /// Gets string with current score.
         /// </summary>
         public string GetScore { get => score.ToString(); }
 
         /// <summary>
-        /// Constructor for Score
+        /// Constructor for Score.
         /// </summary>
-        /// <param name="collision">Collision parameter</param>
+        /// <param name="collision">Collision parameter.</param>
         public Score(Collision collision)
         {
             collisions = collision;
@@ -31,25 +30,30 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Method that runs once on start
+        /// Method that runs once on start.
         /// </summary>
         public void Start() =>
             collisions.ScoreCollision += UpdateScore;
 
-        public void Update() { }
+        /// <summary>
+        /// Method that defines what happens while the class is running.
+        /// </summary>
+        public void Update()
+        {
+            // Method intentionally left empty.
+        }
 
         /// <summary>
-        /// Method that runs once on finish
+        /// Method that runs once on finish.
         /// </summary>
         public void Finish() =>
             collisions.ScoreCollision -= UpdateScore;
 
-
         /// <summary>
-        /// Updates score everytime pacman eats a food
+        /// Updates score everytime pacman eats a food.
         /// </summary>
-        /// <param name="score"></param>
-        private void UpdateScore (ushort score)
+        /// <param name="score">Update score with this value.</param>
+        private void UpdateScore(ushort score)
             => this.score += score;
     }
 }

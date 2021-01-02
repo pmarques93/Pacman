@@ -2,19 +2,27 @@
 using System.Collections.Generic;
 using Pacman.Components;
 using Pacman.GameRelated;
-using System.IO;
 
 namespace Pacman
 {
-    class MenuCreation
+    /// <summary>
+    /// Class responsible for creating the menu.
+    /// </summary>
+    public class MenuCreation
     {
         private const byte XSIZE = 28;
         private const byte YSIZE = 39;
 
-        private readonly ConsolePixel backgroundPixel;
-        private readonly ConsoleRenderer consoleRenderer;
+        /// <summary>
+        /// Gets menuScene.
+        /// </summary>
         public Scene MenuScene { get; }
+
+        // Game related variables
+        private readonly ConsoleRenderer consoleRenderer;
         private readonly KeyReaderComponent keyReader;
+        private readonly SceneHandler sceneHandler;
+        private GameObject newLevelCreator;
 
         // UI
         private GameObject selector;
@@ -39,27 +47,37 @@ namespace Pacman
 
         private GameObject pacmanLogo;
 
-        // Scene
-        private SceneHandler sceneHandler;
-        private GameObject newLevelCreator;
-
-        public MenuCreation(KeyReaderComponent keyReader,
-                            SceneHandler sceneHandler)
+        /// <summary>
+        /// Constructor for MenuCreation.
+        /// </summary>
+        /// <param name="keyReader">Reference to keyReader.</param>
+        /// <param name="sceneHandler">Reference to sceneHandler.</param>
+        public MenuCreation(
+            KeyReaderComponent keyReader,
+            SceneHandler sceneHandler)
         {
             this.sceneHandler = sceneHandler;
 
-            backgroundPixel = new ConsolePixel(' ', ConsoleColor.White,
-                                                ConsoleColor.DarkBlue);
+            ConsolePixel backgroundPixel = 
+                new ConsolePixel(
+                    ' ',
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
-            consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE,
-                                            backgroundPixel,
-                                            "Console Renderer");
+            consoleRenderer = new ConsoleRenderer(
+                XSIZE * 3,
+                YSIZE,
+                backgroundPixel,
+                "Console Renderer");
 
             this.keyReader = keyReader;
 
             MenuScene = new Scene();
         }
 
+        /// <summary>
+        /// Method responsible for creating the main menu.
+        /// </summary>
         public void GenerateScene()
         {
             CreateGameObjects();
@@ -71,6 +89,9 @@ namespace Pacman
             MenuScene.AddGameObject(consoleRenderer);
         }
 
+        /// <summary>
+        /// Method responsible for creating every gameobject.
+        /// </summary>
         private void CreateGameObjects()
         {
             keyReader.QuitKeys.Add(ConsoleKey.Enter);
@@ -99,11 +120,11 @@ namespace Pacman
             Dictionary<Vector2Int, ConsolePixel> logoPixels =
                     new Dictionary<Vector2Int, ConsolePixel>();
 
-            ICollection<Vector2Int[]> testList = new List<Vector2Int[]>();
+            ICollection<Vector2Int[]> positionsList = new List<Vector2Int[]>();
 
-            CreatePacmanSprite(testList);
+            CreatePacmanSprite(positionsList);
 
-            foreach (Vector2Int[] v in testList)
+            foreach (Vector2Int[] v in positionsList)
             {
                 for (int i = v[0].X; i < v[1].X + 1; i++)
                 {
@@ -387,126 +408,126 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Creates pacman sprite
+        /// Creates pacman sprite.
         /// </summary>
-        /// <param name="testList"></param>
-        private void CreatePacmanSprite(ICollection<Vector2Int[]> testList)
+        /// <param name="positionsList">ICollection with vector2int.</param>
+        private void CreatePacmanSprite(ICollection<Vector2Int[]> positionsList)
         {
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(14, 0),
-                                new Vector2Int(26, 0)
+                                new Vector2Int(26, 0),
                             });
 
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(10, 1),
-                                new Vector2Int(30, 1)
+                                new Vector2Int(30, 1),
                             });
 
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(8, 2),
-                                new Vector2Int(32, 2)
+                                new Vector2Int(32, 2),
                             });
 
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(6, 3),
-                                new Vector2Int(34, 3)
+                                new Vector2Int(34, 3),
                             });
 
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(4, 4),
-                                new Vector2Int(36, 4)
+                                new Vector2Int(36, 4),
                             });
 
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(2, 5),
-                                new Vector2Int(38, 5)
+                                new Vector2Int(38, 5),
                             });
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(2, 6),
-                                new Vector2Int(36, 6)
+                                new Vector2Int(36, 6),
                             });
 
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(0, 7),
-                                new Vector2Int(33, 7)
+                                new Vector2Int(33, 7),
                             });
 
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(0, 8),
-                                new Vector2Int(30, 8)
+                                new Vector2Int(30, 8),
                             });
 
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(0, 9),
-                                new Vector2Int(28, 9)
+                                new Vector2Int(28, 9),
                             });
 
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(0, 10),
-                                new Vector2Int(24, 10)
+                                new Vector2Int(24, 10),
                             });
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(0, 11),
-                                new Vector2Int(28, 11)
+                                new Vector2Int(28, 11),
                             });
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(0, 12),
-                                new Vector2Int(32, 12)
+                                new Vector2Int(32, 12),
                             });
 
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(2, 13),
-                                new Vector2Int(36, 13)
+                                new Vector2Int(36, 13),
                             });
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(2, 14),
-                                new Vector2Int(38, 14)
+                                new Vector2Int(38, 14),
                             });
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(4, 15),
-                                new Vector2Int(36, 15)
+                                new Vector2Int(36, 15),
                             });
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(6, 16),
-                                new Vector2Int(34, 16)
+                                new Vector2Int(34, 16),
                             });
 
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(8, 17),
-                                new Vector2Int(32, 17)
+                                new Vector2Int(32, 17),
                             });
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(10, 18),
-                                new Vector2Int(30, 18)
+                                new Vector2Int(30, 18),
                             });
-            testList.Add(new Vector2Int[]
+            positionsList.Add(new Vector2Int[]
                             {
                                 new Vector2Int(12, 19),
-                                new Vector2Int(26, 19)
+                                new Vector2Int(26, 19),
                             });
         }
 
         /// <summary>
-        /// Adds game objects to MenuScene
+        /// Adds game objects to MenuScene.
         /// </summary>
         private void AddGameObjectsToScene()
         {
@@ -517,7 +538,7 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Adds game objects to renderer
+        /// Adds game objects to renderer.
         /// </summary>
         private void AddGameObjectsToRenderer()
         {

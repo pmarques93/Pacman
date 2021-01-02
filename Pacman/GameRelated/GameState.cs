@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Pacman.Components;
 using Pacman.MovementBehaviours;
 using Pacman.MovementBehaviours.ChaseBehaviour;
-using System.Linq;
 
 namespace Pacman
 {
     /// <summary>
-    /// Class with game state information
+    /// Class with game state information. Extends Component
     /// </summary>
     public class GameState : Component
     {
@@ -19,12 +19,23 @@ namespace Pacman
         private readonly GameObject pacman;
         private readonly PacmanMovementBehaviour pacmanMovementBehaviour;
 
-        public GameState(Collision collision,
-                         GameObject pacman,
-                         ICollection<GameObject> ghosts,
-                         MapComponent map,
-                         Random random,
-                         PacmanMovementBehaviour pacmanMovementBehaviour)
+        /// <summary>
+        /// Constructor for GameState.
+        /// </summary>
+        /// <param name="collision">Reference to collision.</param>
+        /// <param name="pacman">Reference to pacman.</param>
+        /// <param name="ghosts">Reference to ghosts.</param>
+        /// <param name="map">Reference to map.</param>
+        /// <param name="random">Reference to random.</param>
+        /// <param name="pacmanMovementBehaviour">Reference to pacman
+        /// movement behaviour</param>
+        public GameState(
+            Collision collision,
+            GameObject pacman,
+            ICollection<GameObject> ghosts,
+            MapComponent map,
+            Random random,
+            PacmanMovementBehaviour pacmanMovementBehaviour)
         {
             collisions = collision;
             this.pacman = pacman;
@@ -34,6 +45,9 @@ namespace Pacman
             this.pacmanMovementBehaviour = pacmanMovementBehaviour;
         }
 
+        /// <summary>
+        /// Method that runs once on Start. Subscribes to events.
+        /// </summary>
         public override void Start()
         {
             collisions.GhostCollision += GhostCollision;
@@ -41,6 +55,10 @@ namespace Pacman
             collisions.GhostHouseExitCollision += GhostOnHouseExit;
             collisions.PowerPillCollision += PowerPillCollision;
         }
+
+        /// <summary>
+        /// Method that runs once on Finish. Unsubscribes to events.
+        /// </summary>
         public override void Finish()
         {
             collisions.GhostCollision -= GhostCollision;
@@ -49,24 +67,40 @@ namespace Pacman
             collisions.PowerPillCollision -= PowerPillCollision;
         }
 
+        /// <summary>
+        /// Method that defines what happens when pacman collides with
+        /// power pills
+        /// </summary>
         private void PowerPillCollision()
         {
             foreach (GameObject ghost in ghosts)
             {
-                ConsoleSprite consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                ConsoleSprite consoleSprite =
+                    ghost.GetComponent<ConsoleSprite>();
                 consoleSprite.ChangeColor(ConsoleColor.Red, ConsoleColor.White);
 
-                MapTransformComponent ghostMapTransform = ghost.GetComponent<MapTransformComponent>();
-                MoveComponent moveComponent = ghost.GetComponent<MoveComponent>();
+                MapTransformComponent ghostMapTransform =
+                    ghost.GetComponent<MapTransformComponent>();
+
+                MoveComponent moveComponent =
+                    ghost.GetComponent<MoveComponent>();
+
                 moveComponent.AddMovementBehaviour(
                                                 new FrightenedMovementBehaviour(
                                                     collisions,
                                                     ghost,
                                                     map,
-                                                    new MapTransformComponent(1, 1),
-                                                    ghostMapTransform, random, 3));
-                MapTransformComponent tempMapTrans = ghost.GetComponent<MapTransformComponent>();
+                                                    new MapTransformComponent(
+                                                        1, 1),
+                                                    ghostMapTransform,
+                                                    random,
+                                                    3));
+
+                MapTransformComponent tempMapTrans =
+                    ghost.GetComponent<MapTransformComponent>();
+
                 moveComponent.MovementState = MovementState.Frightened;
+
                 switch (tempMapTrans.Direction)
                 {
                     case Direction.Down:
@@ -85,6 +119,11 @@ namespace Pacman
             }
         }
 
+        /// <summary>
+        /// Method that defines what happens when a ghost is inside the midle
+        /// house.
+        /// </summary>
+        /// <param name="ghost">Ghost to check.</param>
         private void GhostOnHouse(GameObject ghost)
         {
             MoveComponent moveComponent = ghost.GetComponent<MoveComponent>();
@@ -104,27 +143,41 @@ namespace Pacman
             {
                 case "blinky":
                     consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                    consoleSprite.ChangeColor(ConsoleColor.White, ConsoleColor.Red);
+                    consoleSprite.ChangeColor(
+                        ConsoleColor.White, ConsoleColor.Red);
                     break;
                 case "pinky":
                     consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                    consoleSprite.ChangeColor(ConsoleColor.White, ConsoleColor.DarkMagenta);
+                    consoleSprite.ChangeColor(
+                        ConsoleColor.White, ConsoleColor.DarkMagenta);
                     break;
                 case "inky":
                     consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                    consoleSprite.ChangeColor(ConsoleColor.White, ConsoleColor.Blue);
+                    consoleSprite.ChangeColor(
+                        ConsoleColor.White, ConsoleColor.Blue);
                     break;
                 case "clyde":
                     consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                    consoleSprite.ChangeColor(ConsoleColor.DarkBlue, ConsoleColor.DarkYellow);
+                    consoleSprite.ChangeColor(
+                        ConsoleColor.DarkBlue, ConsoleColor.DarkYellow);
                     break;
             }
         }
+
+        /// <summary>
+        /// Method that defines what happens when a ghost leaves the midle
+        /// house.
+        /// </summary>
+        /// <param name="ghost">Ghost to check.</param>
+        /// <param name="cell">Cell to check.</param>
         private void GhostOnHouseExit(GameObject ghost, Cell cell)
         {
             MoveComponent moveComponent = ghost.GetComponent<MoveComponent>();
-            if (moveComponent.MovementState.HasFlag(MovementState.OutGhostHouse) ||
-                moveComponent.MovementState.HasFlag(MovementState.Eaten))
+
+            if (moveComponent.MovementState.
+                HasFlag(MovementState.OutGhostHouse) ||
+                moveComponent.MovementState.
+                HasFlag(MovementState.Eaten))
             {
                 ConsoleSprite consoleSprite;
                 switch (ghost.Name)
@@ -141,8 +194,11 @@ namespace Pacman
                         moveComponent.MovementState = MovementState.Chase;
 
                         consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                        consoleSprite.ChangeColor(ConsoleColor.White, ConsoleColor.Red);
+                        consoleSprite.ChangeColor(
+                            ConsoleColor.White,
+                            ConsoleColor.Red);
                         break;
+
                     case "pinky":
                         moveComponent.AddMovementBehaviour(
                             new PinkyChaseBehaviour(
@@ -156,14 +212,15 @@ namespace Pacman
                         moveComponent.MovementState = MovementState.Chase;
 
                         consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                        consoleSprite.ChangeColor(ConsoleColor.White, ConsoleColor.DarkMagenta);
+                        consoleSprite.ChangeColor(
+                            ConsoleColor.White,
+                            ConsoleColor.DarkMagenta);
                         break;
 
                     case "inky":
-                        MapTransformComponent blinkyMapTransform = ghosts.
-                                            Where(g => g.Name == "blinky").
-                                            FirstOrDefault().
-                                            GetComponent<MapTransformComponent>();
+                        MapTransformComponent blinkyMapTransform =
+                            ghosts.FirstOrDefault(g => g.Name == "blinky")?.
+                            GetComponent<MapTransformComponent>();
 
                         moveComponent.AddMovementBehaviour(
                             new InkyChaseBehaviour(
@@ -178,8 +235,11 @@ namespace Pacman
                         moveComponent.MovementState = MovementState.Chase;
 
                         consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                        consoleSprite.ChangeColor(ConsoleColor.White, ConsoleColor.Blue);
+                        consoleSprite.ChangeColor(
+                            ConsoleColor.White,
+                            ConsoleColor.Blue);
                         break;
+
                     case "clyde":
                         moveComponent.AddMovementBehaviour(
                             new ClydeChaseBehaviour(
@@ -192,14 +252,16 @@ namespace Pacman
                                 3));
                         moveComponent.MovementState = MovementState.Chase;
                         consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                        consoleSprite.ChangeColor(ConsoleColor.DarkBlue, ConsoleColor.DarkYellow);
+                        consoleSprite.ChangeColor(
+                            ConsoleColor.DarkBlue,
+                            ConsoleColor.DarkYellow);
                         break;
                 }
             }
         }
 
         /// <summary>
-        /// Happens once when there's a collision with a ghost
+        /// Happens once when there's a collision with a ghost.
         /// </summary>
         private void GhostCollision(GameObject ghost)
         {
@@ -210,10 +272,15 @@ namespace Pacman
                     break;
                 case MovementState.Frightened:
 
-                    ConsoleSprite consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                    consoleSprite.ChangeColor(ConsoleColor.Red, ConsoleColor.DarkBlue);
+                    ConsoleSprite consoleSprite =
+                        ghost.GetComponent<ConsoleSprite>();
 
-                    MoveComponent moveComponent = ghost.GetComponent<MoveComponent>();
+                    consoleSprite.ChangeColor(
+                        ConsoleColor.Red, ConsoleColor.DarkBlue);
+
+                    MoveComponent moveComponent =
+                        ghost.GetComponent<MoveComponent>();
+
                     moveComponent.MovementState = MovementState.Eaten;
                     moveComponent.AddMovementBehaviour(
                     new BlinkyChaseBehaviour(
@@ -229,15 +296,15 @@ namespace Pacman
 
 
         /// <summary>
-        /// On Ghost Chase collision method. Calls GhostChaseCollision event
+        /// On Ghost Chase collision method. Calls GhostChaseCollision event.
         /// </summary>
         private void OnGhostChaseCollision()
             => GhostChaseCollision?.Invoke();
 
-        private void OnGhostFrightenedCollision()
-            => GhostFrightenedCollision?.Invoke();
-
+        /// <summary>
+        /// GhostChaseCollision happens when there's a collision with a ghost
+        /// on chase mode.
+        /// </summary>
         public event Action GhostChaseCollision;
-        public event Action GhostFrightenedCollision;
     }
 }

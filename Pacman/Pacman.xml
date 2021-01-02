@@ -955,28 +955,85 @@
         </member>
         <member name="T:Pacman.GameState">
             <summary>
-            Class with game state information
+            Class with game state information. Extends Component
             </summary>
+        </member>
+        <member name="M:Pacman.GameState.#ctor(Pacman.Collision,Pacman.GameObject,System.Collections.Generic.ICollection{Pacman.GameObject},Pacman.MapComponent,System.Random,Pacman.PacmanMovementBehaviour)">
+            <summary>
+            Constructor for GameState.
+            </summary>
+            <param name="collision">Reference to collision.</param>
+            <param name="pacman">Reference to pacman.</param>
+            <param name="ghosts">Reference to ghosts.</param>
+            <param name="map">Reference to map.</param>
+            <param name="random">Reference to random.</param>
+            <param name="pacmanMovementBehaviour">Reference to pacman
+            movement behaviour</param>
+        </member>
+        <member name="M:Pacman.GameState.Start">
+            <summary>
+            Method that runs once on Start. Subscribes to events.
+            </summary>
+        </member>
+        <member name="M:Pacman.GameState.Finish">
+            <summary>
+            Method that runs once on Finish. Unsubscribes to events.
+            </summary>
+        </member>
+        <member name="M:Pacman.GameState.PowerPillCollision">
+            <summary>
+            Method that defines what happens when pacman collides with
+            power pills
+            </summary>
+        </member>
+        <member name="M:Pacman.GameState.GhostOnHouse(Pacman.GameObject)">
+            <summary>
+            Method that defines what happens when a ghost is inside the midle
+            house.
+            </summary>
+            <param name="ghost">Ghost to check.</param>
+        </member>
+        <member name="M:Pacman.GameState.GhostOnHouseExit(Pacman.GameObject,Pacman.Cell)">
+            <summary>
+            Method that defines what happens when a ghost leaves the midle
+            house.
+            </summary>
+            <param name="ghost">Ghost to check.</param>
+            <param name="cell">Cell to check.</param>
         </member>
         <member name="M:Pacman.GameState.GhostCollision(Pacman.GameObject)">
             <summary>
-            Happens once when there's a collision with a ghost
+            Happens once when there's a collision with a ghost.
             </summary>
         </member>
         <member name="M:Pacman.GameState.OnGhostChaseCollision">
             <summary>
-            On Ghost Chase collision method. Calls GhostChaseCollision event
+            On Ghost Chase collision method. Calls GhostChaseCollision event.
+            </summary>
+        </member>
+        <member name="E:Pacman.GameState.GhostChaseCollision">
+            <summary>
+            GhostChaseCollision happens when there's a collision with a ghost
+            on chase mode.
             </summary>
         </member>
         <member name="T:Pacman.LevelCreation">
             <summary>
-            Class responsible for creating pacman level
+            Class responsible for creating pacman level.
+            </summary>
+        </member>
+        <member name="P:Pacman.LevelCreation.LevelScene">
+            <summary>
+            Gets levelScene.
             </summary>
         </member>
         <member name="M:Pacman.LevelCreation.#ctor(Pacman.KeyReaderComponent,Pacman.GameRelated.SceneHandler,System.Random)">
             <summary>
             Constructor for LevelCreation.
             </summary>
+            <param name="keyReader">Reference to keyReader.</param>
+            <param name="sceneHandler">Reference to sceneHandler.</param>
+            <param name="random">Reference to Random.</param>
         </member>
         <member name="M:Pacman.LevelCreation.GenerateScene">
             <summary>
@@ -985,25 +1042,25 @@
         </member>
         <member name="M:Pacman.LevelCreation.GameOverCheckCreation">
             <summary>
-            Creates GameOverCheck. Used to check if there are foods left
+            Creates GameOverCheck. Used to check if there are foods left.
             </summary>
         </member>
         <member name="M:Pacman.LevelCreation.GameOver">
             <summary>
-            Happens when the game is over
-            Writes high score and terminates current scene
+            Happens when the game is over.
+            Writes high score and terminates current scene.
             </summary>
         </member>
         <member name="M:Pacman.LevelCreation.ResetPositions">
             <summary>
-            Resets pacman position
+            Resets pacman position.
             </summary>
         </member>
         <member name="M:Pacman.LevelCreation.PacmanCreation(Pacman.MapComponent)">
             <summary>
-            Creates pacman
+            Creates pacman.
             </summary>
-            <param name="map">Map reference to the game map</param>
+            <param name="map">Map reference to the game map.</param>
         </member>
         <member name="M:Pacman.LevelCreation.GhostCreation(Pacman.MapComponent)">
             <summary>
@@ -1018,21 +1075,26 @@
         </member>
         <member name="M:Pacman.LevelCreation.FruitSpawnerCreation">
             <summary>
-            Creates fruit spawner and adds fruit spawner component
+            Creates fruit spawner and adds fruit spawner component.
+            </summary>
+        </member>
+        <member name="M:Pacman.LevelCreation.RegisterToFruitSpawnerTimedEvent">
+            <summary>
+            Method used to register fruit spawner event for fruitCreation.
             </summary>
         </member>
         <member name="M:Pacman.LevelCreation.FruitCreation(System.Object,System.Timers.ElapsedEventArgs)">
             <summary>
-            Creates a fruit in a random position
+            Creates a fruit in a random position.
             This method is called with a timed event created on
-            FruitSpawnerComponent script
+            FruitSpawnerComponent script.
             </summary>
-            <param name="source">Source</param>
-            <param name="e">Elapsed event arguments</param>
+            <param name="source">Source.</param>
+            <param name="e">Elapsed event arguments.</param>
         </member>
         <member name="M:Pacman.LevelCreation.PowerPillsCreation">
             <summary>
-            Creates power pills
+            Creates power pills.
             </summary>
         </member>
         <member name="M:Pacman.LevelCreation.WallCreation(Pacman.MapComponent)">
@@ -1048,7 +1110,7 @@
         </member>
         <member name="M:Pacman.LevelCreation.AddGameObjectsToCollisionCheck">
             <summary>
-            Adds gameobjects to collision check
+            Adds gameobjects to collision check.
             </summary>
         </member>
         <member name="M:Pacman.LevelCreation.AddGameObjectsToScene">
@@ -1063,39 +1125,71 @@
         </member>
         <member name="M:Pacman.LevelCreation.Finalize">
             <summary>
-            Destructor for LevelCreation that unsubscribes from events.
+            Finalizes an instance of the <see cref="T:Pacman.LevelCreation"/> class.
+            </summary>
+        </member>
+        <member name="T:Pacman.MenuCreation">
+            <summary>
+            Class responsible for creating the menu.
+            </summary>
+        </member>
+        <member name="P:Pacman.MenuCreation.MenuScene">
+            <summary>
+            Gets menuScene.
+            </summary>
+        </member>
+        <member name="M:Pacman.MenuCreation.#ctor(Pacman.KeyReaderComponent,Pacman.GameRelated.SceneHandler)">
+            <summary>
+            Constructor for MenuCreation.
+            </summary>
+            <param name="keyReader">Reference to keyReader.</param>
+            <param name="sceneHandler">Reference to sceneHandler.</param>
+        </member>
+        <member name="M:Pacman.MenuCreation.GenerateScene">
+            <summary>
+            Method responsible for creating the main menu.
+            </summary>
+        </member>
+        <member name="M:Pacman.MenuCreation.CreateGameObjects">
+            <summary>
+            Method responsible for creating every gameobject.
             </summary>
         </member>
         <member name="M:Pacman.MenuCreation.CreatePacmanSprite(System.Collections.Generic.ICollection{Pacman.Vector2Int[]})">
             <summary>
-            Creates pacman sprite
+            Creates pacman sprite.
             </summary>
-            <param name="testList"></param>
+            <param name="positionsList">ICollection with vector2int.</param>
         </member>
         <member name="M:Pacman.MenuCreation.AddGameObjectsToScene">
             <summary>
-            Adds game objects to MenuScene
+            Adds game objects to MenuScene.
             </summary>
         </member>
         <member name="M:Pacman.MenuCreation.AddGameObjectsToRenderer">
             <summary>
-            Adds game objects to renderer
+            Adds game objects to renderer.
             </summary>
         </member>
         <member name="T:Pacman.Scene">
             <summary>
-            Represents a game scene
+            Represents a game scene.
+            </summary>
+        </member>
+        <member name="P:Pacman.Scene.Terminate">
+            <summary>
+            Gets or sets a value indicating whether the scene terminated or not.
+            </summary>
+        </member>
+        <member name="P:Pacman.Scene.Unload">
+            <summary>
+            Gets or sets a value indicating whether the scene unloaded.
             </summary>
         </member>
         <member name="M:Pacman.Scene.#ctor">
             <summary>
-            Constructor for scene inGame
+            Constructor for Scene.
             </summary>
-            <param name="xdim">X dimensions</param>
-            <param name="ydim">Y dimensions</param>
-            <param name="gameState">Reference to a GameState class</param>
-            <param name="collision">Reference to a Collision class</param>
-            <param name="keyReader">Reference to a keyreader class</param>
         </member>
         <member name="M:Pacman.Scene.AddGameObject(Pacman.IGameObject)">
             <summary>
@@ -1105,9 +1199,9 @@
         </member>
         <member name="M:Pacman.Scene.RemoveGameObject(Pacman.IGameObject)">
             <summary>
-            Removes a GameObject from the scene
+            Removes a GameObject from the scene.
             </summary>
-            <param name="gameObject">Object to remove</param>
+            <param name="gameObject">Object to remove.</param>
         </member>
         <member name="M:Pacman.Scene.FindGameObjectByName(System.String)">
             <summary>
@@ -1118,46 +1212,101 @@
         </member>
         <member name="M:Pacman.Scene.GameLoop(System.Int32)">
             <summary>
-            Method responsible for the main gameLoop
+            Method responsible for the main gameLoop.
             </summary>
-            <param name="msFramesPerSecond">Miliseconds to wait</param>
+            <param name="msFramesPerSecond">Miliseconds to wait.</param>
+        </member>
+        <member name="T:Pacman.GameRelated.SceneHandler">
+            <summary>
+            Class responsible for handling scenes.
+            </summary>
+        </member>
+        <member name="P:Pacman.GameRelated.SceneHandler.Terminate">
+            <summary>
+            Gets or sets a value indicating whether the scene terminated or not.
+            </summary>
+        </member>
+        <member name="P:Pacman.GameRelated.SceneHandler.CurrentScene">
+            <summary>
+            Gets or sets currentScene.
+            </summary>
+        </member>
+        <member name="M:Pacman.GameRelated.SceneHandler.#ctor">
+            <summary>
+            Constructor for SceneHandler.
+            </summary>
+        </member>
+        <member name="M:Pacman.GameRelated.SceneHandler.FindSceneByName(System.String)">
+            <summary>
+            Method that finds a scene by name.
+            </summary>
+            <param name="name">Name to look for.</param>
+            <returns>Returns a scene.</returns>
+        </member>
+        <member name="M:Pacman.GameRelated.SceneHandler.AddScene(Pacman.Scene,System.String)">
+            <summary>
+            Method to add a scene.
+            </summary>
+            <param name="scene">Scene to add.</param>
+            <param name="name">Name of the scene.</param>
+        </member>
+        <member name="M:Pacman.GameRelated.SceneHandler.RemoveScene(System.String)">
+            <summary>
+            Method that removes a scene.
+            </summary>
+            <param name="name">Name of the scene to remove.</param>
+        </member>
+        <member name="M:Pacman.GameRelated.SceneHandler.TerminateCurrentScene">
+            <summary>
+            Method to terminate a scene.
+            </summary>
+        </member>
+        <member name="M:Pacman.GameRelated.SceneHandler.RunScene">
+            <summary>
+            Method used to run a scene.
+            </summary>
         </member>
         <member name="T:Pacman.Score">
             <summary>
-            Class for ConsoleScore. Implements IGameObject
+            Class for ConsoleScore. Implements IGameObject.
             </summary>
         </member>
         <member name="P:Pacman.Score.Name">
             <summary>
-            Property with this class's name
+            Gets this class's name.
             </summary>
         </member>
         <member name="P:Pacman.Score.GetScore">
             <summary>
-            Property that returns a string with current score
+            Gets string with current score.
             </summary>
         </member>
         <member name="M:Pacman.Score.#ctor(Pacman.Collision)">
             <summary>
-            Constructor for Score
+            Constructor for Score.
             </summary>
-            <param name="collision">Collision parameter</param>
+            <param name="collision">Collision parameter.</param>
         </member>
         <member name="M:Pacman.Score.Start">
             <summary>
-            Method that runs once on start
+            Method that runs once on start.
+            </summary>
+        </member>
+        <member name="M:Pacman.Score.Update">
+            <summary>
+            Method that defines what happens while the class is running.
             </summary>
         </member>
         <member name="M:Pacman.Score.Finish">
             <summary>
-            Method that runs once on finish
+            Method that runs once on finish.
             </summary>
         </member>
         <member name="M:Pacman.Score.UpdateScore(System.UInt16)">
             <summary>
-            Updates score everytime pacman eats a food
+            Updates score everytime pacman eats a food.
             </summary>
-            <param name="score"></param>
+            <param name="score">Update score with this value.</param>
         </member>
         <member name="T:Pacman.IGameObject">
             <summary>

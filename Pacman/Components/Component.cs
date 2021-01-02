@@ -20,6 +20,7 @@
         /// </summary>
         public virtual void Start()
         {
+            // Line intentionally left empty.
         }
 
         /// <summary>
@@ -27,6 +28,7 @@
         /// </summary>
         public virtual void Update()
         {
+            // Line intentionally left empty.
         }
 
         /// <summary>
@@ -34,6 +36,7 @@
         /// </summary>
         public virtual void Finish()
         {
+            // Line intentionally left empty.
         }
     }
 }

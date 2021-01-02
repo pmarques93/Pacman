@@ -43,7 +43,8 @@ namespace Pacman
         private SceneHandler sceneHandler;
         private GameObject newLevelCreator;
 
-        public MenuCreation(KeyReaderComponent keyReader, SceneHandler sceneHandler)
+        public MenuCreation(KeyReaderComponent keyReader,
+                            SceneHandler sceneHandler)
         {
             this.sceneHandler = sceneHandler;
 
@@ -81,7 +82,7 @@ namespace Pacman
             sceneChangerComponent.SceneToLoad = "LevelScene";
 
             ////////////////////////////////////////////////////////////////////
-            
+
             newLevelCreator = new GameObject("New Level Creator");
 
             CreateNewLevelComponent createLevel =
@@ -128,9 +129,10 @@ namespace Pacman
             selector.AddComponent(new TransformComponent(2, 34));
             selector.AddComponent(selectorMovement);
             selector.AddComponent(map);
-            selector.AddComponent(new ConsoleSprite(selectorSprite,
-                                                  ConsoleColor.White,
-                                                  ConsoleColor.DarkBlue));
+            selector.AddComponent(new ConsoleSprite(
+                                    selectorSprite,
+                                    ConsoleColor.White,
+                                    ConsoleColor.DarkBlue));
             SelectorMovementBehaviour selectorMovementBehaviour =
                                  new SelectorMovementBehaviour(
                                         selector,
@@ -139,7 +141,6 @@ namespace Pacman
 
             // Adds a movement behaviour
             selectorMovement.AddMovementBehaviour(selectorMovementBehaviour);
-
 
             ////////////////////////////////////////////////////////////////////
 
@@ -150,7 +151,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "START GAME",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.Yellow, ConsoleColor.DarkBlue);
+                    ConsoleColor.Yellow,
+                    ConsoleColor.DarkBlue);
 
             startText.AddComponent(renderStartGame);
 
@@ -163,7 +165,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "QUIT",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             quitText.AddComponent(renderQuit);
 
@@ -177,7 +180,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => $"HighScore:",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             highScoreText.AddComponent(renderHighScoreText);
 
@@ -192,14 +196,14 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => $"{highScoreComponent.HighScore}",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             highScoreNumberText.AddComponent(new TransformComponent(6, 30));
             highScoreNumberText.AddComponent(renderHighScoreNumberText);
             highScoreNumberText.AddComponent(highScoreComponent);
 
             ////////////////////////////////////////////////////////////////////
-
 
             controlsText = new GameObject("ControlsText");
             controlsText.AddComponent(new TransformComponent(70, 19));
@@ -208,7 +212,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "Controls:",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             controlsText.AddComponent(renderControls);
 
@@ -221,7 +226,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "Movement Keys: W, A, S, D",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             movementText.AddComponent(renderMovement);
 
@@ -234,7 +240,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "Confirm: Enter , Quit: Escape",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             actionsText.AddComponent(renderActions);
 
@@ -247,7 +254,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "Rules:",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             rules.AddComponent(renderRules);
 
@@ -260,7 +268,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "Pacman must run from ghosts",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             rule1.AddComponent(renderRule1);
 
@@ -273,7 +282,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "Pacman can pick power pills and eat the ghosts",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             rule2.AddComponent(renderRule2);
 
@@ -286,7 +296,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "Pacman must eat every food to end the game",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             rule3.AddComponent(renderRule3);
 
@@ -299,7 +310,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "Icons:",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             icons.AddComponent(renderIcons);
 
@@ -312,7 +324,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "P -> Pacman",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             icon1.AddComponent(renderIcon1);
 
@@ -325,7 +338,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "Colored Squares -> Ghosts",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             icon2.AddComponent(renderIcon2);
 
@@ -338,7 +352,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "F -> Fruits",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             icon3.AddComponent(renderIcon3);
 
@@ -351,7 +366,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => "PUP -> Power Pill",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             icon4.AddComponent(renderIcon4);
 
@@ -364,7 +380,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => ". -> Food",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             icon5.AddComponent(renderIcon5);
         }
@@ -377,114 +394,114 @@ namespace Pacman
         {
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(14,0),
-                                new Vector2Int(26,0)
+                                new Vector2Int(14, 0),
+                                new Vector2Int(26, 0)
                             });
 
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(10,1),
-                                new Vector2Int(30,1)
+                                new Vector2Int(10, 1),
+                                new Vector2Int(30, 1)
                             });
 
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(8,2),
-                                new Vector2Int(32,2)
+                                new Vector2Int(8, 2),
+                                new Vector2Int(32, 2)
                             });
 
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(6,3),
-                                new Vector2Int(34,3)
+                                new Vector2Int(6, 3),
+                                new Vector2Int(34, 3)
                             });
 
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(4,4),
-                                new Vector2Int(36,4)
+                                new Vector2Int(4, 4),
+                                new Vector2Int(36, 4)
                             });
 
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(2,5),
-                                new Vector2Int(38,5)
+                                new Vector2Int(2, 5),
+                                new Vector2Int(38, 5)
                             });
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(2,6),
-                                new Vector2Int(36,6)
-                            });
-
-            testList.Add(new Vector2Int[]
-                            {
-                                new Vector2Int(0,7),
-                                new Vector2Int(33,7)
+                                new Vector2Int(2, 6),
+                                new Vector2Int(36, 6)
                             });
 
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(0,8),
-                                new Vector2Int(30,8)
+                                new Vector2Int(0, 7),
+                                new Vector2Int(33, 7)
                             });
 
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(0,9),
-                                new Vector2Int(28,9)
+                                new Vector2Int(0, 8),
+                                new Vector2Int(30, 8)
                             });
 
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(0,10),
-                                new Vector2Int(24,10)
-                            });
-            testList.Add(new Vector2Int[]
-                            {
-                                new Vector2Int(0,11),
-                                new Vector2Int(28,11)
-                            });
-            testList.Add(new Vector2Int[]
-                            {
-                                new Vector2Int(0,12),
-                                new Vector2Int(32,12)
+                                new Vector2Int(0, 9),
+                                new Vector2Int(28, 9)
                             });
 
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(2,13),
-                                new Vector2Int(36,13)
+                                new Vector2Int(0, 10),
+                                new Vector2Int(24, 10)
                             });
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(2,14),
-                                new Vector2Int(38,14)
+                                new Vector2Int(0, 11),
+                                new Vector2Int(28, 11)
                             });
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(4,15),
-                                new Vector2Int(36,15)
-                            });
-            testList.Add(new Vector2Int[]
-                            {
-                                new Vector2Int(6,16),
-                                new Vector2Int(34,16)
+                                new Vector2Int(0, 12),
+                                new Vector2Int(32, 12)
                             });
 
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(8,17),
-                                new Vector2Int(32,17)
+                                new Vector2Int(2, 13),
+                                new Vector2Int(36, 13)
                             });
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(10,18),
-                                new Vector2Int(30,18)
+                                new Vector2Int(2, 14),
+                                new Vector2Int(38, 14)
                             });
             testList.Add(new Vector2Int[]
                             {
-                                new Vector2Int(12,19),
-                                new Vector2Int(26,19)
+                                new Vector2Int(4, 15),
+                                new Vector2Int(36, 15)
+                            });
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(6, 16),
+                                new Vector2Int(34, 16)
+                            });
+
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(8, 17),
+                                new Vector2Int(32, 17)
+                            });
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(10, 18),
+                                new Vector2Int(30, 18)
+                            });
+            testList.Add(new Vector2Int[]
+                            {
+                                new Vector2Int(12, 19),
+                                new Vector2Int(26, 19)
                             });
         }
 

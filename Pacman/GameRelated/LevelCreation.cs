@@ -129,7 +129,13 @@ namespace Pacman
 
             // GHOST
             GhostCreation(map);
-            gameState = new GameState(collisions, pacman);
+
+            gameState = new GameState(collisions,
+                                      pacman,
+                                      new List<GameObject>() 
+                                      { blinky },
+                                      map,
+                                      random);
 
             // WALLS
             WallCreation(map);
@@ -238,7 +244,7 @@ namespace Pacman
         /// </summary>
         private void ResetPositions()
         {
-            // lives.Lives--;
+            lives.Lives--;
 
             if (lives.Lives == 0) GameOver();
 
@@ -254,7 +260,7 @@ namespace Pacman
             MapTransformComponent blinkyMapTransform = blinky.GetComponent<MapTransformComponent>();
             map.Map[blinkyMapTransform.Position.X, blinkyMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
             blinky.GetComponent<TransformComponent>().Position = new Vector2Int(39, 14);
-            blinky.GetComponent<MoveComponent>().movementState = MovementState.OnGhostHouse;
+            blinky.GetComponent<MoveComponent>().MovementState = MovementState.OnGhostHouse;
             blinkyMapTransform.Position = new Vector2Int(13, 14);
             blinkyMapTransform.Direction = Direction.Up;
         }
@@ -366,39 +372,12 @@ namespace Pacman
             blinky.AddComponent(new ConsoleSprite(blinkySprite,
                                                   ConsoleColor.White,
                                                   ConsoleColor.Red));
-            blinkyMovement.movementState = MovementState.OnGhostHouse;
+            blinkyMovement.MovementState = MovementState.OnGhostHouse;
 
             // spawner.GetComponent<SpawnerComponent>().
             //             AddGameObject(new SpawnStruct(blinkyTransform.Position,
             //                                           blinkyMapTransform.Position,
             //                                           blinky));
-
-            collisions.PowerPillCollision += () =>
-            {
-                blinky.GetComponent<MoveComponent>().AddMovementBehaviour(
-                                                new FrightenedMovementBehaviour(
-                                                    collisions,
-                                                    blinky,
-                                                    map,
-                                                    new MapTransformComponent(1, 1),
-                                                    blinkyMapTransform, random, 3));
-                MapTransformComponent tempMapTrans = blinky.GetComponent<MapTransformComponent>();
-                switch (tempMapTrans.Direction)
-                {
-                    case Direction.Down:
-                        tempMapTrans.Direction = Direction.Up;
-                        break;
-                    case Direction.Up:
-                        tempMapTrans.Direction = Direction.Down;
-                        break;
-                    case Direction.Left:
-                        tempMapTrans.Direction = Direction.Right;
-                        break;
-                    case Direction.Right:
-                        tempMapTrans.Direction = Direction.Left;
-                        break;
-                }
-            };
 
             char[,] inkySprite =
             {

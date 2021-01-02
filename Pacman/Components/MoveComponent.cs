@@ -9,13 +9,13 @@ namespace Pacman
     {
         // Position related variables
         private int maxX, maxY;
-        public MovementState movementState;
+        public MovementState MovementState { get; set; }
 
         // Type of Movement
         private IMovementBehaviour movementBehaviour;
         public MoveComponent()
         {
-            movementState = MovementState.None;
+            MovementState = MovementState.None;
         }
         /// <summary>
         /// Method that runs once on start

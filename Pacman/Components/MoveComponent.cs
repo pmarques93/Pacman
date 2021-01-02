@@ -5,14 +5,18 @@ namespace Pacman
     /// <summary>
     /// Movement Component. Extends Component
     /// </summary>
-    public class MoveComponent: Component
+    public class MoveComponent : Component
     {
         // Position related variables
         private int maxX, maxY;
+        public MovementState movementState;
 
         // Type of Movement
         private IMovementBehaviour movementBehaviour;
-
+        public MoveComponent()
+        {
+            movementState = MovementState.None;
+        }
         /// <summary>
         /// Method that runs once on start
         /// </summary>

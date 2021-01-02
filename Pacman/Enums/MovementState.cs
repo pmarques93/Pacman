@@ -5,8 +5,11 @@
     /// </summary>
     public enum MovementState
     {
+        None,
         Chase,
         Frightened,
         Eaten,
+        OnGhostHouse,
+        OutGhostHouse,
     }
 }

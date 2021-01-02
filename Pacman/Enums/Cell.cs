@@ -16,6 +16,7 @@ namespace Pacman
         Fruit = 16,
         Food = 32,
         PowerPill = 64,
-        GhostHouse = 128
+        GhostHouse = 128,
+        GhostHouseExit = 256,
     }
 }

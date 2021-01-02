@@ -141,6 +141,8 @@ namespace Pacman
                     map.Map[i,j].Collider.Type |= Cell.GhostHouse;
                 }
             }
+            map.Map[13, 11].Collider.Type |= Cell.GhostHouseExit;
+            map.Map[14, 11].Collider.Type |= Cell.GhostHouseExit;
 
             // FOOD
             FoodCreation();

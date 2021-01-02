@@ -71,7 +71,7 @@ namespace Pacman
                     if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) && map.Map[x, y].Collider.Type.HasFlag(Cell.Ghost))
                     {
                         OnGhostCollision();
-                        return;
+                        // return;
                     }
                     if (map.Map[x, y].Collider.Type.HasFlag(Cell.GhostHouse) && map.Map[x, y].Collider.Type.HasFlag(Cell.Ghost))
                     {
@@ -84,7 +84,7 @@ namespace Pacman
                             FirstOrDefault();
 
                         OnGhostHouseCollision(tempGO,map.Map[x, y].Collider.Type);
-                        return;
+                        // return;
                     }
 
                     if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman))
@@ -99,7 +99,7 @@ namespace Pacman
                         CollisionAction(map.Map[x, y].Collider.Type, tempGO);
                         map.Map[x, y].Collider.Type &= ~map.Map[x, y].Collider.Type;
                         map.Map[x, y].Collider.Type |= Cell.Pacman;
-                        return;
+                        // return;
                     }
                 }
             }

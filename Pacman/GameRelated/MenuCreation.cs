@@ -41,6 +41,7 @@ namespace Pacman
 
         // Scene
         private SceneHandler sceneHandler;
+        private GameObject newLevelCreator;
 
         public MenuCreation(KeyReaderComponent keyReader, SceneHandler sceneHandler)
         {
@@ -81,6 +82,16 @@ namespace Pacman
             sceneChanger.AddComponent(sceneChangerComponent);
             sceneChangerComponent.sceneToLoad = "LevelScene";
 
+            ////////////////////////////////////////////////////////////////////
+            
+            newLevelCreator = new GameObject("New Level Creator");
+
+            CreateNewLevelComponent createLevel =
+                new CreateNewLevelComponent(keyReader, sceneHandler);
+
+            newLevelCreator.AddComponent(createLevel);
+
+            ////////////////////////////////////////////////////////////////////
 
             pacmanLogo = new GameObject("Pacman Logo");
             ConsolePixel logoPixel = new ConsolePixel(
@@ -486,6 +497,7 @@ namespace Pacman
         {
             MenuScene.AddGameObject(selector);
             MenuScene.AddGameObject(sceneChanger);
+            MenuScene.AddGameObject(newLevelCreator);
             MenuScene.AddGameObject(highScoreNumberText);
         }
 

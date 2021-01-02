@@ -17,10 +17,16 @@ namespace Pacman.GameRelated
         {
             return scenes[name];
         }
+
         public void AddScene(Scene scene, string name)
         {
             scenes.Add(name, scene);
             scene.SceneHandler = this;
+        }
+
+        public void RemoveScene(string name)
+        {
+            scenes.Remove(name);
         }
 
         public void TerminateCurrentScene()

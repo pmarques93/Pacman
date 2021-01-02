@@ -15,7 +15,7 @@
 
 # Custom
 highscore.txt
-Pacman.xml
+Pacman/Pacman.xml
 
 # Mono auto generated files
 mono_crash.*

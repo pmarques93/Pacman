@@ -1,11 +1,13 @@
 ﻿using System;
+using Pacman.Components;
+using Pacman.MovementBehaviours.ChaseBehaviour;
 
 namespace Pacman
 {
     /// <summary>
     /// Class with game state information
     /// </summary>
-    public class GameState: Component
+    public class GameState : Component
     {
         private readonly Collision collisions;
 
@@ -20,12 +22,25 @@ namespace Pacman
         public override void Start()
         {
             collisions.GhostCollision += GhostCollision;
+            collisions.GhostHouseCollision += GhostOnHouse;
             collisions.PowerPillCollision += () => movementState = MovementState.Frightened;
         }
         public override void Finish()
         {
             collisions.GhostCollision -= GhostCollision;
             collisions.PowerPillCollision -= () => movementState = MovementState.Frightened;
+        }
+
+        private void GhostOnHouse(GameObject ghost, Cell cell)
+        {
+            ghost.GetComponent<MoveComponent>().AddMovementBehaviour(
+                    new BlinkyChaseBehaviour(
+                        collisions,
+                        ghost,
+                        ghost.GetComponent<MapComponent>(),
+                        new MapTransformComponent(13,11),
+                        ghost.GetComponent<MapTransformComponent>(),
+                        3));
         }
 
         /// <summary>

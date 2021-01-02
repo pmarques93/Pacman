@@ -134,6 +134,14 @@ namespace Pacman
             // WALLS
             WallCreation(map);
 
+            for (int i = 11; i < 17; i++)
+            {
+                for (int j = 13; j < 16; j++)
+                {
+                    map.Map[i,j].Collider.Type |= Cell.GhostHouse;
+                }
+            }
+
             // FOOD
             FoodCreation();
 
@@ -332,8 +340,8 @@ namespace Pacman
                 {' '}
             };
             blinky = new GameObject("blinky");
-            TransformComponent blinkyTransform = new TransformComponent(39, 11);
-            MapTransformComponent blinkyMapTransform = new MapTransformComponent(13, 11);
+            TransformComponent blinkyTransform = new TransformComponent(39, 12);
+            MapTransformComponent blinkyMapTransform = new MapTransformComponent(13, 12);
             MoveComponent blinkyMovement = new MoveComponent();
             ColliderComponent blinkyCollider = new ColliderComponent(Cell.Ghost);
 
@@ -844,7 +852,7 @@ namespace Pacman
             allFoods[29].AddComponent(new ConsoleSprite(
                 food29Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
-            
+
             // POWER PILL
 
             allFoods[31] = new GameObject("Food31");
@@ -895,9 +903,9 @@ namespace Pacman
             allFoods[34].AddComponent(new ConsoleSprite(
                 food34Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
-            
+
             // POWER PILL
-            
+
 
             allFoods[36] = new GameObject("Food36");
             char[,] food36Sprite = { { ' ' }, { '.' }, { ' ' }, };
@@ -2387,7 +2395,7 @@ namespace Pacman
             allFoods[159].AddComponent(new ConsoleSprite(
                 food159Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
-            
+
             // POWER PILL
 
 
@@ -2607,7 +2615,7 @@ namespace Pacman
             allFoods[178].AddComponent(new ConsoleSprite(
                 food178Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
-            
+
             // POWER PILL
 
 
@@ -3419,7 +3427,7 @@ namespace Pacman
 
             // After fruitSpawnerComponent calls Start() method, this
             // class subscribes to FruitTimer event
-            fruitSpawnerComponent.RegisterToTimerEvent += () => 
+            fruitSpawnerComponent.RegisterToTimerEvent += () =>
                 fruitSpawnerComponent.FruitTimer.Elapsed += FruitCreation;
         }
 

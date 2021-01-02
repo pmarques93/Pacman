@@ -98,7 +98,13 @@ namespace Pacman.MovementBehaviours
             foreach (Direction d in test)
             {
                 if (!map.Map[directionVector[d].X,
-                        directionVector[d].Y].Collider.Type.HasFlag(Cell.Wall))
+                        directionVector[d].Y].Collider.Type.HasFlag(Cell.Wall) ||
+                    (map.Map[
+                        directionVector[d].X,
+                        directionVector[d].Y].Collider.Type.HasFlag(Cell.GhostHouse) &&
+                    map.Map[
+                        mapTransform.Position.X,
+                        mapTransform.Position.Y].Collider.Type.HasFlag(Cell.GhostHouse)))
                 {
                     if (mapTransform.Direction == Direction.Left
                         && d == Direction.Right

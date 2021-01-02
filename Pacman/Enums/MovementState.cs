@@ -7,5 +7,6 @@
     {
         Chase,
         Frightened,
+        Eaten,
     }
 }

@@ -73,6 +73,20 @@ namespace Pacman
                         OnGhostCollision();
                         return;
                     }
+                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.GhostHouse) && map.Map[x, y].Collider.Type.HasFlag(Cell.Ghost))
+                    {
+                        GameObject tempGO = gameObjects.
+                            Where(o => o.GetComponent<MapTransformComponent>()?.
+                                    Position != null).
+                            Where(o => o.GetComponent<MapTransformComponent>().
+                                    Position == new Vector2Int(x, y)).
+                            Where(o => o.GetComponent<ColliderComponent>().Type == Cell.Ghost).
+                            FirstOrDefault();
+
+                        OnGhostHouseCollision(tempGO,map.Map[x, y].Collider.Type);
+                        return;
+                    }
+
                     if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman))
                     {
                         GameObject tempGO = gameObjects.
@@ -127,6 +141,9 @@ namespace Pacman
         public virtual void OnGhostCollision() =>
             GhostCollision?.Invoke();
 
+        public void OnGhostHouseCollision(GameObject gameObject, Cell cell) =>
+            GhostHouseCollision?.Invoke(gameObject, cell);
+
         /// <summary>
         /// On Fruit or Food collision event method
         /// </summary>
@@ -150,6 +167,7 @@ namespace Pacman
             FoodCount?.Invoke();
 
         public event Action GhostCollision;
+        public event Action<GameObject, Cell> GhostHouseCollision;
         public event Action<ushort> ScoreCollision;
         public event Action PowerPillCollision;
         public event Action<GameObject> FoodCollision;

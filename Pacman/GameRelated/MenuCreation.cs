@@ -176,23 +176,18 @@ namespace Pacman
 
             highScoreNumberText = new GameObject("HighScore Number Text");
 
-            highScoreNumberText.AddComponent(new TransformComponent(6, 30));
-
-            // If file doesn't exist, highscore is 0
-            uint highScore = 0;
-            if (File.Exists(Path.highscore))
-            {
-                FileReader fileReader = new FileReader(Path.highscore);
-                highScore = fileReader.ReadHighScore();
-            }
+            HighScoreComponent highScoreComponent =
+                new HighScoreComponent();
 
             RenderableStringComponent renderHighScoreNumberText
                 = new RenderableStringComponent(
-                    () => $"{highScore}",
+                    () => $"{highScoreComponent.HighScore}",
                     i => new Vector2Int(i, 0),
                     ConsoleColor.White, ConsoleColor.DarkBlue);
 
+            highScoreNumberText.AddComponent(new TransformComponent(6, 30));
             highScoreNumberText.AddComponent(renderHighScoreNumberText);
+            highScoreNumberText.AddComponent(highScoreComponent);
 
             ////////////////////////////////////////////////////////////////////
 
@@ -491,6 +486,7 @@ namespace Pacman
         {
             MenuScene.AddGameObject(selector);
             MenuScene.AddGameObject(sceneChanger);
+            MenuScene.AddGameObject(highScoreNumberText);
         }
 
         /// <summary>

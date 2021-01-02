@@ -3625,23 +3625,18 @@ namespace Pacman
 
             highScoreText = new GameObject("HighScore Text");
 
-            highScoreText.AddComponent(new TransformComponent(0, YSIZE + 1));
-
-            // If file doesn't exist, highscore is 0
-            uint highScore = 0;
-            if (File.Exists(Path.highscore))
-            {
-                FileReader fileReader = new FileReader(Path.highscore);
-                highScore = fileReader.ReadHighScore();
-            }
+            HighScoreComponent highScoreComponent =
+                new HighScoreComponent();
 
             RenderableStringComponent renderHighScoreText
                 = new RenderableStringComponent(
-                    () => $"HighScore: {highScore}",
+                    () => $"HighScore: {highScoreComponent.HighScore}",
                     i => new Vector2Int(i, 0),
                     ConsoleColor.White, ConsoleColor.DarkBlue);
 
+            highScoreText.AddComponent(new TransformComponent(0, YSIZE + 1));
             highScoreText.AddComponent(renderHighScoreText);
+            highScoreText.AddComponent(highScoreComponent);
 
             ////////////////////////////////////////////////////////////////////
 
@@ -3698,6 +3693,7 @@ namespace Pacman
             LevelScene.AddGameObject(collisions);
             LevelScene.AddGameObject(score);
             LevelScene.AddGameObject(scoreText);
+            LevelScene.AddGameObject(highScoreText);
             LevelScene.AddGameObject(gameState);
             LevelScene.AddGameObject(fruitSpawner);
             LevelScene.AddGameObject(gameOverCheck);

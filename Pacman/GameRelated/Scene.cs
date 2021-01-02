@@ -11,24 +11,12 @@ namespace Pacman
     /// </summary>
     public class Scene
     {
-        // Scene dimensions
-        public readonly byte xdim;
-        public readonly byte ydim;
         public bool Terminate { get; set; }
         public bool Unload { get; set; }
-
-        private readonly bool inGame;
 
         // Game objects in this scene
         private Dictionary<string, IGameObject> gameObjects;
         private HashSet<string> gameObjectsNames;
-
-        public SceneHandler SceneHandler { get; set; }
-
-        // Component
-        private readonly GameState gameState;
-        private readonly KeyReaderComponent keyReader;
-        private readonly LivesComponent lives;
 
         /// <summary>
         /// Constructor for scene inGame
@@ -38,36 +26,12 @@ namespace Pacman
         /// <param name="gameState">Reference to a GameState class</param>
         /// <param name="collision">Reference to a Collision class</param>
         /// <param name="keyReader">Reference to a keyreader class</param>
-        public Scene(byte xdim, byte ydim, GameState gameState, KeyReaderComponent keyReader,
-            LivesComponent lives)
+        public Scene()
         {
-            this.xdim = xdim;
-            this.ydim = ydim;
             Terminate = false;
             Unload = false;
             gameObjects = new Dictionary<string, IGameObject>();
             gameObjectsNames = new HashSet<string>();
-            this.gameState = gameState;
-            inGame = true;
-            this.keyReader = keyReader;
-            this.lives = lives;
-        }
-
-        /// <summary>
-        /// Constructor for menu
-        /// </summary>
-        /// <param name="xdim">X dimensions</param>
-        /// <param name="ydim">Y dimensions</param>
-        /// <param name="keyReader">Reference to a keyreader</param>
-        public Scene(byte xdim, byte ydim, KeyReaderComponent keyReader)
-        {
-            this.xdim = xdim;
-            this.ydim = ydim;
-            Terminate = false;
-            gameObjects = new Dictionary<string, IGameObject>();
-            gameObjectsNames = new HashSet<string>();
-            inGame = false;
-            this.keyReader = keyReader;
         }
 
         /// <summary>
@@ -133,7 +97,7 @@ namespace Pacman
                     }
                     catch (InvalidOperationException) { }
                 }
-                
+
                 // Time to wait until next frame
                 timeToWait = (int)(start / TimeSpan.TicksPerMillisecond
                     + msFramesPerSecond

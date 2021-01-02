@@ -21,7 +21,6 @@ namespace Pacman.GameRelated
         public void AddScene(Scene scene, string name)
         {
             scenes.Add(name, scene);
-            scene.SceneHandler = this;
         }
 
         public void RemoveScene(string name)

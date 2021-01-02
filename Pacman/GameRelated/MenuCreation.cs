@@ -56,7 +56,7 @@ namespace Pacman
 
             this.keyReader = keyReader;
 
-            MenuScene = new Scene(XSIZE, YSIZE, keyReader);
+            MenuScene = new Scene();
         }
 
         public void GenerateScene()

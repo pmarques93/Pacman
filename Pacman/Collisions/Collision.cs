@@ -14,9 +14,7 @@ namespace Pacman
         private IList<GameObject> gameObjects;
         private GameObject pacman;
         // Transforms
-        private TransformComponent pacmanTransform;
         private MapComponent map;
-        private int counter = 0;
 
         /// <summary>
         /// Constructor for Collision
@@ -55,7 +53,7 @@ namespace Pacman
         /// </summary>
         public void Start()
         {
-            pacmanTransform = pacman.GetComponent<TransformComponent>();
+
         }
 
         /// <summary>

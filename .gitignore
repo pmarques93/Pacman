@@ -13,8 +13,9 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
-# Txts
+# Custom
 highscore.txt
+Pacman.xml
 
 # Mono auto generated files
 mono_crash.*

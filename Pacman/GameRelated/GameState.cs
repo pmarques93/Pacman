@@ -53,6 +53,9 @@ namespace Pacman
         {
             foreach (GameObject ghost in ghosts)
             {
+                ConsoleSprite consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                consoleSprite.ChangeColor(ConsoleColor.Red, ConsoleColor.White);
+
                 MapTransformComponent ghostMapTransform = ghost.GetComponent<MapTransformComponent>();
                 MoveComponent moveComponent = ghost.GetComponent<MoveComponent>();
                 moveComponent.AddMovementBehaviour(
@@ -102,6 +105,7 @@ namespace Pacman
             if (moveComponent.MovementState.HasFlag(MovementState.OutGhostHouse) ||
                 moveComponent.MovementState.HasFlag(MovementState.Eaten))
             {
+                ConsoleSprite consoleSprite;
                 switch (ghost.Name)
                 {
                     case "blinky":
@@ -114,6 +118,9 @@ namespace Pacman
                                 ghost.GetComponent<MapTransformComponent>(),
                                 3));
                         moveComponent.MovementState = MovementState.Chase;
+
+                        consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                        consoleSprite.ChangeColor(ConsoleColor.White, ConsoleColor.Red);
                         break;
                     case "pinky":
                         moveComponent.AddMovementBehaviour(
@@ -128,7 +135,11 @@ namespace Pacman
                             )
                         );
                         moveComponent.MovementState = MovementState.Chase;
+
+                        consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                        consoleSprite.ChangeColor(ConsoleColor.White, ConsoleColor.DarkMagenta);
                         break;
+
                     case "inky":
                         MapTransformComponent blinkyMapTransform = ghosts.
                                             Where(g => g.Name == "blinky").
@@ -146,6 +157,9 @@ namespace Pacman
                                 ghost.GetComponent<MapTransformComponent>(),
                                 3));
                         moveComponent.MovementState = MovementState.Chase;
+
+                        consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                        consoleSprite.ChangeColor(ConsoleColor.White, ConsoleColor.Blue);
                         break;
                     case "clyde":
                         moveComponent.AddMovementBehaviour(
@@ -158,6 +172,8 @@ namespace Pacman
                                 ghost.GetComponent<MapTransformComponent>(),
                                 3));
                         moveComponent.MovementState = MovementState.Chase;
+                        consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                        consoleSprite.ChangeColor(ConsoleColor.DarkBlue, ConsoleColor.DarkYellow);
                         break;
                 }
             }
@@ -174,6 +190,10 @@ namespace Pacman
                     OnGhostChaseCollision();
                     break;
                 case MovementState.Frightened:
+
+                    ConsoleSprite consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                    consoleSprite.ChangeColor(ConsoleColor.Red, ConsoleColor.DarkBlue);
+
                     MoveComponent moveComponent = ghost.GetComponent<MoveComponent>();
                     moveComponent.MovementState = MovementState.Eaten;
                     moveComponent.AddMovementBehaviour(

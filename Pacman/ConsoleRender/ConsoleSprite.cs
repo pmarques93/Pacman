@@ -8,12 +8,43 @@ namespace Pacman
         // Since a console sprite is a renderable component, it must implement
         // this property, which returns an ienumerable of position-pixel pairs
         // to render
-        public override
-        IEnumerable<KeyValuePair<Vector2Int, ConsolePixel>> Pixels => pixels;
+        public override IEnumerable<KeyValuePair<Vector2Int, ConsolePixel>> Pixels => pixels;
 
         // The position-pixel pairs are actually kept here
         private IDictionary<Vector2Int, ConsolePixel> pixels;
 
+        public void ChangeSprite(char[,] pixels, ConsoleColor fgColor, ConsoleColor bgColor)
+        {
+            this.pixels = new Dictionary<Vector2Int, ConsolePixel>();
+            for (int x = 0; x < pixels.GetLength(0); x++)
+            {
+                for (int y = 0; y < pixels.GetLength(1); y++)
+                {
+                    char shape = pixels[x, y];
+                    if (!shape.Equals(default(char)))
+                    {
+                        this.pixels[new Vector2Int(x, y)] =
+                            new ConsolePixel(shape, fgColor, bgColor);
+                    }
+                }
+            }
+        }
+
+        public void ChangeColor(ConsoleColor fgColor, ConsoleColor bgColor)
+        {
+            IDictionary<Vector2Int, ConsolePixel> tempPixels = 
+                                    new Dictionary<Vector2Int, ConsolePixel>();
+
+            foreach (Vector2Int v in pixels.Keys)
+            {
+                char shape = pixels[v].shape;
+                if (!shape.Equals(default(char)))
+                {
+                    tempPixels[v] = new ConsolePixel(shape, fgColor, bgColor);
+                }
+            }
+            pixels = tempPixels;
+        }
         // Below there are several constructors for this class
 
         public ConsoleSprite(IDictionary<Vector2Int, ConsolePixel> pixels)

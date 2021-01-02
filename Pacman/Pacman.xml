@@ -654,7 +654,7 @@
             Represents a game scene
             </summary>
         </member>
-        <member name="M:Pacman.Scene.#ctor(System.Byte,System.Byte,Pacman.GameState,Pacman.KeyReaderComponent,Pacman.LivesComponent)">
+        <member name="M:Pacman.Scene.#ctor">
             <summary>
             Constructor for scene inGame
             </summary>
@@ -663,14 +663,6 @@
             <param name="gameState">Reference to a GameState class</param>
             <param name="collision">Reference to a Collision class</param>
             <param name="keyReader">Reference to a keyreader class</param>
-        </member>
-        <member name="M:Pacman.Scene.#ctor(System.Byte,System.Byte,Pacman.KeyReaderComponent)">
-            <summary>
-            Constructor for menu
-            </summary>
-            <param name="xdim">X dimensions</param>
-            <param name="ydim">Y dimensions</param>
-            <param name="keyReader">Reference to a keyreader</param>
         </member>
         <member name="M:Pacman.Scene.AddGameObject(Pacman.IGameObject)">
             <summary>

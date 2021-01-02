@@ -132,10 +132,11 @@ namespace Pacman
 
             gameState = new GameState(collisions,
                                       pacman,
-                                      new List<GameObject>() 
-                                      { blinky },
+                                      new List<GameObject>()
+                                      { blinky,pinky,inky,clyde},
                                       map,
-                                      random);
+                                      random,
+                                      pacmanMovementBehaviour);
 
             // WALLS
             WallCreation(map);
@@ -317,11 +318,11 @@ namespace Pacman
                 {' '}
             };
             pinky = new GameObject("pinky");
-            TransformComponent pinkyTransform = new TransformComponent(21, 5);
-            MapTransformComponent pinkyMapTransform = new MapTransformComponent(7, 5);
+            TransformComponent pinkyTransform = new TransformComponent(36, 14);
+            MapTransformComponent pinkyMapTransform = new MapTransformComponent(12, 14);
             MoveComponent pinkyMovement = new MoveComponent();
+            pinkyMovement.MovementState = MovementState.OnGhostHouse;
             ColliderComponent pinkyCollider = new ColliderComponent(Cell.Ghost);
-
 
             pinky.AddComponent(pinkyTransform);
             pinky.AddComponent(pinkyMapTransform);
@@ -386,12 +387,13 @@ namespace Pacman
                 {' '}
             };
             inky = new GameObject("inky");
-            TransformComponent inkyTransform = new TransformComponent(3, 15);
-            MapTransformComponent inkyMapTransform = new MapTransformComponent(1, 15);
+            TransformComponent inkyTransform = new TransformComponent(45, 14);
+            MapTransformComponent inkyMapTransform = new MapTransformComponent(15, 14);
             MoveComponent inkyMovement = new MoveComponent();
             ColliderComponent inkyCollider = new ColliderComponent(Cell.Ghost);
-
+            inkyMovement.MovementState = MovementState.OnGhostHouse;
             inky.AddComponent(inkyTransform);
+            inky.AddComponent(inkyMapTransform);
             inky.AddComponent(inkyMovement);
             inky.AddComponent(inkyCollider);
             inky.AddComponent(map);
@@ -418,12 +420,13 @@ namespace Pacman
                 {' '}
             };
             clyde = new GameObject("clyde");
-            TransformComponent clydeTransform = new TransformComponent(21, 15);
-            MapTransformComponent clydeMapTransform = new MapTransformComponent(7, 15);
+            TransformComponent clydeTransform = new TransformComponent(42, 14);
+            MapTransformComponent clydeMapTransform = new MapTransformComponent(14, 14);
             MoveComponent clydeMovement = new MoveComponent();
             ColliderComponent clydeCollider = new ColliderComponent(Cell.Ghost);
 
             clyde.AddComponent(clydeTransform);
+            clyde.AddComponent(clydeMapTransform);
             clyde.AddComponent(clydeMovement);
             clyde.AddComponent(clydeCollider);
             clyde.AddComponent(map);
@@ -3650,10 +3653,10 @@ namespace Pacman
         private void AddGameObjectsToCollisionCheck()
         {
             collisions.AddPacman(pacman);
-            // collisions.AddGameObject(pinky);
+            collisions.AddGameObject(pinky);
             collisions.AddGameObject(blinky);
-            // collisions.AddGameObject(inky);
-            // collisions.AddGameObject(clyde);
+            collisions.AddGameObject(inky);
+            collisions.AddGameObject(clyde);
 
             foreach (GameObject food in allFoods)
                 if (food != null) collisions.AddGameObject(food);
@@ -3668,10 +3671,10 @@ namespace Pacman
         private void AddGameObjectsToScene()
         {
             LevelScene.AddGameObject(spawner);
-            // LevelScene.AddGameObject(pinky);
+            LevelScene.AddGameObject(pinky);
             LevelScene.AddGameObject(blinky);
-            // LevelScene.AddGameObject(inky);
-            // LevelScene.AddGameObject(clyde);
+            LevelScene.AddGameObject(inky);
+            LevelScene.AddGameObject(clyde);
             LevelScene.AddGameObject(pacman);
 
             foreach (GameObject food in allFoods)
@@ -3703,10 +3706,10 @@ namespace Pacman
                 if (powerPill != null) consoleRenderer.AddGameObject(powerPill);
 
             consoleRenderer.AddGameObject(pacman);
-            // consoleRenderer.AddGameObject(pinky);
+            consoleRenderer.AddGameObject(pinky);
             consoleRenderer.AddGameObject(blinky);
-            // consoleRenderer.AddGameObject(inky);
-            // consoleRenderer.AddGameObject(clyde);
+            consoleRenderer.AddGameObject(inky);
+            consoleRenderer.AddGameObject(clyde);
             consoleRenderer.AddGameObject(walls);
             consoleRenderer.AddGameObject(scoreText);
             consoleRenderer.AddGameObject(highScoreText);

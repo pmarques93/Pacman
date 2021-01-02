@@ -30,7 +30,7 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
             TargetPosition = targetTransform.Position;
             double dist = GetAbsoluteDistance(mapTransform.Position,
                                               TargetPosition);
-            if (dist <= 8)
+            if (dist <= 4)
             {
                 int x = 0;
                 int y = map.Map.GetLength(1);

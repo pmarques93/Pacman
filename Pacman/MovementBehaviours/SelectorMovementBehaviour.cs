@@ -54,7 +54,7 @@ namespace Pacman
                 case 34:
                     keyReader.quitKeys.Clear();
                     keyReader.quitKeys.Add(System.ConsoleKey.Escape);
-                    sceneChanger.sceneHandler.currentScene.unload = true;
+                    sceneChanger.sceneHandler.CurrentScene.Unload = true;
                     sceneChanger.ChangeScene();
                     // keyReader.EnterPressed -= EnterPressed;
                     break;

@@ -217,9 +217,9 @@ namespace Pacman
 
             sceneChangerComponent.sceneToLoad = "MenuScene";
             Scene sceneToLoad = sceneChangerComponent.sceneHandler.FindSceneByName("MenuScene");
-            sceneChangerComponent.sceneHandler.currentScene.unload = true;
+            sceneChangerComponent.sceneHandler.CurrentScene.Unload = true;
             sceneChangerComponent.ChangeScene();
-            sceneChangerComponent.sceneHandler.currentScene.unload = false;
+            sceneChangerComponent.sceneHandler.CurrentScene.Unload = false;
             // sceneHandler.TerminateCurrentScene();
         }
 

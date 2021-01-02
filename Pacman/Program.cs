@@ -25,7 +25,7 @@ namespace Pacman
             levelCreation.GenerateScene();
 
             Scene menuScene = menuCreation.MenuScene;
-            sceneHandler.currentScene = menuScene;
+            sceneHandler.CurrentScene = menuScene;
 
             sceneHandler.RunScene();
         }

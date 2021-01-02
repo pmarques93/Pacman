@@ -21,9 +21,9 @@ namespace Pacman.Components
 
         public void ChangeScene()
         {
-            sceneHandler.currentScene.terminate = true;
-            sceneHandler.currentScene = sceneHandler.FindSceneByName(sceneToLoad);
-            sceneHandler.currentScene.terminate = false;
+            sceneHandler.CurrentScene.Terminate = true;
+            sceneHandler.CurrentScene = sceneHandler.FindSceneByName(sceneToLoad);
+            sceneHandler.CurrentScene.Terminate = false;
         }
 
     }

@@ -14,8 +14,8 @@ namespace Pacman
         // Scene dimensions
         public readonly byte xdim;
         public readonly byte ydim;
-        public bool terminate;
-        public bool unload;
+        public bool Terminate { get; set; }
+        public bool Unload { get; set; }
 
         private readonly bool inGame;
 
@@ -23,7 +23,7 @@ namespace Pacman
         private Dictionary<string, IGameObject> gameObjects;
         private HashSet<string> gameObjectsNames;
 
-        public SceneHandler sceneHandler;
+        public SceneHandler SceneHandler { get; set; }
 
         // Component
         private readonly GameState gameState;
@@ -43,8 +43,8 @@ namespace Pacman
         {
             this.xdim = xdim;
             this.ydim = ydim;
-            terminate = false;
-            unload = false;
+            Terminate = false;
+            Unload = false;
             gameObjects = new Dictionary<string, IGameObject>();
             gameObjectsNames = new HashSet<string>();
             this.gameState = gameState;
@@ -63,7 +63,7 @@ namespace Pacman
         {
             this.xdim = xdim;
             this.ydim = ydim;
-            terminate = false;
+            Terminate = false;
             gameObjects = new Dictionary<string, IGameObject>();
             gameObjectsNames = new HashSet<string>();
             inGame = false;
@@ -110,10 +110,10 @@ namespace Pacman
                 gameObjects[gameObjectsNames.ElementAt(i)].Start();
             }
 
-            // keyReader.EscapePressed += sceneHandler.TerminateCurrentScene;
+            // keyReader.EscapePressed += SceneHandler.TerminateCurrentScene;
 
             // Executes the Update() method of the GameObjects on the scene
-            while (!terminate)
+            while (!Terminate)
             {
                 // Time to wait until next frame
                 int timeToWait;
@@ -149,7 +149,7 @@ namespace Pacman
 
             // Executes the Finish() method of the GameObjects on the scene
             // tearing them down
-            if (!unload)
+            if (!Unload)
             {
                 for (int i = 0; i < gameObjectsNames.Count; i++)
                 {
@@ -157,7 +157,7 @@ namespace Pacman
                 }
             }
 
-            // keyReader.EscapePressed -= sceneHandler.TerminateCurrentScene;
+            // keyReader.EscapePressed -= SceneHandler.TerminateCurrentScene;
 
         }
     }

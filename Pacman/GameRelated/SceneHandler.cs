@@ -4,13 +4,13 @@ namespace Pacman.GameRelated
     public class SceneHandler
     {
         private Dictionary<string, Scene> scenes;
-        public bool terminate;
-        public Scene currentScene;
+        public bool Terminate { get; set; }
+        public Scene CurrentScene { get; set; }
 
         public SceneHandler()
         {
             scenes = new Dictionary<string, Scene>();
-            terminate = false;
+            Terminate = false;
         }
 
         public Scene FindSceneByName(string name)
@@ -20,20 +20,20 @@ namespace Pacman.GameRelated
         public void AddScene(Scene scene, string name)
         {
             scenes.Add(name, scene);
-            scene.sceneHandler = this;
+            scene.SceneHandler = this;
         }
 
         public void TerminateCurrentScene()
         {
-            currentScene.terminate = true;
-            terminate = true;
+            CurrentScene.Terminate = true;
+            Terminate = true;
         }
 
         public void RunScene()
         {
-            while (!terminate)
+            while (!Terminate)
             {
-                currentScene.GameLoop(170);
+                CurrentScene.GameLoop(170);
             }
         }
     }

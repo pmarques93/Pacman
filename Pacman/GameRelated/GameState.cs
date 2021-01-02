@@ -98,6 +98,27 @@ namespace Pacman
                        ghost.GetComponent<MapTransformComponent>(),
                        3));
             moveComponent.MovementState = MovementState.OutGhostHouse;
+
+            ConsoleSprite consoleSprite;
+            switch (ghost.Name)
+            {
+                case "blinky":
+                    consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                    consoleSprite.ChangeColor(ConsoleColor.White, ConsoleColor.Red);
+                    break;
+                case "pinky":
+                    consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                    consoleSprite.ChangeColor(ConsoleColor.White, ConsoleColor.DarkMagenta);
+                    break;
+                case "inky":
+                    consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                    consoleSprite.ChangeColor(ConsoleColor.White, ConsoleColor.Blue);
+                    break;
+                case "clyde":
+                    consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                    consoleSprite.ChangeColor(ConsoleColor.DarkBlue, ConsoleColor.DarkYellow);
+                    break;
+            }
         }
         private void GhostOnHouseExit(GameObject ghost, Cell cell)
         {

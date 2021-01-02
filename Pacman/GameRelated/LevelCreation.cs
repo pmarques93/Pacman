@@ -186,8 +186,7 @@ namespace Pacman
         /// </summary>
         private void GameOver()
         {
-            gameState.GhostChaseCollision -= ResetPositions;
-
+            // Writes a new high score
             if (File.Exists(Path.highscore))
             {
                 FileReader fileReader = new FileReader(Path.highscore);
@@ -207,20 +206,19 @@ namespace Pacman
                 fileWriter.CreateHighScoreTXT(tempScore);
             }
 
-            // LevelScene.FindGameObjectByName("Console Renderer").Finish();
-
             pacmanKeyReader.quitKeys.Clear();
             pacmanKeyReader.quitKeys.Add(System.ConsoleKey.Enter);
 
+            // Loads menu scene
             SceneChangerComponent sceneChangerComponent =
                 sceneChanger.GetComponent<SceneChangerComponent>();
-
             sceneChangerComponent.sceneToLoad = "MenuScene";
-            Scene sceneToLoad = sceneChangerComponent.sceneHandler.FindSceneByName("MenuScene");
             sceneChangerComponent.sceneHandler.CurrentScene.Unload = true;
             sceneChangerComponent.ChangeScene();
             sceneChangerComponent.sceneHandler.CurrentScene.Unload = false;
-            // sceneHandler.TerminateCurrentScene();
+
+            // Removes level scene (deletes the scene)
+            sceneHandler.RemoveScene("LevelScene");
         }
 
         /// <summary>
@@ -3734,6 +3732,8 @@ namespace Pacman
                 fruitSpawnerComponent.FruitTimer.Elapsed -= FruitCreation;
 
             fruitSpawnerComponent.FruitTimer.Elapsed -= FruitCreation;
+
+            gameState.GhostChaseCollision -= ResetPositions;
         }
     }
 }

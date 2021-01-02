@@ -74,8 +74,6 @@ namespace Pacman
                 gameObjects[gameObjectsNames.ElementAt(i)].Start();
             }
 
-            // keyReader.EscapePressed += SceneHandler.TerminateCurrentScene;
-
             // Executes the Update() method of the GameObjects on the scene
             while (!Terminate)
             {
@@ -85,10 +83,6 @@ namespace Pacman
                 long start = DateTime.Now.Ticks;
 
                 // Update game objects
-                // foreach (IGameObject gameObject in gameObjects.Values)
-                // {
-                //     gameObject.Update();
-                // }
                 for (int i = 0; i < gameObjectsNames.Count; i++)
                 {
                     try
@@ -120,9 +114,6 @@ namespace Pacman
                     gameObjects[gameObjectsNames.ElementAt(i)].Finish();
                 }
             }
-
-            // keyReader.EscapePressed -= SceneHandler.TerminateCurrentScene;
-
         }
     }
 }

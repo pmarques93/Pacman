@@ -975,12 +975,12 @@
         </member>
         <member name="M:Pacman.LevelCreation.#ctor(Pacman.KeyReaderComponent,Pacman.GameRelated.SceneHandler,System.Random)">
             <summary>
-            Constructor for LevelCreation
+            Constructor for LevelCreation.
             </summary>
         </member>
         <member name="M:Pacman.LevelCreation.GenerateScene">
             <summary>
-            Method responsible for creating pacman level
+            Method responsible for creating pacman level.
             </summary>
         </member>
         <member name="M:Pacman.LevelCreation.GameOverCheckCreation">
@@ -1007,13 +1007,13 @@
         </member>
         <member name="M:Pacman.LevelCreation.GhostCreation(Pacman.MapComponent)">
             <summary>
-            Creates ghosts
+            Creates ghosts.
             </summary>
-            <param name="map">Map reference to the game map</param>
+            <param name="map">Map reference to the game map.</param>
         </member>
         <member name="M:Pacman.LevelCreation.FoodCreation">
             <summary>
-            Creates foods
+            Creates foods.
             </summary>
         </member>
         <member name="M:Pacman.LevelCreation.FruitSpawnerCreation">
@@ -1037,13 +1037,13 @@
         </member>
         <member name="M:Pacman.LevelCreation.WallCreation(Pacman.MapComponent)">
             <summary>
-            Creates walls
+            Creates walls.
             </summary>
-            <param name="map">Map reference to the game map</param>
+            <param name="map">Map reference to the game map.</param>
         </member>
         <member name="M:Pacman.LevelCreation.UICreation">
             <summary>
-            Creates score related variables
+            Creates score related variables.
             </summary>
         </member>
         <member name="M:Pacman.LevelCreation.AddGameObjectsToCollisionCheck">
@@ -1053,18 +1053,17 @@
         </member>
         <member name="M:Pacman.LevelCreation.AddGameObjectsToScene">
             <summary>
-            Adds gameobjects to LevelScene
+            Adds gameobjects to LevelScene.
             </summary>
         </member>
         <member name="M:Pacman.LevelCreation.AddGameObjectsToRender">
             <summary>
-            Adds gameobjects to render
+            Adds gameobjects to render.
             </summary>
         </member>
         <member name="M:Pacman.LevelCreation.Finalize">
             <summary>
-            Destructor for LevelCreation
-            Unsubscribes from events
+            Destructor for LevelCreation that unsubscribes from events.
             </summary>
         </member>
         <member name="M:Pacman.MenuCreation.CreatePacmanSprite(System.Collections.Generic.ICollection{Pacman.Vector2Int[]})">

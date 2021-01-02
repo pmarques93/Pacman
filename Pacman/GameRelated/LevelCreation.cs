@@ -65,18 +65,21 @@ namespace Pacman
         private LivesComponent lives;
         private GameObject livesText;
         private GameObject sceneChanger;
+
         // Scene
         private SceneHandler sceneHandler;
         private Random random;
 
         /// <summary>
-        /// Constructor for LevelCreation
+        /// Constructor for LevelCreation.
         /// </summary>
         public LevelCreation(KeyReaderComponent keyReader, SceneHandler sceneHandler, Random random)
         {
             this.sceneHandler = sceneHandler;
-            backgroundPixel = new ConsolePixel(' ', ConsoleColor.White,
-                                                ConsoleColor.DarkBlue);
+            backgroundPixel = new ConsolePixel(
+                                ' ',
+                                ConsoleColor.White,
+                                ConsoleColor.DarkBlue);
             map = new MapComponent(XSIZE, YSIZE);
 
             numberOfLives = 3;
@@ -86,10 +89,12 @@ namespace Pacman
 
             pacmanKeyReader = keyReader;
 
-            consoleRenderer = new ConsoleRenderer(XSIZE * 3, YSIZE + 3,
-                                            backgroundPixel, collisions,
-                                            "Console Renderer");
-
+            consoleRenderer = new ConsoleRenderer(
+                                    XSIZE * 3,
+                                    YSIZE + 3,
+                                    backgroundPixel,
+                                    collisions,
+                                    "Console Renderer");
 
             LevelScene = new Scene();
 
@@ -105,11 +110,10 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Method responsible for creating pacman level
+        /// Method responsible for creating pacman level.
         /// </summary>
         public void GenerateScene()
         {
-
             sceneChanger = new GameObject("SceneChanger");
             SceneChangerComponent sceneChangerComponent =
                      new SceneChangerComponent(sceneHandler);
@@ -120,7 +124,6 @@ namespace Pacman
             SpawnerComponent spawnerComponent = new SpawnerComponent();
             spawner.AddComponent(spawnerComponent);
 
-
             // PACMAN
             PacmanCreation(map);
 
@@ -130,7 +133,11 @@ namespace Pacman
             gameState = new GameState(collisions,
                                       pacman,
                                       new List<GameObject>()
-                                      { blinky,pinky,inky,clyde},
+                                      { blinky,
+                                        pinky,
+                                        inky,
+                                        clyde
+                                      },
                                       map,
                                       random,
                                       pacmanMovementBehaviour);
@@ -145,6 +152,7 @@ namespace Pacman
                     map.Map[i, j].Collider.Type |= Cell.GhostHouse;
                 }
             }
+
             map.Map[13, 11].Collider.Type |= Cell.GhostHouseExit;
             map.Map[14, 11].Collider.Type |= Cell.GhostHouseExit;
 
@@ -172,7 +180,6 @@ namespace Pacman
             // Add GameObjects to the renderer
             AddGameObjectsToRender();
 
-            // collisions.GhostCollision += ResetPositions;
             gameState.GhostChaseCollision += ResetPositions;
 
             // Add renderer to the LevelScene
@@ -248,7 +255,6 @@ namespace Pacman
             pacman.GetComponent<TransformComponent>().Position = new Vector2Int(42, 23);
             pacmanMapTransform.Position = new Vector2Int(14, 23);
 
-
             MapTransformComponent pinkyMapTransform = pinky.GetComponent<MapTransformComponent>();
             map.Map[pinkyMapTransform.Position.X, pinkyMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
             pinky.GetComponent<TransformComponent>().Position = new Vector2Int(36, 14);
@@ -262,7 +268,6 @@ namespace Pacman
             blinky.GetComponent<MoveComponent>().MovementState = MovementState.OnGhostHouse;
             blinkyMapTransform.Position = new Vector2Int(13, 14);
             blinkyMapTransform.Direction = Direction.Up;
-
 
             MapTransformComponent clydeMapTransform = clyde.GetComponent<MapTransformComponent>();
             map.Map[clydeMapTransform.Position.X, clydeMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
@@ -287,6 +292,7 @@ namespace Pacman
         {
             char[,] pacmanSprite = { { ' ' }, { 'P' }, { ' ' }, };
             pacman = new GameObject("Pacman");
+
             // Components ///////////////////////////////////
             TransformComponent pacmanTransform = new TransformComponent(42, 23);
             pacmanMapTransform = new MapTransformComponent(14, 23);
@@ -313,22 +319,23 @@ namespace Pacman
                                                   ConsoleColor.DarkBlue));
 
             spawner.GetComponent<SpawnerComponent>().
-                        AddGameObject(new SpawnStruct(pacmanTransform.Position,
-                                                      pacmanMapTransform.Position,
-                                                      pacman));
+                        AddGameObject(new SpawnStruct(
+                                        pacmanTransform.Position,
+                                        pacmanMapTransform.Position,
+                                        pacman));
         }
 
         /// <summary>
-        /// Creates ghosts
+        /// Creates ghosts.
         /// </summary>
-        /// <param name="map">Map reference to the game map</param>
+        /// <param name="map">Map reference to the game map.</param>
         private void GhostCreation(MapComponent map)
         {
             char[,] pinkySprite =
             {
-                {' '},
-                {'P'},
-                {' '}
+                { ' ' },
+                { 'P' },
+                { ' ' }
             };
             pinky = new GameObject("pinky");
             TransformComponent pinkyTransform = new TransformComponent(36, 14);
@@ -358,15 +365,18 @@ namespace Pacman
                                                   ConsoleColor.Magenta));
             char[,] blinkySprite =
             {
-                {' '},
-                {'B'},
-                {' '}
+                { ' ' },
+                { 'B' },
+                { ' ' }
             };
             blinky = new GameObject("blinky");
-            TransformComponent blinkyTransform = new TransformComponent(39, 14);
-            MapTransformComponent blinkyMapTransform = new MapTransformComponent(13, 14);
+            TransformComponent blinkyTransform = 
+                                            new TransformComponent(39, 14);
+            MapTransformComponent blinkyMapTransform = 
+                                            new MapTransformComponent(13, 14);
             MoveComponent blinkyMovement = new MoveComponent();
-            ColliderComponent blinkyCollider = new ColliderComponent(Cell.Ghost);
+            ColliderComponent blinkyCollider = 
+                                            new ColliderComponent(Cell.Ghost);
 
             blinky.AddComponent(blinkyTransform);
             blinky.AddComponent(blinkyMapTransform);
@@ -388,20 +398,16 @@ namespace Pacman
                                                   ConsoleColor.Red));
             blinkyMovement.MovementState = MovementState.OnGhostHouse;
 
-            // spawner.GetComponent<SpawnerComponent>().
-            //             AddGameObject(new SpawnStruct(blinkyTransform.Position,
-            //                                           blinkyMapTransform.Position,
-            //                                           blinky));
-
             char[,] inkySprite =
             {
-                {' '},
-                {'I'},
-                {' '}
+                { ' ' },
+                { 'I' },
+                { ' ' }
             };
             inky = new GameObject("inky");
             TransformComponent inkyTransform = new TransformComponent(45, 14);
-            MapTransformComponent inkyMapTransform = new MapTransformComponent(15, 14);
+            MapTransformComponent inkyMapTransform =
+                                            new MapTransformComponent(15, 14);
             MoveComponent inkyMovement = new MoveComponent();
             ColliderComponent inkyCollider = new ColliderComponent(Cell.Ghost);
             inkyMovement.MovementState = MovementState.OnGhostHouse;
@@ -413,30 +419,34 @@ namespace Pacman
 
             // Adds a movement behaviour
             inkyMovement.AddMovementBehaviour(
-                                    new InkyChaseBehaviour(collisions,
-                                                            pacmanMovementBehaviour,
-                                                            map,
-                                                            pacmanMapTransform,
-                                                            blinkyMapTransform,
-                                                            inky,
-                                                            inkyMapTransform,
-                                                            3));
+                            new InkyChaseBehaviour(
+                                    collisions,
+                                    pacmanMovementBehaviour,
+                                    map,
+                                    pacmanMapTransform,
+                                    blinkyMapTransform,
+                                    inky,
+                                    inkyMapTransform,
+                                    3));
 
-            inky.AddComponent(new ConsoleSprite(inkySprite,
-                                                  ConsoleColor.White,
-                                                  ConsoleColor.Blue));
+            inky.AddComponent(new ConsoleSprite(
+                                inkySprite,
+                                ConsoleColor.White,
+                                ConsoleColor.Blue));
 
             char[,] clydeSprite =
             {
-                {' '},
-                {'C'},
-                {' '}
+                { ' ' },
+                { 'C' },
+                { ' ' }
             };
             clyde = new GameObject("clyde");
             TransformComponent clydeTransform = new TransformComponent(42, 14);
-            MapTransformComponent clydeMapTransform = new MapTransformComponent(14, 14);
+            MapTransformComponent clydeMapTransform = 
+                                            new MapTransformComponent(14, 14);
             MoveComponent clydeMovement = new MoveComponent();
-            ColliderComponent clydeCollider = new ColliderComponent(Cell.Ghost);
+            ColliderComponent clydeCollider = 
+                                            new ColliderComponent(Cell.Ghost);
 
             clyde.AddComponent(clydeTransform);
             clyde.AddComponent(clydeMapTransform);
@@ -454,43 +464,17 @@ namespace Pacman
                                                 clydeMapTransform,
                                                 3));
 
-            clyde.AddComponent(new ConsoleSprite(clydeSprite,
-                                                  ConsoleColor.DarkBlue,
-                                                  ConsoleColor.DarkYellow));
+            clyde.AddComponent(new ConsoleSprite(
+                                clydeSprite,
+                                ConsoleColor.DarkBlue,
+                                ConsoleColor.DarkYellow));
         }
 
         /// <summary>
-        /// Creates foods
+        /// Creates foods.
         /// </summary>
         private void FoodCreation()
         {
-            // int foodCounter = 0;
-            // for (int i = 0; i < map.Map.GetLength(0); i++)
-            // {
-            //     for (int j = 0; j < map.Map.GetLength(1); j++)
-            //     {
-            //         if (!map.Map[i, j].Collider.Type.HasFlag(Cell.Wall))
-            //         {
-            //             if (foodCounter == allFoods.Length)
-            //                 return;
-            //             char[,] foodSprite = { { ' ' }, { '.' }, { ' ' }, };
-            //             Console.WriteLine($"foodCounter: {foodCounter}");
-            //             allFoods[foodCounter] = new GameObject($"Food{foodCounter}");
-            //             TransformComponent foodTransform = new TransformComponent(i * 3, j);
-            //             MapTransformComponent foodMapTransform = new MapTransformComponent(i, j);
-            //             map.Map[foodMapTransform.Position.X, foodMapTransform.Position.Y].Collider.Type |= Cell.Food;
-            //             ColliderComponent foodCollider = new ColliderComponent(Cell.Food);
-            //             allFoods[foodCounter].AddComponent(foodTransform);
-            //             allFoods[foodCounter].AddComponent(foodMapTransform);
-            //             allFoods[foodCounter].AddComponent(foodCollider);
-            //             allFoods[foodCounter].AddComponent(new ConsoleSprite(
-            //                 foodSprite, ConsoleColor.White, ConsoleColor.DarkBlue));
-
-            //             foodCounter++;
-            //         }
-            //     }
-            // }
-            #region every food
             allFoods[0] = new GameObject("Food0");
             char[,] food0Sprite = { { ' ' }, { '.' }, { ' ' }, };
             TransformComponent food0Transform = new TransformComponent(3, 1);
@@ -609,7 +593,7 @@ namespace Pacman
             allFoods[9].AddComponent(food9MapTransform);
             allFoods[9].AddComponent(food9Collider);
             allFoods[9].AddComponent(new ConsoleSprite(
-                food2Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
+                food9Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
             allFoods[10] = new GameObject("Food10");
             char[,] food10Sprite = { { ' ' }, { '.' }, { ' ' }, };
@@ -851,9 +835,7 @@ namespace Pacman
             allFoods[29].AddComponent(new ConsoleSprite(
                 food29Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
-
             // POWER PILL
-
             allFoods[31] = new GameObject("Food31");
             char[,] food31Sprite = { { ' ' }, { '.' }, { ' ' }, };
             TransformComponent food31Transform = new TransformComponent(18, 3);
@@ -902,10 +884,7 @@ namespace Pacman
             allFoods[34].AddComponent(new ConsoleSprite(
                 food34Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
-
             // POWER PILL
-
-
             allFoods[36] = new GameObject("Food36");
             char[,] food36Sprite = { { ' ' }, { '.' }, { ' ' }, };
             TransformComponent food36Transform = new TransformComponent(3, 4);
@@ -2394,10 +2373,7 @@ namespace Pacman
             allFoods[159].AddComponent(new ConsoleSprite(
                 food159Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
-
             // POWER PILL
-
-
             allFoods[161] = new GameObject("Food161");
             char[,] food161Sprite = { { ' ' }, { '.' }, { ' ' }, };
             TransformComponent food161Transform = new TransformComponent(6, 23);
@@ -2614,10 +2590,7 @@ namespace Pacman
             allFoods[178].AddComponent(new ConsoleSprite(
                 food178Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
-
             // POWER PILL
-
-
             allFoods[180] = new GameObject("Food180");
             char[,] food180Sprite = { { ' ' }, { '.' }, { ' ' }, };
             TransformComponent food180Transform = new TransformComponent(9, 24);
@@ -3409,8 +3382,6 @@ namespace Pacman
             allFoods[245].AddComponent(food245Collider);
             allFoods[245].AddComponent(new ConsoleSprite(
                 food245Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
-
-            #endregion
         }
 
         /// <summary>
@@ -3574,9 +3545,9 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Creates walls
+        /// Creates walls.
         /// </summary>
-        /// <param name="map">Map reference to the game map</param>
+        /// <param name="map">Map reference to the game map.</param>
         private void WallCreation(MapComponent map)
         {
             walls = new GameObject("Walls");
@@ -3601,6 +3572,7 @@ namespace Pacman
                         wallPixels[new Vector2Int(kTest, y)] = wallPixel;
                     }
                 }
+
                 iTest += 3;
                 jTest += 3;
                 kTest += 3;
@@ -3612,7 +3584,7 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Creates score related variables
+        /// Creates score related variables.
         /// </summary>
         private void UICreation()
         {
@@ -3624,7 +3596,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => $"Score: {score.GetScore}",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White,
+                    ConsoleColor.DarkBlue);
 
             scoreText.AddComponent(renderScoreText);
 
@@ -3639,7 +3612,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => $"HighScore: {highScoreComponent.HighScore}",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White, 
+                    ConsoleColor.DarkBlue);
 
             highScoreText.AddComponent(new TransformComponent(0, YSIZE + 1));
             highScoreText.AddComponent(renderHighScoreText);
@@ -3655,7 +3629,8 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => $"Lives: {lives.Lives}",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, ConsoleColor.DarkBlue);
+                    ConsoleColor.White, 
+                    ConsoleColor.DarkBlue);
 
             livesText.AddComponent(renderLivesText);
         }
@@ -3678,7 +3653,7 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Adds gameobjects to LevelScene
+        /// Adds gameobjects to LevelScene.
         /// </summary>
         private void AddGameObjectsToScene()
         {
@@ -3690,10 +3665,12 @@ namespace Pacman
             LevelScene.AddGameObject(pacman);
 
             foreach (GameObject food in allFoods)
-                if (food != null) LevelScene.AddGameObject(food);
+                if (food != null) 
+                    LevelScene.AddGameObject(food);
 
             foreach (GameObject powerPill in allPowerPills)
-                if (powerPill != null) LevelScene.AddGameObject(powerPill);
+                if (powerPill != null) 
+                    LevelScene.AddGameObject(powerPill);
 
             LevelScene.AddGameObject(walls);
             LevelScene.AddGameObject(collisions);
@@ -3706,16 +3683,25 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Adds gameobjects to render
+        /// Adds gameobjects to render.
         /// </summary>
         private void AddGameObjectsToRender()
         {
-
             foreach (GameObject food in allFoods)
-                if (food != null) consoleRenderer.AddGameObject(food);
+            {
+                if (food != null)
+                {
+                    consoleRenderer.AddGameObject(food);
+                }
+            }
 
             foreach (GameObject powerPill in allPowerPills)
-                if (powerPill != null) consoleRenderer.AddGameObject(powerPill);
+            {
+                if (powerPill != null)
+                {
+                    consoleRenderer.AddGameObject(powerPill);
+                }
+            }
 
             consoleRenderer.AddGameObject(pacman);
             consoleRenderer.AddGameObject(pinky);
@@ -3729,8 +3715,7 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Destructor for LevelCreation
-        /// Unsubscribes from events
+        /// Destructor for LevelCreation that unsubscribes from events.
         /// </summary>
         ~LevelCreation()
         {

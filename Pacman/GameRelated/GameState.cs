@@ -152,9 +152,7 @@ namespace Pacman
                                 map,
                                 pacman.GetComponent<MapTransformComponent>(),
                                 ghost.GetComponent<MapTransformComponent>(),
-                                3
-                            )
-                        );
+                                3));
                         moveComponent.MovementState = MovementState.Chase;
 
                         consoleSprite = ghost.GetComponent<ConsoleSprite>();

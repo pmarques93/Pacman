@@ -48,8 +48,8 @@ namespace Pacman.MovementBehaviours
 
             Vector2Int upVector = new Vector2Int(mapTransform.Position.X,
                                                     Math.Max(0,
-                                                        mapTransform.
-                                                        Position.Y - 1));
+                                                    mapTransform.
+                                                    Position.Y - 1));
 
             Vector2Int leftVector = new Vector2Int(Math.Max(0,
                                                     mapTransform.
@@ -71,13 +71,11 @@ namespace Pacman.MovementBehaviours
 
             directionVector.Add(Direction.Up, upVector);
 
-
             directions.Add(Direction.Left, GetAbsoluteDistance(
                                             leftVector,
                                             TargetPosition));
 
             directionVector.Add(Direction.Left, leftVector);
-
 
             directions.Add(Direction.Down, GetAbsoluteDistance(
                                             downVector,
@@ -85,13 +83,11 @@ namespace Pacman.MovementBehaviours
 
             directionVector.Add(Direction.Down, downVector);
 
-
             directions.Add(Direction.Right, GetAbsoluteDistance(
                                             rightVector,
                                             TargetPosition));
 
             directionVector.Add(Direction.Right, rightVector);
-
 
             IEnumerable<Direction> test = directions.
                                             OrderBy(p => p.Value).
@@ -99,14 +95,18 @@ namespace Pacman.MovementBehaviours
 
             foreach (Direction d in test)
             {
-                if (!map.Map[directionVector[d].X,
-                        directionVector[d].Y].Collider.Type.HasFlag(Cell.Wall))
+                if (!map.Map[directionVector[d].X, directionVector[d].Y].
+                    Collider.Type.HasFlag(Cell.Wall))
                 {
-                    if (map.Map[directionVector[d].X, directionVector[d].Y].Collider.Type.HasFlag(Cell.GhostHouse) &&
-                        !map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type.HasFlag(Cell.GhostHouse))
+                    if (map.Map[directionVector[d].X, directionVector[d].Y].
+                                    Collider.Type.HasFlag(Cell.GhostHouse) &&
+                        !map.Map[
+                            mapTransform.Position.X, mapTransform.Position.Y].
+                            Collider.Type.HasFlag(Cell.GhostHouse))
                     {
                         continue;
                     }
+
                     if (mapTransform.Direction == Direction.Left
                         && d == Direction.Right
                         || mapTransform.Direction == Direction.Right
@@ -127,11 +127,12 @@ namespace Pacman.MovementBehaviours
                     mapTransform.Direction = d;
                     map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type |= Cell.Ghost;
 
-                    if (map.Map[directionVector[d].X,
-                            directionVector[d].Y].Collider.Type.HasFlag(Cell.Pacman))
+                    if (map.Map[directionVector[d].X, directionVector[d].Y].
+                        Collider.Type.HasFlag(Cell.Pacman))
                     {
                         collision.OnGhostCollision(ghost);
                     }
+
                     break;
                 }
             }

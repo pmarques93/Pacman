@@ -68,47 +68,30 @@ namespace Pacman
             {
                 for (int y = 0; y < map.Map.GetLength(1); y++)
                 {
-                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) && map.Map[x, y].Collider.Type.HasFlag(Cell.Ghost))
+                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.Ghost))
                     {
                         GameObject tempGO = gameObjects.
-                            Where(o => o.GetComponent<MapTransformComponent>()?.
-                                    Position != null).
+                            Where(o => o.GetComponent<ColliderComponent>().Type.HasFlag(Cell.Ghost)).
                             Where(o => o.GetComponent<MapTransformComponent>().
                                     Position == new Vector2Int(x, y)).
-                            Where(o => o.GetComponent<ColliderComponent>().Type == Cell.Ghost).
                             FirstOrDefault();
-                            
-                        OnGhostCollision(tempGO);
-                        // return;
-                    }
-                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.GhostHouse) && map.Map[x, y].Collider.Type.HasFlag(Cell.Ghost))
-                    {
-                        GameObject tempGO = gameObjects.
-                            Where(o => o.GetComponent<MapTransformComponent>()?.
-                                    Position != null).
-                            Where(o => o.GetComponent<MapTransformComponent>().
-                                    Position == new Vector2Int(x, y)).
-                            Where(o => o.GetComponent<ColliderComponent>().Type == Cell.Ghost).
-                            FirstOrDefault();
+                        if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman))
+                        {
+                            OnGhostCollision(tempGO);
+                        }
+                        else if (map.Map[x, y].Collider.Type.HasFlag(Cell.GhostHouse))
+                        {
 
-                        OnGhostHouseCollision(tempGO);
-                        // return;
-                    }
-                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.GhostHouseExit) && map.Map[x, y].Collider.Type.HasFlag(Cell.Ghost))
-                    {
-                        GameObject tempGO = gameObjects.
-                            Where(o => o.GetComponent<MapTransformComponent>()?.
-                                    Position != null).
-                            Where(o => o.GetComponent<MapTransformComponent>().
-                                    Position == new Vector2Int(x, y)).
-                            Where(o => o.GetComponent<ColliderComponent>().Type == Cell.Ghost).
-                            FirstOrDefault();
-
-                        OnGhostHouseExitCollision(tempGO, map.Map[x, y].Collider.Type);
-                        // return;
+                            OnGhostHouseCollision(tempGO);
+                        }
+                        else if (map.Map[x, y].Collider.Type.HasFlag(Cell.GhostHouseExit))
+                        {
+                            OnGhostHouseExitCollision(tempGO, map.Map[x, y].Collider.Type);
+                        }
                     }
 
-                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) &&
+
+                    else if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) &&
                         (map.Map[x, y].Collider.Type.HasFlag(Cell.Food) ||
                         map.Map[x, y].Collider.Type.HasFlag(Cell.Fruit) ||
                         map.Map[x, y].Collider.Type.HasFlag(Cell.PowerPill)))
@@ -121,9 +104,20 @@ namespace Pacman
                             FirstOrDefault();
 
                         CollisionAction(map.Map[x, y].Collider.Type, tempGO);
-                        map.Map[x, y].Collider.Type &= ~map.Map[x, y].Collider.Type;
-                        map.Map[x, y].Collider.Type |= Cell.Pacman;
-                        // return;
+
+                        if (map.Map[x, y].Collider.Type.HasFlag(Cell.Food))
+                        {
+                            map.Map[x, y].Collider.Type &= ~Cell.Food;
+                        }
+                        else if (map.Map[x, y].Collider.Type.HasFlag(Cell.Fruit))
+                        {
+                            map.Map[x, y].Collider.Type &= ~Cell.Fruit;
+                        }
+                        else if (map.Map[x, y].Collider.Type.HasFlag(Cell.PowerPill))
+                        {
+                            map.Map[x, y].Collider.Type &= ~Cell.PowerPill;
+                        }
+
                     }
                 }
             }

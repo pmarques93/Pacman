@@ -4,49 +4,51 @@ using System.Collections.Generic;
 namespace Pacman
 {
     /// <summary>
-    /// Responsible for realizing the render of the scene and its objects.
+    /// Class responsible for realizing the render of the scene and its objects.
+    /// Implements IGameObject.
     /// </summary>
     public class ConsoleRenderer : IGameObject
     {
-        // Was the cursor visible before game rendering started?
-        // For now we assume it was
-
         /// <summary>
-        /// ConsoleRenderer name
+        /// Gets consoleRenderer name.
         /// </summary>
         public string Name { get; }
-        private bool cursorVisibleBefore = true;
 
-        private ConsolePixel[,] currentFrame, nextFrame;
+        private readonly bool cursorVisibleBefore;
 
-        private IList<GameObject> gameObjects;
+        private readonly IList<GameObject> gameObjects;
 
         // Scene dimensions
-        private int xdim, ydim;
-
-        // Default background pixel
-        private ConsolePixel bgPix;
+        private readonly int xdim;
+        private readonly int ydim;
 
         private readonly bool inGame;
 
-        // Component
         private readonly Collision collisions;
+
+        // Default background pixel
+        private readonly ConsolePixel bgPix;
+
+        private ConsolePixel[,] currentFrame;
+        private ConsolePixel[,] nextFrame;
 
         /// <summary>
         /// Constructor, that creates a new instance of ConsoleRenderer and
-        /// initializes its members. Constructor for game
+        /// initializes its members. Constructor for game.
         /// </summary>
         /// <param name="xdim">Horizontal dimension of the scene.</param>
         /// <param name="ydim">Vertical dimension of the scene.</param>
         /// <param name="bgPix">Default ConsolePixel for the background.</param>
         /// <param name="collision">Reference to a collision class.</param>
         /// <param name="name">Name of the ConsoleRenderer object.</param>
-        public ConsoleRenderer(int xdim,
-                               int ydim,
-                               ConsolePixel bgPix,
-                               Collision collision,
-                               string name = "")
+        public ConsoleRenderer(
+            int xdim,
+            int ydim,
+            ConsolePixel bgPix,
+            Collision collision,
+            string name = "")
         {
+            cursorVisibleBefore = true;
             this.xdim = xdim;
             this.ydim = ydim;
             this.bgPix = bgPix;
@@ -54,7 +56,7 @@ namespace Pacman
             gameObjects = new List<GameObject>();
             currentFrame = new ConsolePixel[xdim, ydim];
             nextFrame = new ConsolePixel[xdim, ydim];
-            this.collisions = collision;
+            collisions = collision;
             for (int y = 0; y < ydim; y++)
             {
                 for (int x = 0; x < xdim; x++)
@@ -62,22 +64,25 @@ namespace Pacman
                     nextFrame[x, y] = bgPix;
                 }
             }
+
             inGame = true;
         }
 
         /// <summary>
         /// Constructor, that creates a new instance of ConsoleRenderer and
-        /// initializes its members. Constructor for menu
+        /// initializes its members. Constructor for menu.
         /// </summary>
         /// <param name="xdim">Horizontal dimension of the scene.</param>
         /// <param name="ydim">Vertical dimension of the scene.</param>
         /// <param name="bgPix">Default ConsolePixel for the background.</param>
         /// <param name="name">Name of the ConsoleRenderer object.</param>
-        public ConsoleRenderer(int xdim,
-                               int ydim,
-                               ConsolePixel bgPix,
-                               string name = "")
+        public ConsoleRenderer(
+            int xdim,
+            int ydim,
+            ConsolePixel bgPix,
+            string name = "")
         {
+            cursorVisibleBefore = true;
             this.xdim = xdim;
             this.ydim = ydim;
             this.bgPix = bgPix;
@@ -92,11 +97,12 @@ namespace Pacman
                     nextFrame[x, y] = bgPix;
                 }
             }
+
             inGame = false;
         }
 
         /// <summary>
-        /// Runs once at the start and realizes a pre-rendering setup
+        /// Runs once at the start and realizes a pre-rendering setup.
         /// </summary>
         public void Start()
         {
@@ -109,7 +115,8 @@ namespace Pacman
             // Render the first frame
             RenderFrame();
 
-            if (inGame) collisions.FoodCollision += RemoveGameObject;
+            if (inGame)
+                collisions.FoodCollision += RemoveGameObject;
         }
 
         /// <summary>
@@ -119,7 +126,8 @@ namespace Pacman
         {
             Console.CursorVisible = cursorVisibleBefore;
 
-            if (inGame) collisions.FoodCollision -= RemoveGameObject;
+            if (inGame)
+                collisions.FoodCollision -= RemoveGameObject;
         }
 
         /// <summary>
@@ -130,29 +138,26 @@ namespace Pacman
             for (int i = 0; i < gameObjects.Count; i++)
             {
                 RenderableComponent rendComp =
-                                    gameObjects[i].GetComponent<RenderableComponent>();
+                                    gameObjects[i].
+                                    GetComponent<RenderableComponent>();
                 TransformComponent transform =
-                                    gameObjects[i].GetComponent<TransformComponent>();
+                                    gameObjects[i].
+                                    GetComponent<TransformComponent>();
 
                 // Cycle through all pixels in sprite
                 foreach (KeyValuePair<Vector2Int, ConsolePixel> pixel in
                                                             rendComp.Pixels)
                 {
                     // Get absolute position of current pixel
-                    int y = (int)(transform.Position.Y + pixel.Key.Y);
-                    int x = (int)(transform.Position.X + pixel.Key.X);
-
-                    // Throw exception if any of these is out of bounds
-                    if (x < 0 || x >= xdim || y < 0 || y >= ydim)
-                        throw new IndexOutOfRangeException(
-                            $"Out of bounds pixel at ({x},{y}) in game object"
-                            + $" '{gameObjects[i].Name}'");
+                    int y = transform.Position.Y + pixel.Key.Y;
+                    int x = transform.Position.X + pixel.Key.X;
 
                     // Put pixel in frame
                     nextFrame[x, y] = pixel.Value;
                 }
             }
-            // Render the frame
+
+            // Renders the frame
             RenderFrame();
         }
 
@@ -169,8 +174,7 @@ namespace Pacman
 
             // Show frame in screen
             Console.SetCursorPosition(0, 0);
-            fgColor = Console.ForegroundColor;
-            bgColor = Console.BackgroundColor;
+
             for (int y = 0; y < ydim; y++)
             {
                 for (int x = 0; x < xdim; x++)
@@ -193,18 +197,17 @@ namespace Pacman
                     if (pix.Equals(prevPix) && !pix.Equals(bgPix))
                         continue;
 
-
-                    bgColor = pix.backgroundColor;
+                    bgColor = pix.BackgroundColor;
                     Console.BackgroundColor = bgColor;
 
-                    fgColor = pix.foregroundColor;
+                    fgColor = pix.ForegroundColor;
                     Console.ForegroundColor = fgColor;
 
                     // Position cursor
                     Console.SetCursorPosition(x, y);
 
                     // Render pixel
-                    Console.Write(pix.shape);
+                    Console.Write(pix.Shape);
                 }
 
                 // New line
@@ -229,7 +232,7 @@ namespace Pacman
         /// <summary>
         /// Removes an object from being rendered.
         /// </summary>
-        /// <param name="gameObject">Object to remove</param>
+        /// <param name="gameObject">Object to remove.</param>
         public void RemoveGameObject(GameObject gameObject)
         {
             gameObjects.Remove(gameObject);

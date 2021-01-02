@@ -22,9 +22,9 @@ namespace Pacman.Components
             // If file doesn't exist, highscore is 0
             uint highScore = 0;
 
-            if (File.Exists(Path.highscore))
+            if (File.Exists(FilePath.Highscore))
             {
-                FileReader fileReader = new FileReader(Path.highscore);
+                FileReader fileReader = new FileReader(FilePath.Highscore);
                 highScore = fileReader.ReadHighScore();
             }
 

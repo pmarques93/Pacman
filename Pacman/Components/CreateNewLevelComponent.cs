@@ -6,7 +6,7 @@ namespace Pacman.Components
     /// <summary>
     /// Class responsible for creating a new level. Extends Component.
     /// </summary>
-    public class CreateNewLevelComponent: Component
+    public class CreateNewLevelComponent : Component
     {
         private readonly KeyReaderComponent keyReader;
         private readonly SceneHandler sceneHandler;

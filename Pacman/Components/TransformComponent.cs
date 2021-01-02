@@ -1,35 +1,30 @@
 ﻿namespace Pacman
 {
     /// <summary>
-    /// Transform component. Extends component
+    /// Transform component. Extends component.
     /// </summary>
-    public class TransformComponent: Component
+    public class TransformComponent : Component
     {
         /// <summary>
-        /// Collider component on this transform
-        /// </summary>
-        // public ColliderComponent Collider { get; set; }
-
-        /// <summary>
-        /// Property for position
+        /// Gets or sets position.
         /// </summary>
         public Vector2Int Position { get; set; }
 
         /// <summary>
-        /// Constructor for TransformComponent
+        /// Constructor for TransformComponent.
         /// </summary>
-        /// <param name="cell">Type of cell</param>
-        /// <param name="x">Position X</param>
-        /// <param name="y">Position Y</param>
+        /// <param name="x">Position X.</param>
+        /// <param name="y">Position Y.</param>
         public TransformComponent(int x, int y)
         {
             Position = new Vector2Int(x, y);
-            // Collider = collider;
         }
 
         /// <summary>
-        /// Empty Constructor
+        /// Empty Constructor.
         /// </summary>
-        public TransformComponent() { }
+        public TransformComponent()
+        {
+        }
     }
 }

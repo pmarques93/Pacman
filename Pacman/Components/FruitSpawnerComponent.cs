@@ -6,7 +6,7 @@ namespace Pacman
     /// <summary>
     /// Class responsible for spawning fruits. Extends Component.
     /// </summary>
-    public class FruitSpawnerComponent: Component
+    public class FruitSpawnerComponent : Component
     {
         /// <summary>
         /// Gets fruit Timer.

@@ -264,6 +264,57 @@
             Method responsible for changing scenes.
             </summary>
         </member>
+        <member name="T:Pacman.Components.SpawnerComponent">
+            <summary>
+            Class responsible for spawning Spawn Structs. Extends Component.
+            </summary>
+        </member>
+        <member name="M:Pacman.Components.SpawnerComponent.#ctor">
+            <summary>
+            Constructor for SpawnerComponent.
+            </summary>
+        </member>
+        <member name="M:Pacman.Components.SpawnerComponent.Start">
+            <summary>
+            Method that runs once on start.
+            </summary>
+        </member>
+        <member name="M:Pacman.Components.SpawnerComponent.AddGameObject(Pacman.Components.SpawnStruct)">
+            <summary>
+            Method that adds a SpawnStruct to a collection.
+            </summary>
+            <param name="gameObject">SpawnStruct to add.</param>
+        </member>
+        <member name="T:Pacman.Components.SpawnStruct">
+            <summary>
+            Struct for spawn struct.
+            </summary>
+        </member>
+        <member name="P:Pacman.Components.SpawnStruct.TransformPosition">
+            <summary>
+            Gets transform Position.
+            </summary>
+        </member>
+        <member name="P:Pacman.Components.SpawnStruct.MapTransformPosition">
+            <summary>
+            Gets map Transform Position.
+            </summary>
+        </member>
+        <member name="P:Pacman.Components.SpawnStruct.GameObject">
+            <summary>
+            Gets gameObject.
+            </summary>
+        </member>
+        <member name="M:Pacman.Components.SpawnStruct.#ctor(Pacman.Vector2Int,Pacman.Vector2Int,Pacman.GameObject)">
+            <summary>
+            Constructor for SpawnStruct.
+            </summary>
+            <param name="transformComponent">Reference to transform
+            component.</param>
+            <param name="mapTransformPosition">Reference to map transform
+            component.</param>
+            <param name="gameObject">Reference to a game object.</param>
+        </member>
         <member name="T:Pacman.FruitSpawnerComponent">
             <summary>
             Class responsible for spawning fruits. Extends Component.
@@ -508,51 +559,81 @@
         </member>
         <member name="T:Pacman.TransformComponent">
             <summary>
-            Transform component. Extends component
+            Transform component. Extends component.
             </summary>
         </member>
         <member name="P:Pacman.TransformComponent.Position">
             <summary>
-            Property for position
+            Gets or sets position.
             </summary>
         </member>
         <member name="M:Pacman.TransformComponent.#ctor(System.Int32,System.Int32)">
             <summary>
-            Constructor for TransformComponent
+            Constructor for TransformComponent.
             </summary>
-            <param name="cell">Type of cell</param>
-            <param name="x">Position X</param>
-            <param name="y">Position Y</param>
+            <param name="x">Position X.</param>
+            <param name="y">Position Y.</param>
         </member>
         <member name="M:Pacman.TransformComponent.#ctor">
             <summary>
-            Empty Constructor
+            Empty Constructor.
             </summary>
         </member>
         <member name="T:Pacman.ConsolePixel">
             <summary>
-            Represents a console pixel
+            Struct that represents a console pixel.
+            </summary>
+        </member>
+        <member name="P:Pacman.ConsolePixel.Shape">
+            <summary>
+            Gets char that represents the ConsolePixel.
+            </summary>
+        </member>
+        <member name="P:Pacman.ConsolePixel.ForegroundColor">
+            <summary>
+            Gets color of the shape.
+            </summary>
+        </member>
+        <member name="P:Pacman.ConsolePixel.BackgroundColor">
+            <summary>
+            Gets background color of the ConsolePixel.
             </summary>
         </member>
         <member name="P:Pacman.ConsolePixel.IsRenderable">
             <summary>
-            Defines whether the ConsolePixel is renderable
+            Gets a value indicating whether defines whether the ConsolePixel
+            is renderable.
             </summary>
+        </member>
+        <member name="M:Pacman.ConsolePixel.#ctor(System.Char,System.ConsoleColor,System.ConsoleColor)">
+            <summary>
+            Constructor for ConsolePixel.
+            </summary>
+            <param name="shape">Char that defines a shape.</param>
+            <param name="foregroundColor">Foreground Color.</param>
+            <param name="backgroundColor">Background Color.</param>
+        </member>
+        <member name="M:Pacman.ConsolePixel.#ctor(System.Char)">
+            <summary>
+            Constructor for ConsolePixel.
+            </summary>
+            <param name="shape">Char that defines a shape.</param>
         </member>
         <member name="T:Pacman.ConsoleRenderer">
             <summary>
-            Responsible for realizing the render of the scene and its objects.
+            Class responsible for realizing the render of the scene and its objects.
+            Implements IGameObject.
             </summary>
         </member>
         <member name="P:Pacman.ConsoleRenderer.Name">
             <summary>
-            ConsoleRenderer name
+            Gets consoleRenderer name.
             </summary>
         </member>
         <member name="M:Pacman.ConsoleRenderer.#ctor(System.Int32,System.Int32,Pacman.ConsolePixel,Pacman.Collision,System.String)">
             <summary>
             Constructor, that creates a new instance of ConsoleRenderer and
-            initializes its members. Constructor for game
+            initializes its members. Constructor for game.
             </summary>
             <param name="xdim">Horizontal dimension of the scene.</param>
             <param name="ydim">Vertical dimension of the scene.</param>
@@ -563,7 +644,7 @@
         <member name="M:Pacman.ConsoleRenderer.#ctor(System.Int32,System.Int32,Pacman.ConsolePixel,System.String)">
             <summary>
             Constructor, that creates a new instance of ConsoleRenderer and
-            initializes its members. Constructor for menu
+            initializes its members. Constructor for menu.
             </summary>
             <param name="xdim">Horizontal dimension of the scene.</param>
             <param name="ydim">Vertical dimension of the scene.</param>
@@ -572,7 +653,7 @@
         </member>
         <member name="M:Pacman.ConsoleRenderer.Start">
             <summary>
-            Runs once at the start and realizes a pre-rendering setup
+            Runs once at the start and realizes a pre-rendering setup.
             </summary>
         </member>
         <member name="M:Pacman.ConsoleRenderer.Finish">
@@ -600,61 +681,226 @@
             <summary>
             Removes an object from being rendered.
             </summary>
-            <param name="gameObject">Object to remove</param>
+            <param name="gameObject">Object to remove.</param>
+        </member>
+        <member name="T:Pacman.ConsoleSprite">
+            <summary>
+            Class for console sprites. Extends RenderableComponent.
+            </summary>
+        </member>
+        <member name="P:Pacman.ConsoleSprite.Pixels">
+            <summary>
+            Gets Pixels.
+            Since a console sprite is a renderable component, it must implement
+            this property, which returns an ienumerable of position-pixel pairs
+            to render.
+            </summary>
+        </member>
+        <member name="M:Pacman.ConsoleSprite.ChangeColor(System.ConsoleColor,System.ConsoleColor)">
+            <summary>
+            Changes sprite color.
+            </summary>
+            <param name="fgColor">Foreground Color.</param>
+            <param name="bgColor">Background Color.</param>
+        </member>
+        <member name="M:Pacman.ConsoleSprite.#ctor(System.Collections.Generic.IDictionary{Pacman.Vector2Int,Pacman.ConsolePixel})">
+            <summary>
+            Constructor for ConsoleSprite.
+            </summary>
+            <param name="pixels">IDictionary with pixels to render.</param>
+        </member>
+        <member name="M:Pacman.ConsoleSprite.#ctor(System.Char[0:,0:],System.ConsoleColor,System.ConsoleColor)">
+            <summary>
+            Constructor for ConsoleSprite.
+            </summary>
+            <param name="pixels">Char with pixels to render.</param>
+            <param name="fgColor">Foreground Color.</param>
+            <param name="bgColor">Background Color.</param>
+        </member>
+        <member name="T:Pacman.ConsoleRender.RenderableStringComponent">
+            <summary>
+            Class for renderable strings. Extends Component.
+            </summary>
+        </member>
+        <member name="P:Pacman.ConsoleRender.RenderableStringComponent.Pixels">
+            <summary>
+            Gets pixels to render.
+            Since this is a renderable component, it must implement the Pixels
+            property
+            </summary>
+        </member>
+        <member name="M:Pacman.ConsoleRender.RenderableStringComponent.#ctor(System.Func{System.String},System.Func{System.Int32,Pacman.Vector2Int},System.ConsoleColor,System.ConsoleColor)">
+            <summary>
+            Constructor for RenderableStringComponent.
+            </summary>
+            <param name="getStr">String to print.</param>
+            <param name="getPos">Position to print.</param>
+            <param name="fgColor">Foreground Color.</param>
+            <param name="bgColor">Background Color.</param>
         </member>
         <member name="T:Pacman.Cell">
             <summary>
-            Enum with cell types
+            Enum with cell types.
+            </summary>
+        </member>
+        <member name="F:Pacman.Cell.None">
+            <summary>
+            No cell.
+            </summary>
+        </member>
+        <member name="F:Pacman.Cell.Walkable">
+            <summary>
+            Walkable Cell
+            </summary>
+        </member>
+        <member name="F:Pacman.Cell.Wall">
+            <summary>
+            Wall cell
+            </summary>
+        </member>
+        <member name="F:Pacman.Cell.Pacman">
+            <summary>
+            Pacman Cell
+            </summary>
+        </member>
+        <member name="F:Pacman.Cell.Ghost">
+            <summary>
+            Ghost Cell
+            </summary>
+        </member>
+        <member name="F:Pacman.Cell.Fruit">
+            <summary>
+            Fruit Cell
+            </summary>
+        </member>
+        <member name="F:Pacman.Cell.Food">
+            <summary>
+            Food Cell
+            </summary>
+        </member>
+        <member name="F:Pacman.Cell.PowerPill">
+            <summary>
+            PowerPill cell
+            </summary>
+        </member>
+        <member name="F:Pacman.Cell.GhostHouse">
+            <summary>
+            GhostHouse cell
+            </summary>
+        </member>
+        <member name="F:Pacman.Cell.GhostHouseExit">
+            <summary>
+            GhostHouseExit Cell
             </summary>
         </member>
         <member name="T:Pacman.Direction">
             <summary>
-            Enum for possible directions
+            Enum for possible directions.
+            </summary>
+        </member>
+        <member name="F:Pacman.Direction.None">
+            <summary>
+            No direction.
+            </summary>
+        </member>
+        <member name="F:Pacman.Direction.Up">
+            <summary>
+            Up direction.
+            </summary>
+        </member>
+        <member name="F:Pacman.Direction.Right">
+            <summary>
+            Right direction.
+            </summary>
+        </member>
+        <member name="F:Pacman.Direction.Down">
+            <summary>
+            Down direction.
+            </summary>
+        </member>
+        <member name="F:Pacman.Direction.Left">
+            <summary>
+            Left direction.
             </summary>
         </member>
         <member name="T:Pacman.MovementState">
             <summary>
-            Enum with possible movement states
+            Enum with possible movement states.
+            </summary>
+        </member>
+        <member name="F:Pacman.MovementState.None">
+            <summary>
+            No movement state.
+            </summary>
+        </member>
+        <member name="F:Pacman.MovementState.Chase">
+            <summary>
+            Chase movement state.
+            </summary>
+        </member>
+        <member name="F:Pacman.MovementState.Frightened">
+            <summary>
+            Frightened movement state.
+            </summary>
+        </member>
+        <member name="F:Pacman.MovementState.Eaten">
+            <summary>
+            Eaten movement state.
+            </summary>
+        </member>
+        <member name="F:Pacman.MovementState.OnGhostHouse">
+            <summary>
+            OnGhostHouse movement state.
+            </summary>
+        </member>
+        <member name="F:Pacman.MovementState.OutGhostHouse">
+            <summary>
+            OutGhostHouse movement state.
+            </summary>
+        </member>
+        <member name="T:Pacman.FilePath">
+            <summary>
+            Struct with file paths.
+            </summary>
+        </member>
+        <member name="F:Pacman.FilePath.Highscore">
+            <summary>
+            Highscore path.
             </summary>
         </member>
         <member name="T:Pacman.FileReader">
             <summary>
-            Class for FileReader. Reads files
+            Class for FileReader. Reads files.
             </summary>
         </member>
         <member name="M:Pacman.FileReader.#ctor(System.String)">
             <summary>
-            Constructor for FileReader
+            Constructor for FileReader.
             </summary>
-            <param name="path">Receives a string to read the file from</param>
+            <param name="path">Receives a string to read the file from.</param>
         </member>
         <member name="M:Pacman.FileReader.ReadHighScore">
             <summary>
-            Reads lives from highscore txt file
+            Reads lives from highscore txt file.
             </summary>
-            <returns>Returns an uint with highscore</returns>
+            <returns>Returns an uint with highscore.</returns>
         </member>
         <member name="T:Pacman.FileWriter">
             <summary>
-            Class for FileWriter. Writes files
+            Class for FileWriter. Writes files.
             </summary>
         </member>
         <member name="M:Pacman.FileWriter.#ctor(System.String)">
             <summary>
-            Constructor for FileWriter
+            Constructor for FileWriter.
             </summary>
-            <param name="path">Path to write to</param>
+            <param name="path">Path to write to.</param>
         </member>
         <member name="M:Pacman.FileWriter.CreateHighScoreTXT(System.UInt32)">
             <summary>
-            Creates a text file with pacman highscore
+            Creates a text file with pacman highscore.
             </summary>
-            <param name="highscore"></param>
-        </member>
-        <member name="T:Pacman.Path">
-            <summary>
-            Struct with file paths
-            </summary>
+            <param name="highscore">Highscore to write.</param>
         </member>
         <member name="T:Pacman.GameObject">
             <summary>

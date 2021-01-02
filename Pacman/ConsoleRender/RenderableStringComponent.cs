@@ -3,11 +3,16 @@ using System.Collections.Generic;
 
 namespace Pacman.ConsoleRender
 {
+    /// <summary>
+    /// Class for renderable strings. Extends Component.
+    /// </summary>
     public class RenderableStringComponent : RenderableComponent
     {
-
-        // Since this is a renderable component, it must implement the Pixels
-        // property
+        /// <summary>
+        /// Gets pixels to render.
+        /// Since this is a renderable component, it must implement the Pixels
+        /// property
+        /// </summary>
         public override
         IEnumerable<KeyValuePair<Vector2Int, ConsolePixel>> Pixels
         {
@@ -34,24 +39,34 @@ namespace Pacman.ConsoleRender
         }
 
         // Delegate which returns a string to be rendered
-        private Func<string> getStr;
+        private readonly Func<string> getStr;
 
         // Delegate which returns a position for every character in the string
-        private Func<int, Vector2Int> getPos;
+        private readonly Func<int, Vector2Int> getPos;
 
-        // The foreground and background colors of the string to be rendered
-        private ConsoleColor fgColor, bgColor;
+        // The foreground colors of the string to be rendered
+        private readonly ConsoleColor fgColor;
 
-        // Create a new renderable string component
+        // The background colors of the string to be rendered
+        private readonly ConsoleColor bgColor;
+
+        /// <summary>
+        /// Constructor for RenderableStringComponent.
+        /// </summary>
+        /// <param name="getStr">String to print.</param>
+        /// <param name="getPos">Position to print.</param>
+        /// <param name="fgColor">Foreground Color.</param>
+        /// <param name="bgColor">Background Color.</param>
         public RenderableStringComponent(
-            Func<string> getStr, Func<int, Vector2Int> getPos,
-            ConsoleColor fgColor, ConsoleColor bgColor)
+            Func<string> getStr,
+            Func<int, Vector2Int> getPos,
+            ConsoleColor fgColor,
+            ConsoleColor bgColor)
         {
             this.getStr = getStr;
             this.getPos = getPos;
             this.fgColor = fgColor;
             this.bgColor = bgColor;
         }
-
     }
 }

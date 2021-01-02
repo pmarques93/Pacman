@@ -2,19 +2,28 @@ using System;
 namespace Pacman
 {
     /// <summary>
-    /// Represents a console pixel
+    /// Struct that represents a console pixel.
     /// </summary>
     public struct ConsolePixel
     {
-        // Char that represents the ConsolePixel
-        public readonly char shape;
-        // Color of the shape
-        public readonly ConsoleColor foregroundColor;
-        // Background color of the ConsolePixel
-        public readonly ConsoleColor backgroundColor;
+        /// <summary>
+        /// Gets char that represents the ConsolePixel.
+        /// </summary>
+        public char Shape { get; }
 
         /// <summary>
-        /// Defines whether the ConsolePixel is renderable
+        /// Gets color of the shape.
+        /// </summary>
+        public ConsoleColor ForegroundColor { get; }
+
+        /// <summary>
+        /// Gets background color of the ConsolePixel.
+        /// </summary>
+        public ConsoleColor BackgroundColor { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether defines whether the ConsolePixel
+        /// is renderable.
         /// </summary>
         public bool IsRenderable
         {
@@ -22,26 +31,37 @@ namespace Pacman
             {
                 // The pixel is renderable if any of its fields is not the
                 // default to the specific type
-                return !shape.Equals(default(char))
-                    && !foregroundColor.Equals(default(ConsoleColor))
-                    && !backgroundColor.Equals(default(ConsoleColor));
+                return !Shape.Equals(default(char))
+                    && !ForegroundColor.Equals(default(ConsoleColor))
+                    && !BackgroundColor.Equals(default(ConsoleColor));
             }
         }
 
-
-        public ConsolePixel(char shape,
-            ConsoleColor foregroundColor, ConsoleColor backgroundColor)
+        /// <summary>
+        /// Constructor for ConsolePixel.
+        /// </summary>
+        /// <param name="shape">Char that defines a shape.</param>
+        /// <param name="foregroundColor">Foreground Color.</param>
+        /// <param name="backgroundColor">Background Color.</param>
+        public ConsolePixel(
+            char shape,
+            ConsoleColor foregroundColor,
+            ConsoleColor backgroundColor)
         {
-            this.shape = shape;
-            this.foregroundColor = foregroundColor;
-            this.backgroundColor = backgroundColor;
+            Shape = shape;
+            ForegroundColor = foregroundColor;
+            BackgroundColor = backgroundColor;
         }
 
+        /// <summary>
+        /// Constructor for ConsolePixel.
+        /// </summary>
+        /// <param name="shape">Char that defines a shape.</param>
         public ConsolePixel(char shape)
         {
-            this.shape = shape;
-            foregroundColor = Console.ForegroundColor;
-            backgroundColor = Console.BackgroundColor;
+            Shape = shape;
+            ForegroundColor = Console.ForegroundColor;
+            BackgroundColor = Console.BackgroundColor;
         }
     }
 }

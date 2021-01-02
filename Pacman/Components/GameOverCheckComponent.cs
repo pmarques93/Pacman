@@ -5,7 +5,7 @@ namespace Pacman
     /// <summary>
     /// Class that confirms if the game is over. Extends Component.
     /// </summary>
-    public class GameOverCheckComponent: Component
+    public class GameOverCheckComponent : Component
     {
         private readonly ushort numberOfFoodsToCheck;
 

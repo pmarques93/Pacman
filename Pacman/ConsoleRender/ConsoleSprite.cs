@@ -3,33 +3,28 @@ using System.Collections.Generic;
 
 namespace Pacman
 {
+    /// <summary>
+    /// Class for console sprites. Extends RenderableComponent.
+    /// </summary>
     public class ConsoleSprite : RenderableComponent
     {
-        // Since a console sprite is a renderable component, it must implement
-        // this property, which returns an ienumerable of position-pixel pairs
-        // to render
-        public override IEnumerable<KeyValuePair<Vector2Int, ConsolePixel>> Pixels => pixels;
-
         // The position-pixel pairs are actually kept here
         private IDictionary<Vector2Int, ConsolePixel> pixels;
 
-        public void ChangeSprite(char[,] pixels, ConsoleColor fgColor, ConsoleColor bgColor)
-        {
-            this.pixels = new Dictionary<Vector2Int, ConsolePixel>();
-            for (int x = 0; x < pixels.GetLength(0); x++)
-            {
-                for (int y = 0; y < pixels.GetLength(1); y++)
-                {
-                    char shape = pixels[x, y];
-                    if (!shape.Equals(default(char)))
-                    {
-                        this.pixels[new Vector2Int(x, y)] =
-                            new ConsolePixel(shape, fgColor, bgColor);
-                    }
-                }
-            }
-        }
+        /// <summary>
+        /// Gets Pixels.
+        /// Since a console sprite is a renderable component, it must implement
+        /// this property, which returns an ienumerable of position-pixel pairs
+        /// to render.
+        /// </summary>
+        public override IEnumerable<KeyValuePair<Vector2Int, ConsolePixel>>
+            Pixels => pixels;
 
+        /// <summary>
+        /// Changes sprite color.
+        /// </summary>
+        /// <param name="fgColor">Foreground Color.</param>
+        /// <param name="bgColor">Background Color.</param>
         public void ChangeColor(ConsoleColor fgColor, ConsoleColor bgColor)
         {
             IDictionary<Vector2Int, ConsolePixel> tempPixels = 
@@ -37,54 +32,31 @@ namespace Pacman
 
             foreach (Vector2Int v in pixels.Keys)
             {
-                char shape = pixels[v].shape;
-                if (!shape.Equals(default(char)))
+                char shape = pixels[v].Shape;
+                if (!shape.Equals(default))
                 {
                     tempPixels[v] = new ConsolePixel(shape, fgColor, bgColor);
                 }
             }
+
             pixels = tempPixels;
         }
-        // Below there are several constructors for this class
 
+        /// <summary>
+        /// Constructor for ConsoleSprite.
+        /// </summary>
+        /// <param name="pixels">IDictionary with pixels to render.</param>
         public ConsoleSprite(IDictionary<Vector2Int, ConsolePixel> pixels)
         {
             this.pixels = new Dictionary<Vector2Int, ConsolePixel>(pixels);
         }
 
-        public ConsoleSprite(ConsolePixel[,] pixels)
-        {
-            this.pixels = new Dictionary<Vector2Int, ConsolePixel>();
-            for (int x = 0; x < pixels.GetLength(0); x++)
-            {
-                for (int y = 0; y < pixels.GetLength(1); y++)
-                {
-                    ConsolePixel cpixel = pixels[x, y];
-                    if (cpixel.IsRenderable)
-                    {
-                        this.pixels[new Vector2Int(x, y)] = cpixel;
-                    }
-                }
-            }
-        }
-
-        public ConsoleSprite(char[,] pixels)
-        {
-            this.pixels = new Dictionary<Vector2Int, ConsolePixel>();
-            for (int x = 0; x < pixels.GetLength(0); x++)
-            {
-                for (int y = 0; y < pixels.GetLength(1); y++)
-                {
-                    char shape = pixels[x, y];
-                    if (!shape.Equals(default(char)))
-                    {
-                        this.pixels[new Vector2Int(x, y)] =
-                            new ConsolePixel(shape);
-                    }
-                }
-            }
-        }
-
+        /// <summary>
+        /// Constructor for ConsoleSprite.
+        /// </summary>
+        /// <param name="pixels">Char with pixels to render.</param>
+        /// <param name="fgColor">Foreground Color.</param>
+        /// <param name="bgColor">Background Color.</param>
         public ConsoleSprite(
             char[,] pixels, ConsoleColor fgColor, ConsoleColor bgColor)
         {
@@ -94,7 +66,7 @@ namespace Pacman
                 for (int y = 0; y < pixels.GetLength(1); y++)
                 {
                     char shape = pixels[x, y];
-                    if (!shape.Equals(default(char)))
+                    if (!shape.Equals(default))
                     {
                         this.pixels[new Vector2Int(x, y)] =
                             new ConsolePixel(shape, fgColor, bgColor);

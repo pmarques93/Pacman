@@ -201,21 +201,21 @@ namespace Pacman
         private void GameOver()
         {
             // Writes a new high score
-            if (File.Exists(Path.highscore))
+            if (File.Exists(FilePath.Highscore))
             {
-                FileReader fileReader = new FileReader(Path.highscore);
+                FileReader fileReader = new FileReader(FilePath.Highscore);
                 uint highScore = fileReader.ReadHighScore();
 
                 uint.TryParse(score.GetScore, out uint tempScore);
                 if (tempScore > highScore)
                 {
-                    FileWriter fileWriter = new FileWriter(Path.highscore);
+                    FileWriter fileWriter = new FileWriter(FilePath.Highscore);
                     fileWriter.CreateHighScoreTXT(tempScore);
                 }
             }
             else
             {
-                FileWriter fileWriter = new FileWriter(Path.highscore);
+                FileWriter fileWriter = new FileWriter(FilePath.Highscore);
                 uint.TryParse(score.GetScore, out uint tempScore);
                 fileWriter.CreateHighScoreTXT(tempScore);
             }

@@ -24,7 +24,7 @@ namespace Pacman
         public Scene LevelScene { get; }
         private readonly Collision collisions;
         private readonly MapComponent map;
-        private readonly GameState gameState;
+        private GameState gameState;
         private GameObject gameOverCheck;
         private GameOverCheckComponent gameOverCheckComponent;
 
@@ -90,7 +90,6 @@ namespace Pacman
                                             backgroundPixel, collisions,
                                             "Console Renderer");
 
-            gameState = new GameState(collisions);
 
             LevelScene = new Scene(XSIZE, YSIZE, gameState, pacmanKeyReader,
                                 lives);
@@ -130,9 +129,20 @@ namespace Pacman
 
             // GHOST
             GhostCreation(map);
+            gameState = new GameState(collisions, pacman);
 
             // WALLS
             WallCreation(map);
+
+            for (int i = 10; i < 18; i++)
+            {
+                for (int j = 12; j < 16; j++)
+                {
+                    map.Map[i, j].Collider.Type |= Cell.GhostHouse;
+                }
+            }
+            map.Map[13, 11].Collider.Type |= Cell.GhostHouseExit;
+            map.Map[14, 11].Collider.Type |= Cell.GhostHouseExit;
 
             // FOOD
             FoodCreation();
@@ -228,7 +238,7 @@ namespace Pacman
         /// </summary>
         private void ResetPositions()
         {
-            lives.Lives--;
+            // lives.Lives--;
 
             if (lives.Lives == 0) GameOver();
 
@@ -243,8 +253,9 @@ namespace Pacman
 
             MapTransformComponent blinkyMapTransform = blinky.GetComponent<MapTransformComponent>();
             map.Map[blinkyMapTransform.Position.X, blinkyMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
-            blinky.GetComponent<TransformComponent>().Position = new Vector2Int(39, 11);
-            blinkyMapTransform.Position = new Vector2Int(13, 11);
+            blinky.GetComponent<TransformComponent>().Position = new Vector2Int(39, 14);
+            blinky.GetComponent<MoveComponent>().movementState = MovementState.OnGhostHouse;
+            blinkyMapTransform.Position = new Vector2Int(13, 14);
             blinkyMapTransform.Direction = Direction.Up;
         }
 
@@ -332,8 +343,8 @@ namespace Pacman
                 {' '}
             };
             blinky = new GameObject("blinky");
-            TransformComponent blinkyTransform = new TransformComponent(39, 11);
-            MapTransformComponent blinkyMapTransform = new MapTransformComponent(13, 11);
+            TransformComponent blinkyTransform = new TransformComponent(39, 14);
+            MapTransformComponent blinkyMapTransform = new MapTransformComponent(13, 14);
             MoveComponent blinkyMovement = new MoveComponent();
             ColliderComponent blinkyCollider = new ColliderComponent(Cell.Ghost);
 
@@ -355,6 +366,7 @@ namespace Pacman
             blinky.AddComponent(new ConsoleSprite(blinkySprite,
                                                   ConsoleColor.White,
                                                   ConsoleColor.Red));
+            blinkyMovement.movementState = MovementState.OnGhostHouse;
 
             // spawner.GetComponent<SpawnerComponent>().
             //             AddGameObject(new SpawnStruct(blinkyTransform.Position,
@@ -844,7 +856,7 @@ namespace Pacman
             allFoods[29].AddComponent(new ConsoleSprite(
                 food29Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
-            
+
             // POWER PILL
 
             allFoods[31] = new GameObject("Food31");
@@ -895,9 +907,9 @@ namespace Pacman
             allFoods[34].AddComponent(new ConsoleSprite(
                 food34Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
-            
+
             // POWER PILL
-            
+
 
             allFoods[36] = new GameObject("Food36");
             char[,] food36Sprite = { { ' ' }, { '.' }, { ' ' }, };
@@ -2387,7 +2399,7 @@ namespace Pacman
             allFoods[159].AddComponent(new ConsoleSprite(
                 food159Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
-            
+
             // POWER PILL
 
 
@@ -2607,7 +2619,7 @@ namespace Pacman
             allFoods[178].AddComponent(new ConsoleSprite(
                 food178Sprite, ConsoleColor.White, ConsoleColor.DarkBlue));
 
-            
+
             // POWER PILL
 
 
@@ -3419,7 +3431,7 @@ namespace Pacman
 
             // After fruitSpawnerComponent calls Start() method, this
             // class subscribes to FruitTimer event
-            fruitSpawnerComponent.RegisterToTimerEvent += () => 
+            fruitSpawnerComponent.RegisterToTimerEvent += () =>
                 fruitSpawnerComponent.FruitTimer.Elapsed += FruitCreation;
         }
 

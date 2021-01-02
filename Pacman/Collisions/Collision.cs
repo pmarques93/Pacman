@@ -71,9 +71,39 @@ namespace Pacman
                     if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) && map.Map[x, y].Collider.Type.HasFlag(Cell.Ghost))
                     {
                         OnGhostCollision();
-                        return;
+                        // return;
                     }
-                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman))
+                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.GhostHouse) && map.Map[x, y].Collider.Type.HasFlag(Cell.Ghost))
+                    {
+                        GameObject tempGO = gameObjects.
+                            Where(o => o.GetComponent<MapTransformComponent>()?.
+                                    Position != null).
+                            Where(o => o.GetComponent<MapTransformComponent>().
+                                    Position == new Vector2Int(x, y)).
+                            Where(o => o.GetComponent<ColliderComponent>().Type == Cell.Ghost).
+                            FirstOrDefault();
+
+                        OnGhostHouseCollision(tempGO);
+                        // return;
+                    }
+                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.GhostHouseExit) && map.Map[x, y].Collider.Type.HasFlag(Cell.Ghost))
+                    {
+                        GameObject tempGO = gameObjects.
+                            Where(o => o.GetComponent<MapTransformComponent>()?.
+                                    Position != null).
+                            Where(o => o.GetComponent<MapTransformComponent>().
+                                    Position == new Vector2Int(x, y)).
+                            Where(o => o.GetComponent<ColliderComponent>().Type == Cell.Ghost).
+                            FirstOrDefault();
+
+                        OnGhostHouseExitCollision(tempGO, map.Map[x, y].Collider.Type);
+                        // return;
+                    }
+
+                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) &&
+                        (map.Map[x, y].Collider.Type.HasFlag(Cell.Food) ||
+                        map.Map[x, y].Collider.Type.HasFlag(Cell.Fruit) ||
+                        map.Map[x, y].Collider.Type.HasFlag(Cell.PowerPill)))
                     {
                         GameObject tempGO = gameObjects.
                             Where(o => o.GetComponent<MapTransformComponent>()?.
@@ -85,7 +115,7 @@ namespace Pacman
                         CollisionAction(map.Map[x, y].Collider.Type, tempGO);
                         map.Map[x, y].Collider.Type &= ~map.Map[x, y].Collider.Type;
                         map.Map[x, y].Collider.Type |= Cell.Pacman;
-                        return;
+                        // return;
                     }
                 }
             }
@@ -121,11 +151,17 @@ namespace Pacman
             }
         }
 
+        private void OnGhostHouseExitCollision(GameObject gameObject, Cell cell) =>
+            GhostHouseExitCollision?.Invoke(gameObject, cell);
+
         /// <summary>
         /// On Ghost collision event method
         /// </summary>
         public virtual void OnGhostCollision() =>
             GhostCollision?.Invoke();
+
+        public void OnGhostHouseCollision(GameObject gameObject) =>
+            GhostHouseCollision?.Invoke(gameObject);
 
         /// <summary>
         /// On Fruit or Food collision event method
@@ -150,6 +186,8 @@ namespace Pacman
             FoodCount?.Invoke();
 
         public event Action GhostCollision;
+        public event Action<GameObject> GhostHouseCollision;
+        public event Action<GameObject, Cell> GhostHouseExitCollision;
         public event Action<ushort> ScoreCollision;
         public event Action PowerPillCollision;
         public event Action<GameObject> FoodCollision;

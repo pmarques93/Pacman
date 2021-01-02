@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace Pacman.Components
 {
+
     public class SpawnerComponent : Component
     {
         private ICollection<SpawnStruct> gameObjects;

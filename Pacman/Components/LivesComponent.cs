@@ -1,5 +1,4 @@
-﻿
-namespace Pacman
+﻿namespace Pacman
 {
     /// <summary>
     /// Class for lives component. Extends Component
@@ -7,14 +6,14 @@ namespace Pacman
     public class LivesComponent : Component
     {
         /// <summary>
-        /// Property with lives
+        /// Gets or sets lives.
         /// </summary>
         public byte Lives { get; set; }
 
         /// <summary>
-        /// Constructor for lives component
+        /// Constructor for lives component.
         /// </summary>
-        /// <param name="lives">Lives to add</param>
+        /// <param name="lives">Lives to add.</param>
         public LivesComponent(byte lives)
         {
             Lives = lives;

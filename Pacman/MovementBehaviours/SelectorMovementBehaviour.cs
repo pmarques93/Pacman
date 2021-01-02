@@ -52,14 +52,14 @@ namespace Pacman
             switch (transform.Position.Y)
             {
                 case 34:
-                    keyReader.quitKeys.Clear();
-                    keyReader.quitKeys.Add(System.ConsoleKey.Escape);
-                    sceneChanger.sceneHandler.CurrentScene.Unload = true;
+                    keyReader.QuitKeys.Clear();
+                    keyReader.QuitKeys.Add(System.ConsoleKey.Escape);
+                    sceneChanger.SceneHandler.CurrentScene.Unload = true;
                     sceneChanger.ChangeScene();
                     // keyReader.EnterPressed -= EnterPressed;
                     break;
                 case 36:
-                    sceneChanger.sceneHandler.TerminateCurrentScene();
+                    sceneChanger.SceneHandler.TerminateCurrentScene();
                     // keyReader.EnterPressed -= EnterPressed;
                     break;
             }

@@ -1,19 +1,19 @@
 ﻿namespace Pacman
 {
     /// <summary>
-    /// Component for colliders. Extends Component
+    /// Component for colliders. Extends Component.
     /// </summary>
     public class ColliderComponent : Component
     {
         /// <summary>
-        /// Property to get type of collider
+        /// Gets or sets type property.
         /// </summary>
         public Cell Type { get; set; }
 
         /// <summary>
-        /// Constructor for Collider Component
+        /// Constructor for Collider Component.
         /// </summary>
-        /// <param name="cell"></param>
+        /// <param name="cell">Cell of this collider.</param>
         public ColliderComponent(Cell cell)
         {
             Type = cell;

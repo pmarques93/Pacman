@@ -2,29 +2,39 @@ using Pacman.GameRelated;
 
 namespace Pacman.Components
 {
+    /// <summary>
+    /// Class responsible for changing scenes. Extends component.
+    /// </summary>
     public class SceneChangerComponent : Component
     {
-        private KeyReaderComponent keyReader;
-        private Scene currentScene;
-        public readonly SceneHandler sceneHandler;
+        /// <summary>
+        /// Gets or sets sceneHandler.
+        /// </summary>
+        public SceneHandler SceneHandler { get; set; }
 
-        public string sceneToLoad;
-        public SceneChangerComponent(KeyReaderComponent keyReader,
-                                     Scene currentScene,
-                                     SceneHandler sceneHandler)
+        /// <summary>
+        /// Gets or sets sceneToLoad.
+        /// </summary>
+        public string SceneToLoad { get; set; }
+
+        /// <summary>
+        /// Constructor for SceneChangerComponent.
+        /// </summary>
+        /// <param name="sceneHandler">Reference to sceneHandler.</param>
+        public SceneChangerComponent(SceneHandler sceneHandler)
         {
-            this.keyReader = keyReader;
-            this.currentScene = currentScene;
-            this.sceneHandler = sceneHandler;
-            sceneToLoad = "";
+            SceneHandler = sceneHandler;
+            SceneToLoad = string.Empty;
         }
 
+        /// <summary>
+        /// Method responsible for changing scenes.
+        /// </summary>
         public void ChangeScene()
         {
-            sceneHandler.CurrentScene.Terminate = true;
-            sceneHandler.CurrentScene = sceneHandler.FindSceneByName(sceneToLoad);
-            sceneHandler.CurrentScene.Terminate = false;
+            SceneHandler.CurrentScene.Terminate = true;
+            SceneHandler.CurrentScene = SceneHandler.FindSceneByName(SceneToLoad);
+            SceneHandler.CurrentScene.Terminate = false;
         }
-
     }
 }

@@ -1,24 +1,34 @@
-﻿using System;
-
-namespace Pacman
+﻿namespace Pacman
 {
     /// <summary>
-    /// Movement Component. Extends Component
+    /// Movement Component. Extends Component.
     /// </summary>
     public class MoveComponent : Component
     {
         // Position related variables
-        private int maxX, maxY;
+        private int maxX;
+
+        // Position related variables
+        private int maxY;
+
+        /// <summary>
+        /// Gets or sets movementState.
+        /// </summary>
         public MovementState MovementState { get; set; }
 
         // Type of Movement
         private IMovementBehaviour movementBehaviour;
+
+        /// <summary>
+        /// Constructor for MoveComponent.
+        /// </summary>
         public MoveComponent()
         {
             MovementState = MovementState.None;
         }
+
         /// <summary>
-        /// Method that runs once on start
+        /// Method that runs once on start.
         /// </summary>
         public override void Start()
         {
@@ -29,15 +39,15 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Adds current movement to this class
+        /// Adds current movement to this class.
         /// </summary>
         /// <param name="movementBehaviour">Movement Behaviour to add</param>
         public void AddMovementBehaviour(IMovementBehaviour movementBehaviour)
             => this.movementBehaviour = movementBehaviour;
 
         /// <summary>
-        /// Method responsible for what happens when the GameObject is running
-        /// Runs movement behavior movement method
+        /// Method responsible for what happens when the GameObject is running.
+        /// Runs movement behavior movement method.
         /// </summary>
         public override void Update()
         {

@@ -1,43 +1,39 @@
 ﻿namespace Pacman
 {
     /// <summary>
-    /// Abstract class for every component. Implements IGameObject
+    /// Abstract class for every component. Implements IGameObject.
     /// </summary>
     public abstract class Component : IGameObject
     {
-
         /// <summary>
-        /// Property for Component name
+        /// Gets name for property.
         /// </summary>
         public string Name { get; }
-        
+
         /// <summary>
-        /// Property with this component's parent GameObject
+        /// Gets or sets parent game object property.
         /// </summary>
         public GameObject ParentGameObject { get; set; }
-        
+
         /// <summary>
-        /// Method that runs once on start
+        /// Method that runs once on start.
         /// </summary>
         public virtual void Start()
         {
-
         }
 
         /// <summary>
-        /// Method responsible for what happens when the GameObject is running
+        /// Method responsible for what happens when the GameObject is running.
         /// </summary>
         public virtual void Update()
         {
-
         }
 
         /// <summary>
-        /// Method that runs once on finish
+        /// Method that runs once on finish.
         /// </summary>
         public virtual void Finish()
         {
-
         }
     }
 }

@@ -3,19 +3,19 @@
 namespace Pacman.Components
 {
     /// <summary>
-    /// Class responsible for updating the high score. Extends ecomponent
+    /// Class responsible for updating the high score. Extends ecomponent.
     /// </summary>
-    class HighScoreComponent : Component
+    public class HighScoreComponent : Component
     {
         /// <summary>
-        /// Property for high score
+        /// Gets highScore.
         /// </summary>
         public uint HighScore { get; private set; }
 
         /// <summary>
         /// Method thatr runs once on start.
         /// Reads a file with high score. If the file doesn't exist,
-        /// the high score is 0
+        /// the high score is 0.
         /// </summary>
         public override void Start()
         {

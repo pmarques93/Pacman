@@ -72,15 +72,13 @@ namespace Pacman
 
         private void CreateGameObjects()
         {
-            keyReader.quitKeys.Add(ConsoleKey.Enter);
+            keyReader.QuitKeys.Add(ConsoleKey.Enter);
             sceneChanger = new GameObject("Scene Changer");
             SceneChangerComponent sceneChangerComponent =
-                                new SceneChangerComponent(keyReader,
-                                                          MenuScene,
-                                                          sceneHandler);
+                                new SceneChangerComponent(sceneHandler);
 
             sceneChanger.AddComponent(sceneChangerComponent);
-            sceneChangerComponent.sceneToLoad = "LevelScene";
+            sceneChangerComponent.SceneToLoad = "LevelScene";
 
             ////////////////////////////////////////////////////////////////////
             

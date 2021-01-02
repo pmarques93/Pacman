@@ -1,22 +1,23 @@
-﻿using Pacman.GameRelated;
-using System;
+﻿using System;
+using Pacman.GameRelated;
 
 namespace Pacman.Components
 {
     /// <summary>
-    /// Class responsible for creating a new level. Extends Component
+    /// Class responsible for creating a new level. Extends Component.
     /// </summary>
-    class CreateNewLevelComponent: Component
+    public class CreateNewLevelComponent: Component
     {
-        private KeyReaderComponent keyReader;
-        private SceneHandler sceneHandler;
+        private readonly KeyReaderComponent keyReader;
+        private readonly SceneHandler sceneHandler;
 
         /// <summary>
-        /// Constructor for CreateNewLevelComponent
+        /// Constructor for CreateNewLevelComponent.
         /// </summary>
-        /// <param name="keyReader">Reference to keyreader</param>
-        /// <param name="sceneHandler">Reference to scene handler</param>
-        public CreateNewLevelComponent(KeyReaderComponent keyReader,
+        /// <param name="keyReader">Reference to keyreader.</param>
+        /// <param name="sceneHandler">Reference to scene handler.</param>
+        public CreateNewLevelComponent(
+            KeyReaderComponent keyReader,
             SceneHandler sceneHandler)
         {
             this.keyReader = keyReader;
@@ -31,7 +32,7 @@ namespace Pacman.Components
         {
             Random random = new Random();
 
-            LevelCreation levelCreation = 
+            LevelCreation levelCreation =
                 new LevelCreation(keyReader, sceneHandler, random);
 
             sceneHandler.AddScene(levelCreation.LevelScene, "LevelScene");

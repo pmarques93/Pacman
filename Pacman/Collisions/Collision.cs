@@ -5,20 +5,24 @@ using Pacman.Components;
 
 namespace Pacman
 {
+    /// <summary>
+    /// Class that handles collisions. Implements IGameObject.
+    /// </summary>
     public class Collision : IGameObject
     {
-        // Name of this gameobject
+        /// <summary>
+        /// Gets property for Name.
+        /// </summary>
         public string Name => "Collision Game Object";
 
-        // Gameobjects and pacman
-        private IList<GameObject> gameObjects;
-        private GameObject pacman;
-        // Transforms
-        private MapComponent map;
+        private readonly MapComponent map;
+
+        private readonly IList<GameObject> gameObjects;
 
         /// <summary>
-        /// Constructor for Collision
+        /// Constructor for Collision.
         /// </summary>
+        /// <param name="map">Reference to map.</param>
         public Collision(MapComponent map)
         {
             gameObjects = new List<GameObject>();
@@ -26,39 +30,30 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Adds GameObjects to a collection
+        /// Adds GameObjects to a collection.
         /// </summary>
-        /// <param name="gameObject">Gameobject to add</param>
+        /// <param name="gameObject">Gameobject to add.</param>
         public void AddGameObject(GameObject gameObject)
             => gameObjects.Add(gameObject);
 
         /// <summary>
-        /// Removes GameObjects from a collection
+        /// Removes GameObjects from a collection.
         /// </summary>
-        /// <param name="gameObject">GameObject to remove</param>
+        /// <param name="gameObject">GameObject to remove.</param>
         public void RemoveGameObject(GameObject gameObject)
             => gameObjects.Remove(gameObject);
 
         /// <summary>
-        /// Adds pacman
-        /// </summary>
-        /// <param name="pacman">GameObject to add</param>
-        public void AddPacman(GameObject pacman)
-            => this.pacman = pacman;
-
-
-        /// <summary>
-        /// Start method for Collision
-        /// Gets every TransformComponent from a list of gameobjects
+        /// Start method for Collision. Happens once on Start.
         /// </summary>
         public void Start()
         {
-
+            // Method intentionally left empty.
         }
 
         /// <summary>
         /// Update method for Collision
-        /// If pacman collides with anything sets an event
+        /// Checks if pacman is colliding with anything.
         /// </summary>
         public void Update()
         {
@@ -66,83 +61,85 @@ namespace Pacman
             {
                 for (int y = 0; y < map.Map.GetLength(1); y++)
                 {
-                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.Ghost))
+                    if ((map.Map[x, y].Collider.Type & Cell.Ghost) != 0)
                     {
                         GameObject tempGO = gameObjects.
-                            Where(o => o.GetComponent<ColliderComponent>().Type.HasFlag(Cell.Ghost)).
-                            Where(o => o.GetComponent<MapTransformComponent>().
-                                    Position == new Vector2Int(x, y)).
-                            FirstOrDefault();
-                        if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman))
+                            Where(o => (o.GetComponent<ColliderComponent>().
+                            Type & Cell.Ghost) != 0).
+                            FirstOrDefault(
+                            o => o.GetComponent<MapTransformComponent>().
+                                    Position == new Vector2Int(x, y));
+                        if ((map.Map[x, y].Collider.Type & Cell.Pacman) != 0)
                         {
                             OnGhostCollision(tempGO);
                         }
-                        else if (map.Map[x, y].Collider.Type.HasFlag(Cell.GhostHouse))
+                        else if ((map.Map[x, y].Collider.Type &
+                            Cell.GhostHouse) != 0)
                         {
-
                             OnGhostHouseCollision(tempGO);
                         }
-                        else if (map.Map[x, y].Collider.Type.HasFlag(Cell.GhostHouseExit))
+                        else if ((map.Map[x, y].Collider.
+                            Type & Cell.GhostHouseExit) != 0)
                         {
-                            OnGhostHouseExitCollision(tempGO, map.Map[x, y].Collider.Type);
+                            OnGhostHouseExitCollision(
+                                tempGO, map.Map[x, y].Collider.Type);
                         }
                     }
-
-
-                    else if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) &&
-                        (map.Map[x, y].Collider.Type.HasFlag(Cell.Food) ||
-                        map.Map[x, y].Collider.Type.HasFlag(Cell.Fruit) ||
-                        map.Map[x, y].Collider.Type.HasFlag(Cell.PowerPill)))
+                    else if ((map.Map[x, y].Collider.Type & Cell.Pacman) != 0 &&
+                        ((map.Map[x, y].Collider.Type & Cell.Food) != 0 ||
+                        (map.Map[x, y].Collider.Type & Cell.Fruit) != 0 ||
+                        (map.Map[x, y].Collider.Type & Cell.PowerPill) != 0))
                     {
                         GameObject tempGO = gameObjects.
                             Where(o => o.GetComponent<MapTransformComponent>()?.
                                     Position != null).
-                            Where(o => o.GetComponent<MapTransformComponent>().
-                                    Position == new Vector2Int(x, y)).
-                            FirstOrDefault();
+                            FirstOrDefault(
+                            o => o.GetComponent<MapTransformComponent>().
+                                    Position == new Vector2Int(x, y));
 
                         CollisionAction(map.Map[x, y].Collider.Type, tempGO);
 
-                        if (map.Map[x, y].Collider.Type.HasFlag(Cell.Food))
+                        if ((map.Map[x, y].Collider.Type & Cell.Food) != 0)
                         {
                             map.Map[x, y].Collider.Type &= ~Cell.Food;
                         }
-                        else if (map.Map[x, y].Collider.Type.HasFlag(Cell.Fruit))
+                        else if ((map.Map[x, y].Collider.Type &
+                            Cell.Fruit) != 0)
                         {
                             map.Map[x, y].Collider.Type &= ~Cell.Fruit;
                         }
-                        else if (map.Map[x, y].Collider.Type.HasFlag(Cell.PowerPill))
+                        else if ((map.Map[x, y].Collider.Type &
+                            Cell.PowerPill) != 0)
                         {
                             map.Map[x, y].Collider.Type &= ~Cell.PowerPill;
                         }
-
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Calls a certain event depending on the type of collision
+        /// Calls a certain event depending on the type of collision.
         /// </summary>
-        /// <param name="collisionType">Type of collider pacman 
-        /// collided with</param>
-        /// <param name="collision">Gameobject of that collider</param>
+        /// <param name="collisionType">Type of collider pacman
+        /// collided with.</param>
+        /// <param name="collision">Gameobject of that collider.</param>
         private void CollisionAction(Cell collisionType, GameObject collision)
         {
-            if (collisionType.HasFlag(Cell.Fruit))
+            if ((collisionType & Cell.Fruit) != 0)
             {
                 OnFoodCollision(collision);
                 RemoveGameObject(collision);
                 OnScoreCollision(100);
             }
-            else if (collisionType.HasFlag(Cell.Food))
+            else if ((collisionType & Cell.Food) != 0)
             {
                 OnFoodCount();
                 OnFoodCollision(collision);
                 RemoveGameObject(collision);
                 OnScoreCollision(10);
             }
-            else if (collisionType.HasFlag(Cell.PowerPill))
+            else if ((collisionType & Cell.PowerPill) != 0)
             {
                 OnFoodCollision(collision);
                 RemoveGameObject(collision);
@@ -151,49 +148,98 @@ namespace Pacman
             }
         }
 
-        private void OnGhostHouseExitCollision(GameObject gameObject, Cell cell) =>
+        /// <summary>
+        /// Method that calls OnGhostHouseExitCollision event.
+        /// </summary>
+        /// <param name="gameObject">Ghost that collided.</param>
+        /// <param name="cell">Ghost's Cell.</param>
+        protected virtual void OnGhostHouseExitCollision(
+            GameObject gameObject, Cell cell) =>
             GhostHouseExitCollision?.Invoke(gameObject, cell);
 
         /// <summary>
-        /// On Ghost collision event method
+        /// On Ghost collision event method.
         /// </summary>
+        /// <param name="gameObject">Ghost that collided.</param>
         public virtual void OnGhostCollision(GameObject gameObject) =>
             GhostCollision?.Invoke(gameObject);
 
+        /// <summary>
+        /// On Ghost House Collision event method.
+        /// </summary>
+        /// <param name="gameObject">Ghost that collided.</param>
         public void OnGhostHouseCollision(GameObject gameObject) =>
             GhostHouseCollision?.Invoke(gameObject);
 
         /// <summary>
-        /// On Fruit or Food collision event method
+        /// On Score collision event method.
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="score">Score to add.</param>
         protected virtual void OnScoreCollision(ushort score) =>
             ScoreCollision?.Invoke(score);
 
         /// <summary>
-        /// On PowerPill collision event method
+        /// On PowerPill collision event method.
         /// </summary>
         protected virtual void OnPowerPillCollision() =>
             PowerPillCollision?.Invoke();
 
         /// <summary>
-        /// On Food collision event method
+        /// On Food collision event method.
         /// </summary>
+        /// <param name="gameObject">Eaten food.</param>
         protected virtual void OnFoodCollision(GameObject gameObject) =>
             FoodCollision?.Invoke(gameObject);
 
+        /// <summary>
+        /// On Food Count event method. Happens when pacman eats a food.
+        /// </summary>
         protected virtual void OnFoodCount() =>
             FoodCount?.Invoke();
 
+        /// <summary>
+        /// GhostCollision event.
+        /// </summary>
         public event Action<GameObject> GhostCollision;
+
+        /// <summary>
+        /// GhostHouseCollision event happens when the ghost reaches the house.
+        /// </summary>
         public event Action<GameObject> GhostHouseCollision;
+
+        /// <summary>
+        /// GhostHouseExitCollision happens when the ghost leaves the house.
+        /// </summary>
         public event Action<GameObject, Cell> GhostHouseExitCollision;
+
+        /// <summary>
+        /// ScoreCollision happens when pacman eats something that increments
+        /// score
+        /// </summary>
         public event Action<ushort> ScoreCollision;
+
+        /// <summary>
+        /// PowerPillCollision happens when pacman eats a power pill
+        /// </summary>
         public event Action PowerPillCollision;
+
+        /// <summary>
+        /// FoodCollision happens when pacman eats some kind of food
+        /// (powerpills, food, or fruits)
+        /// </summary>
         public event Action<GameObject> FoodCollision;
+
+        /// <summary>
+        /// FoodCount happens when pacman eats a food
+        /// </summary>
         public event Action FoodCount;
 
-
-        public void Finish() { }
+        /// <summary>
+        /// Method that happens once on finish.
+        /// </summary>
+        public void Finish()
+        {
+            // Method intentionally left empty.
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace Pacman
     public class KeyReaderComponent : Component
     {
         /// <summary>
-        /// Direction to which the pressed key corresponds.
+        /// Gets direction to which the pressed key corresponds.
         /// </summary>
         public Direction Direction { get; private set; }
 
@@ -27,19 +27,34 @@ namespace Pacman
         /// </summary>
         public event Action EscapePressed;
 
-        public ICollection<ConsoleKey> quitKeys;
+        /// <summary>
+        /// Gets or sets quitKeys collection.
+        /// </summary>
+        public ICollection<ConsoleKey> QuitKeys { get; }
 
-        private Object threadLock;
+        private readonly object threadLock;
+
+        /// <summary>
+        /// Constructor for KeyReaderComponent.
+        /// </summary>
+        /// <param name="quitKey">Key needed to quit the game.</param>
         public KeyReaderComponent(ConsoleKey quitKey = ConsoleKey.Escape)
         {
-            quitKeys = new List<ConsoleKey>();
-            quitKeys.Add(quitKey);
+            QuitKeys = new List<ConsoleKey>
+            {
+                quitKey,
+            };
+
             threadLock = new object();
         }
 
+        /// <summary>
+        /// Constructor for KeyReaderComponent.
+        /// </summary>
+        /// <param name="quitKeys">Collection with console key.</param>
         public KeyReaderComponent(ICollection<ConsoleKey> quitKeys)
         {
-            this.quitKeys = quitKeys;
+            this.QuitKeys = quitKeys;
             threadLock = new object();
         }
 
@@ -55,10 +70,9 @@ namespace Pacman
             inputThread.Start();
         }
 
-
         /// <summary>
         /// Method responsible for what happens when
-        ///  KeyReaderComponent is running
+        /// KeyReaderComponent is running.
         /// </summary>
         public override void Update()
         {
@@ -67,8 +81,6 @@ namespace Pacman
             {
                 if (input.TryDequeue(out key))
                 {
-
-                    // Console.WriteLine($"key: {key}");
                     switch (key)
                     {
                         case ConsoleKey.W:
@@ -94,6 +106,7 @@ namespace Pacman
                             break;
                     }
                 }
+
                 input.Clear();
             }
         }
@@ -121,9 +134,8 @@ namespace Pacman
                 {
                     input.Enqueue(key);
                 }
-            } while (!quitKeys.Contains(key));
+            } while (!QuitKeys.Contains(key));
         }
-
 
         /// <summary>
         /// Invokes the EscapePressed event.
@@ -135,16 +147,19 @@ namespace Pacman
         /// Invokes the EnterPressed event.
         /// </summary>
         protected virtual void OnEnterPressed()
-        {
-            EnterPressed?.Invoke();
-        }
+            => EnterPressed?.Invoke();
 
         private void OnSpacePressed()
-        {
-            SpaceBarPressed?.Invoke();
-        }
+            => SpaceBarPressed?.Invoke();
 
+        /// <summary>
+        /// EnterPressed happens when enter is pressed.
+        /// </summary>
         public event Action EnterPressed;
+
+        /// <summary>
+        /// SpaceBarPressed happens when space bar is pressed.
+        /// </summary>
         public event Action SpaceBarPressed;
     }
 }

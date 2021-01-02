@@ -1,20 +1,20 @@
 ﻿namespace Pacman
 {
     /// <summary>
-    /// Map Component. Extends Component
+    /// Map Component. Extends Component.
     /// </summary>
     public class MapComponent : Component
     {
         /// <summary>
-        /// Property with a bidemsnion array of MapStructs to create a map
+        /// Gets or sets MapStructs to create a map.
         /// </summary>
         public MapStruct[,] Map { get; set; }
 
         /// <summary>
-        /// Constructor for MapComponent
+        /// Constructor for MapComponent.
         /// </summary>
-        /// <param name="xDim">X size</param>
-        /// <param name="yDim">Y size</param>
+        /// <param name="xDim">X size.</param>
+        /// <param name="yDim">Y size.</param>
         public MapComponent(byte xDim, byte yDim)
         {
             Map = new MapStruct[xDim, yDim];
@@ -23,7 +23,7 @@
         }
 
         /// <summary>
-        /// Creates map for pacman
+        /// Creates map for pacman.
         /// </summary>
         private void CreatePacmanMap()
         {
@@ -36,7 +36,6 @@
                                         new ColliderComponent(Cell.Walkable));
                 }
             }
-
 
             Map[0, 0] = new MapStruct(
                         new TransformComponent(0, 0),
@@ -898,7 +897,6 @@
                         new TransformComponent(13, 30),
                         new ColliderComponent(Cell.Wall));
 
-
             Map[14, 0] = new MapStruct(
                         new TransformComponent(14, 0),
                         new ColliderComponent(Cell.Wall));
@@ -966,7 +964,6 @@
                         new TransformComponent(14, 30),
                         new ColliderComponent(Cell.Wall));
 
-
             Map[15, 0] = new MapStruct(
                         new TransformComponent(15, 0),
                         new ColliderComponent(Cell.Wall));
@@ -997,7 +994,6 @@
             Map[15, 30] = new MapStruct(
                         new TransformComponent(15, 30),
                         new ColliderComponent(Cell.Wall));
-
 
             Map[16, 0] = new MapStruct(
                         new TransformComponent(16, 0),
@@ -1056,8 +1052,6 @@
             Map[16, 30] = new MapStruct(
                         new TransformComponent(16, 30),
                         new ColliderComponent(Cell.Wall));
-
-
 
             Map[17, 0] = new MapStruct(
                         new TransformComponent(17, 0),
@@ -1126,7 +1120,6 @@
                         new TransformComponent(17, 30),
                         new ColliderComponent(Cell.Wall));
 
-
             Map[18, 0] = new MapStruct(
                         new TransformComponent(18, 0),
                         new ColliderComponent(Cell.Wall));
@@ -1160,7 +1153,6 @@
             Map[18, 30] = new MapStruct(
                         new TransformComponent(18, 30),
                         new ColliderComponent(Cell.Wall));
-
 
             Map[19, 0] = new MapStruct(
                         new TransformComponent(19, 0),
@@ -1240,7 +1232,6 @@
             Map[19, 30] = new MapStruct(
                         new TransformComponent(19, 30),
                         new ColliderComponent(Cell.Wall));
-
 
             Map[20, 0] = new MapStruct(
                         new TransformComponent(20, 0),
@@ -1334,7 +1325,6 @@
                         new TransformComponent(21, 30),
                         new ColliderComponent(Cell.Wall));
 
-
             Map[22, 0] = new MapStruct(
                         new TransformComponent(22, 0),
                         new ColliderComponent(Cell.Wall));
@@ -1410,7 +1400,6 @@
             Map[22, 30] = new MapStruct(
                         new TransformComponent(22, 30),
                         new ColliderComponent(Cell.Wall));
-
 
             Map[23, 0] = new MapStruct(
                         new TransformComponent(23, 0),
@@ -1488,7 +1477,6 @@
                         new TransformComponent(23, 30),
                         new ColliderComponent(Cell.Wall));
 
-
             Map[24, 0] = new MapStruct(
                         new TransformComponent(24, 0),
                         new ColliderComponent(Cell.Wall));
@@ -1555,7 +1543,6 @@
             Map[24, 30] = new MapStruct(
                         new TransformComponent(24, 30),
                         new ColliderComponent(Cell.Wall));
-
 
             Map[25, 0] = new MapStruct(
                         new TransformComponent(25, 0),
@@ -1675,7 +1662,6 @@
             Map[26, 30] = new MapStruct(
                         new TransformComponent(26, 30),
                         new ColliderComponent(Cell.Wall));
-
 
             Map[27, 0] = new MapStruct(
                         new TransformComponent(27, 0),

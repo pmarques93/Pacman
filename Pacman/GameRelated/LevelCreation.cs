@@ -112,9 +112,7 @@ namespace Pacman
 
             sceneChanger = new GameObject("SceneChanger");
             SceneChangerComponent sceneChangerComponent =
-                     new SceneChangerComponent(pacmanKeyReader,
-                                               LevelScene,
-                                               sceneHandler);
+                     new SceneChangerComponent(sceneHandler);
             sceneChanger.AddComponent(sceneChangerComponent);
             pacmanKeyReader.EscapePressed += GameOver;
 
@@ -222,16 +220,16 @@ namespace Pacman
                 fileWriter.CreateHighScoreTXT(tempScore);
             }
 
-            pacmanKeyReader.quitKeys.Clear();
-            pacmanKeyReader.quitKeys.Add(System.ConsoleKey.Enter);
+            pacmanKeyReader.QuitKeys.Clear();
+            pacmanKeyReader.QuitKeys.Add(System.ConsoleKey.Enter);
 
             // Loads menu scene
             SceneChangerComponent sceneChangerComponent =
                 sceneChanger.GetComponent<SceneChangerComponent>();
-            sceneChangerComponent.sceneToLoad = "MenuScene";
-            sceneChangerComponent.sceneHandler.CurrentScene.Unload = true;
+            sceneChangerComponent.SceneToLoad = "MenuScene";
+            sceneChangerComponent.SceneHandler.CurrentScene.Unload = true;
             sceneChangerComponent.ChangeScene();
-            sceneChangerComponent.sceneHandler.CurrentScene.Unload = false;
+            sceneChangerComponent.SceneHandler.CurrentScene.Unload = false;
 
             // Removes level scene (deletes the scene)
             sceneHandler.RemoveScene("LevelScene");
@@ -3667,7 +3665,6 @@ namespace Pacman
         /// </summary>
         private void AddGameObjectsToCollisionCheck()
         {
-            collisions.AddPacman(pacman);
             collisions.AddGameObject(pinky);
             collisions.AddGameObject(blinky);
             collisions.AddGameObject(inky);

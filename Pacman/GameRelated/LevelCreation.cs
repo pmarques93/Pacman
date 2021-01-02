@@ -129,7 +129,14 @@ namespace Pacman
 
             // GHOST
             GhostCreation(map);
-            gameState = new GameState(collisions, pacman);
+
+            gameState = new GameState(collisions,
+                                      pacman,
+                                      new List<GameObject>()
+                                      { blinky,pinky,inky,clyde},
+                                      map,
+                                      random,
+                                      pacmanMovementBehaviour);
 
             // WALLS
             WallCreation(map);
@@ -236,7 +243,7 @@ namespace Pacman
         /// </summary>
         private void ResetPositions()
         {
-            // lives.Lives--;
+            lives.Lives--;
 
             if (lives.Lives == 0) GameOver();
 
@@ -252,7 +259,7 @@ namespace Pacman
             MapTransformComponent blinkyMapTransform = blinky.GetComponent<MapTransformComponent>();
             map.Map[blinkyMapTransform.Position.X, blinkyMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
             blinky.GetComponent<TransformComponent>().Position = new Vector2Int(39, 14);
-            blinky.GetComponent<MoveComponent>().movementState = MovementState.OnGhostHouse;
+            blinky.GetComponent<MoveComponent>().MovementState = MovementState.OnGhostHouse;
             blinkyMapTransform.Position = new Vector2Int(13, 14);
             blinkyMapTransform.Direction = Direction.Up;
         }
@@ -309,11 +316,11 @@ namespace Pacman
                 {' '}
             };
             pinky = new GameObject("pinky");
-            TransformComponent pinkyTransform = new TransformComponent(21, 5);
-            MapTransformComponent pinkyMapTransform = new MapTransformComponent(7, 5);
+            TransformComponent pinkyTransform = new TransformComponent(36, 14);
+            MapTransformComponent pinkyMapTransform = new MapTransformComponent(12, 14);
             MoveComponent pinkyMovement = new MoveComponent();
+            pinkyMovement.MovementState = MovementState.OnGhostHouse;
             ColliderComponent pinkyCollider = new ColliderComponent(Cell.Ghost);
-
 
             pinky.AddComponent(pinkyTransform);
             pinky.AddComponent(pinkyMapTransform);
@@ -364,39 +371,12 @@ namespace Pacman
             blinky.AddComponent(new ConsoleSprite(blinkySprite,
                                                   ConsoleColor.White,
                                                   ConsoleColor.Red));
-            blinkyMovement.movementState = MovementState.OnGhostHouse;
+            blinkyMovement.MovementState = MovementState.OnGhostHouse;
 
             // spawner.GetComponent<SpawnerComponent>().
             //             AddGameObject(new SpawnStruct(blinkyTransform.Position,
             //                                           blinkyMapTransform.Position,
             //                                           blinky));
-
-            collisions.PowerPillCollision += () =>
-            {
-                blinky.GetComponent<MoveComponent>().AddMovementBehaviour(
-                                                new FrightenedMovementBehaviour(
-                                                    collisions,
-                                                    blinky,
-                                                    map,
-                                                    new MapTransformComponent(1, 1),
-                                                    blinkyMapTransform, random, 3));
-                MapTransformComponent tempMapTrans = blinky.GetComponent<MapTransformComponent>();
-                switch (tempMapTrans.Direction)
-                {
-                    case Direction.Down:
-                        tempMapTrans.Direction = Direction.Up;
-                        break;
-                    case Direction.Up:
-                        tempMapTrans.Direction = Direction.Down;
-                        break;
-                    case Direction.Left:
-                        tempMapTrans.Direction = Direction.Right;
-                        break;
-                    case Direction.Right:
-                        tempMapTrans.Direction = Direction.Left;
-                        break;
-                }
-            };
 
             char[,] inkySprite =
             {
@@ -405,12 +385,13 @@ namespace Pacman
                 {' '}
             };
             inky = new GameObject("inky");
-            TransformComponent inkyTransform = new TransformComponent(3, 15);
-            MapTransformComponent inkyMapTransform = new MapTransformComponent(1, 15);
+            TransformComponent inkyTransform = new TransformComponent(45, 14);
+            MapTransformComponent inkyMapTransform = new MapTransformComponent(15, 14);
             MoveComponent inkyMovement = new MoveComponent();
             ColliderComponent inkyCollider = new ColliderComponent(Cell.Ghost);
-
+            inkyMovement.MovementState = MovementState.OnGhostHouse;
             inky.AddComponent(inkyTransform);
+            inky.AddComponent(inkyMapTransform);
             inky.AddComponent(inkyMovement);
             inky.AddComponent(inkyCollider);
             inky.AddComponent(map);
@@ -437,12 +418,13 @@ namespace Pacman
                 {' '}
             };
             clyde = new GameObject("clyde");
-            TransformComponent clydeTransform = new TransformComponent(21, 15);
-            MapTransformComponent clydeMapTransform = new MapTransformComponent(7, 15);
+            TransformComponent clydeTransform = new TransformComponent(42, 14);
+            MapTransformComponent clydeMapTransform = new MapTransformComponent(14, 14);
             MoveComponent clydeMovement = new MoveComponent();
             ColliderComponent clydeCollider = new ColliderComponent(Cell.Ghost);
 
             clyde.AddComponent(clydeTransform);
+            clyde.AddComponent(clydeMapTransform);
             clyde.AddComponent(clydeMovement);
             clyde.AddComponent(clydeCollider);
             clyde.AddComponent(map);
@@ -3669,10 +3651,10 @@ namespace Pacman
         private void AddGameObjectsToCollisionCheck()
         {
             collisions.AddPacman(pacman);
-            // collisions.AddGameObject(pinky);
+            collisions.AddGameObject(pinky);
             collisions.AddGameObject(blinky);
-            // collisions.AddGameObject(inky);
-            // collisions.AddGameObject(clyde);
+            collisions.AddGameObject(inky);
+            collisions.AddGameObject(clyde);
 
             foreach (GameObject food in allFoods)
                 if (food != null) collisions.AddGameObject(food);
@@ -3687,10 +3669,10 @@ namespace Pacman
         private void AddGameObjectsToScene()
         {
             LevelScene.AddGameObject(spawner);
-            // LevelScene.AddGameObject(pinky);
+            LevelScene.AddGameObject(pinky);
             LevelScene.AddGameObject(blinky);
-            // LevelScene.AddGameObject(inky);
-            // LevelScene.AddGameObject(clyde);
+            LevelScene.AddGameObject(inky);
+            LevelScene.AddGameObject(clyde);
             LevelScene.AddGameObject(pacman);
 
             foreach (GameObject food in allFoods)
@@ -3722,10 +3704,10 @@ namespace Pacman
                 if (powerPill != null) consoleRenderer.AddGameObject(powerPill);
 
             consoleRenderer.AddGameObject(pacman);
-            // consoleRenderer.AddGameObject(pinky);
+            consoleRenderer.AddGameObject(pinky);
             consoleRenderer.AddGameObject(blinky);
-            // consoleRenderer.AddGameObject(inky);
-            // consoleRenderer.AddGameObject(clyde);
+            consoleRenderer.AddGameObject(inky);
+            consoleRenderer.AddGameObject(clyde);
             consoleRenderer.AddGameObject(walls);
             consoleRenderer.AddGameObject(scoreText);
             consoleRenderer.AddGameObject(highScoreText);

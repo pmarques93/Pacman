@@ -105,8 +105,6 @@ namespace Pacman.MovementBehaviours
                     if (map.Map[directionVector[d].X, directionVector[d].Y].Collider.Type.HasFlag(Cell.GhostHouse) &&
                         !map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type.HasFlag(Cell.GhostHouse))
                     {
-                        // Console.WriteLine($"Cell: {map.Map[directionVector[d].X, directionVector[d].Y].Collider.Type}");
-                        // System.Threading.Thread.Sleep(1500);
                         continue;
                     }
                     if (mapTransform.Direction == Direction.Left
@@ -132,12 +130,7 @@ namespace Pacman.MovementBehaviours
                     if (map.Map[directionVector[d].X,
                             directionVector[d].Y].Collider.Type.HasFlag(Cell.Pacman))
                     {
-                        collision.OnGhostCollision();
-                    }
-                    if (map.Map[directionVector[d].X,
-                            directionVector[d].Y].Collider.Type.HasFlag(Cell.GhostHouse))
-                    {
-                        collision.OnGhostHouseCollision(ghost);
+                        collision.OnGhostCollision(ghost);
                     }
                     break;
                 }

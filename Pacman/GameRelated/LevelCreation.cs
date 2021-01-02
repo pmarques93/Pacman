@@ -247,14 +247,17 @@ namespace Pacman
 
             if (lives.Lives == 0) GameOver();
 
-            // map.Map[pacmanMapTransform.Position.X, pacmanMapTransform.Position.Y].Collider.Type &= ~Cell.Pacman;
-            // pacman.GetComponent<TransformComponent>().Position = new Vector2Int(42, 23);
-            // pacmanMapTransform.Position = new Vector2Int(14, 23);
+            map.Map[pacmanMapTransform.Position.X, pacmanMapTransform.Position.Y].Collider.Type &= ~Cell.Pacman;
+            pacman.GetComponent<TransformComponent>().Position = new Vector2Int(42, 23);
+            pacmanMapTransform.Position = new Vector2Int(14, 23);
 
-            // MapTransformComponent pinkyMapTransform = pinky.GetComponent<MapTransformComponent>();
-            // map.Map[pinkyMapTransform.Position.X, pinkyMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
-            // pinky.GetComponent<TransformComponent>().Position = new Vector2Int(21, 5);
-            // pinkyMapTransform.Position = new Vector2Int(7, 5);
+
+            MapTransformComponent pinkyMapTransform = pinky.GetComponent<MapTransformComponent>();
+            map.Map[pinkyMapTransform.Position.X, pinkyMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
+            pinky.GetComponent<TransformComponent>().Position = new Vector2Int(36, 14);
+            pinky.GetComponent<MoveComponent>().MovementState = MovementState.OnGhostHouse;
+            pinkyMapTransform.Position = new Vector2Int(12, 14);
+            pinkyMapTransform.Direction = Direction.Up;
 
             MapTransformComponent blinkyMapTransform = blinky.GetComponent<MapTransformComponent>();
             map.Map[blinkyMapTransform.Position.X, blinkyMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
@@ -262,6 +265,21 @@ namespace Pacman
             blinky.GetComponent<MoveComponent>().MovementState = MovementState.OnGhostHouse;
             blinkyMapTransform.Position = new Vector2Int(13, 14);
             blinkyMapTransform.Direction = Direction.Up;
+
+
+            MapTransformComponent clydeMapTransform = clyde.GetComponent<MapTransformComponent>();
+            map.Map[clydeMapTransform.Position.X, clydeMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
+            clyde.GetComponent<TransformComponent>().Position = new Vector2Int(42, 14);
+            clyde.GetComponent<MoveComponent>().MovementState = MovementState.OnGhostHouse;
+            clydeMapTransform.Position = new Vector2Int(14, 14);
+            clydeMapTransform.Direction = Direction.Up;
+
+            MapTransformComponent inkyMapTransform = inky.GetComponent<MapTransformComponent>();
+            map.Map[inkyMapTransform.Position.X, inkyMapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
+            inky.GetComponent<TransformComponent>().Position = new Vector2Int(45, 14);
+            inky.GetComponent<MoveComponent>().MovementState = MovementState.OnGhostHouse;
+            inkyMapTransform.Position = new Vector2Int(15, 14);
+            inkyMapTransform.Direction = Direction.Up;
         }
 
         /// <summary>

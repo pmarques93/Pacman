@@ -1184,64 +1184,319 @@
             Method that runs once on finish
             </summary>
         </member>
+        <member name="T:Pacman.MovementBehaviours.ChaseBehaviour.BlinkyChaseBehaviour">
+            <summary>
+            Responsible for the chase movement for the ghost Blinky.
+            </summary>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.ChaseBehaviour.BlinkyChaseBehaviour.#ctor(Pacman.Collision,Pacman.GameObject,Pacman.MapComponent,Pacman.Components.MapTransformComponent,Pacman.Components.MapTransformComponent,System.Int32)">
+            <summary>
+            Constructor, that creates a new instance of BlinkyChaseBehaviour
+            and initializes its fields.
+            </summary>
+            <param name="collision">Instance of the component responsible
+            for the collision handling.</param>
+            <param name="ghost">Instance of the ghost to be moved.</param>
+            <param name="map">Map in which the gameobjects are placed.</param>
+            <param name="targetMapTransform">
+            <see cref="T:Pacman.Components.MapTransformComponent"/> for the target to
+            be chased.</param>
+            <param name="mapTransform"><see cref="T:Pacman.Components.MapTransformComponent"/>
+            for the ghost.</param>
+            <param name="translateModifier">Value to be a compensation of the
+            map stretch when printed.</param>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.ChaseBehaviour.BlinkyChaseBehaviour.GetTargetPosition">
+            <summary>
+            Gets the position of the target on the map.
+            </summary>
+        </member>
+        <member name="T:Pacman.MovementBehaviours.ChaseBehaviour.ClydeChaseBehaviour">
+            <summary>
+            Responsible for the chase movement for the ghost Clyde.
+            </summary>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.ChaseBehaviour.ClydeChaseBehaviour.#ctor(Pacman.Collision,Pacman.PacmanMovementBehaviour,Pacman.GameObject,Pacman.MapComponent,Pacman.Components.MapTransformComponent,Pacman.Components.MapTransformComponent,System.Int32)">
+            <summary>
+            Constructor, that creates a new instance of ClydeChaseBehaviour
+            and initializes its fields.
+            </summary>
+            <param name="collision">Instance of the component responsible
+            for the collision handling.</param>
+            <param name="targetMovementBehaviour">Movement behaviour for
+            the target.</param>
+            <param name="ghost">Instance of the ghost to be moved.</param>
+            <param name="map">Map in which the gameobjects are placed.</param>
+            <param name="targetMapTransform">
+            <see cref="T:Pacman.Components.MapTransformComponent"/> for the target to
+            be chased.</param>
+            <param name="mapTransform"><see cref="T:Pacman.Components.MapTransformComponent"/>
+            for the ghost.</param>
+            <param name="translateModifier">Value to be a compensation of the
+            map stretch when printed.</param>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.ChaseBehaviour.ClydeChaseBehaviour.GetTargetPosition">
+            <summary>
+            Gets the position of the target on the map.
+            </summary>
+        </member>
+        <member name="T:Pacman.MovementBehaviours.ChaseBehaviour.InkyChaseBehaviour">
+            <summary>
+            Responsible for the chase movement for the ghost Inky.
+            </summary>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.ChaseBehaviour.InkyChaseBehaviour.#ctor(Pacman.Collision,Pacman.PacmanMovementBehaviour,Pacman.MapComponent,Pacman.Components.MapTransformComponent,Pacman.Components.MapTransformComponent,Pacman.GameObject,Pacman.Components.MapTransformComponent,System.Int32)">
+            <summary>
+            Constructor, that creates a new instance of InkyChaseBehaviour
+            and initializes its fields.
+            </summary>
+            <param name="collision">Instance of the component responsible
+            for the collision handling.</param>
+            <param name="targetMovementBehaviour">Movement behaviour for
+            the target.</param>
+            <param name="map">Map in which the gameobjects are placed.</param>
+            <param name="targetMapTransform">
+            <see cref="T:Pacman.Components.MapTransformComponent"/> for the target to
+            be chased.</param>
+            <param name="blinkyMapTransform">
+            <see cref="T:Pacman.Components.MapTransformComponent"/> for the ghost Blinky.</param>
+            <param name="inky">Instance of the ghost to be moved.</param>
+            <param name="mapTransform"><see cref="T:Pacman.Components.MapTransformComponent"/>
+            for the ghost.</param>
+            <param name="translateModifier">Value to be a compensation of the
+            map stretch when printed.</param>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.ChaseBehaviour.InkyChaseBehaviour.GetTargetPosition">
+            <summary>
+            Gets the position of the target on the map.
+            </summary>
+        </member>
+        <member name="T:Pacman.MovementBehaviours.ChaseBehaviour.PinkyChaseBehaviour">
+            <summary>
+            Responsible for the chase movement for the ghost Pinky.
+            </summary>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.ChaseBehaviour.PinkyChaseBehaviour.#ctor(Pacman.Collision,Pacman.PacmanMovementBehaviour,Pacman.GameObject,Pacman.MapComponent,Pacman.Components.MapTransformComponent,Pacman.Components.MapTransformComponent,System.Int32)">
+            <summary>
+            Constructor, that creates a new instance of PinkyChaseBehaviour
+            and initializes its fields.
+            </summary>
+            <param name="collision">Instance of the component responsible
+            for the collision handling.</param>
+            <param name="targetMovementBehaviour">Movement behaviour for
+            the target.</param>
+            <param name="ghost">Instance of the ghost to be moved.</param>
+            <param name="map">Map in which the gameobjects are placed.</param>
+            <param name="targetMapTransform">
+            <see cref="T:Pacman.Components.MapTransformComponent"/> for the target to
+            be chased.</param>
+            <param name="mapTransform"><see cref="T:Pacman.Components.MapTransformComponent"/>
+            for the ghost.</param>
+            <param name="translateModifier">Value to be a compensation of the
+            map stretch when printed.</param>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.ChaseBehaviour.PinkyChaseBehaviour.GetTargetPosition">
+            <summary>
+            Gets the position of the target on the map.
+            </summary>
+        </member>
+        <member name="T:Pacman.MovementBehaviours.FrightenedMovementBehaviour">
+            <summary>
+            Responsible for the movement of the ghosts when in frightened mode.
+            </summary>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.FrightenedMovementBehaviour.#ctor(Pacman.Collision,Pacman.GameObject,Pacman.MapComponent,Pacman.Components.MapTransformComponent,Pacman.Components.MapTransformComponent,System.Random,System.Int32)">
+            <summary>
+            Constructor, that creates a new instance of
+            FrightenedMovementBehaviour and initializes its fields.
+            </summary>
+            <param name="collision">Instance of the component responsible
+            for the collision handling.</param>
+            <param name="ghost">Instance of the ghost to be moved.</param>
+            <param name="map">Map in which the gameobjects are placed.</param>
+            <param name="targetMapTransform">
+            <see cref="T:Pacman.Components.MapTransformComponent"/> for the target to
+            be chased.</param>
+            <param name="mapTransform"><see cref="T:Pacman.Components.MapTransformComponent"/>
+            for the ghost.</param>
+            <param name="random">Instance of a pseudo-random number 
+            generator.</param>
+            <param name="translateModifier">Value to be a compensation of the
+            map stretch when printed.</param>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.FrightenedMovementBehaviour.GetTargetPosition">
+            <summary>
+            Get the position of the target on the map.
+            </summary>
+        </member>
+        <member name="T:Pacman.MovementBehaviours.GhostTargetMovementBehaviour">
+            <summary>
+            Base of the movement of every ghost.
+            </summary>
+        </member>
+        <member name="F:Pacman.MovementBehaviours.GhostTargetMovementBehaviour.map">
+            <summary>
+            Map in which the gameobjects are placed. 
+            </summary>
+        </member>
+        <member name="F:Pacman.MovementBehaviours.GhostTargetMovementBehaviour.mapTransform">
+            <summary>
+            <see cref="T:Pacman.Components.MapTransformComponent"/> for the ghost.
+            </summary>
+        </member>
+        <member name="P:Pacman.MovementBehaviours.GhostTargetMovementBehaviour.CurrentDirection">
+            <summary>
+            Gets or sets the direction in which the ghost is 
+            currently pointed.
+            </summary>
+        </member>
+        <member name="P:Pacman.MovementBehaviours.GhostTargetMovementBehaviour.TargetPosition">
+            <summary>
+            Gets or sets the position of the target.
+            </summary>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.GhostTargetMovementBehaviour.#ctor(Pacman.Collision,Pacman.GameObject,Pacman.MapComponent,Pacman.Components.MapTransformComponent,Pacman.Components.MapTransformComponent,System.Int32)">
+            <summary>
+            Constructor, that creates a new instance of
+            GhostTargetMovementBehaviour and initializes its fields.
+            </summary>
+            <param name="collision">Instance of the component responsible
+            for the collision handling.</param>
+            <param name="ghost">Instance of the ghost to be moved.</param>
+            <param name="map">Map in which the gameobjects are placed.</param>
+            <param name="targetMapTransform">
+            <see cref="T:Pacman.Components.MapTransformComponent"/> for the target to
+            be chased.</param>
+            <param name="mapTransform"><see cref="T:Pacman.Components.MapTransformComponent"/>
+            for the ghost.</param>
+            <param name="translateModifier">Value to be a compensation of the
+            map stretch when printed.</param>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.GhostTargetMovementBehaviour.Movement(System.Int32,System.Int32)">
+            <summary>
+            Moves the ghost.
+            </summary>
+            <param name="xMax">Horizontal limit of the map.</param>
+            <param name="yMax">Vertical limit of the map.</param>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.GhostTargetMovementBehaviour.GetTargetPosition">
+            <summary>
+            Gets the position of the target on the map.
+            </summary>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.GhostTargetMovementBehaviour.GetAbsoluteDistance(Pacman.Vector2Int,Pacman.Vector2Int)">
+            <summary>
+            Gets the absolute distance between two points.
+            </summary>
+            <param name="pos1">First point.</param>
+            <param name="pos2">Second point.</param>
+            <returns>The absoluta distance between the given points.</returns>
+        </member>
+        <member name="T:Pacman.MovementBehaviours.ScatterBehaviour.ScatterMovementBehaviour">
+            <summary>
+            Responsible for the scatter movement for the ghosts.
+            </summary>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.ScatterBehaviour.ScatterMovementBehaviour.#ctor(Pacman.Collision,Pacman.GameObject,Pacman.MapComponent,Pacman.Components.MapTransformComponent,Pacman.Components.MapTransformComponent,System.Int32)">
+            <summary>
+            Constructor, that creates a new instance of
+            ScatterMovementBehaviour and initializes its fields.
+            </summary>
+            <param name="collision">Instance of the component responsible
+            for the collision handling.</param>
+            <param name="ghost">Instance of the ghost to be moved.</param>
+            <param name="map">Map in which the gameobjects are placed.</param>
+            <param name="targetMapTransform">
+            <see cref="T:Pacman.Components.MapTransformComponent"/> for the target to
+            be chased.</param>
+            <param name="mapTransform"><see cref="T:Pacman.Components.MapTransformComponent"/>
+            for the ghost.</param>
+            <param name="translateModifier">Value to be a compensation of the
+            map stretch when printed.</param>
+        </member>
+        <member name="M:Pacman.MovementBehaviours.ScatterBehaviour.ScatterMovementBehaviour.GetTargetPosition">
+            <summary>
+            Gets the position of the target on the map.
+            </summary>
+        </member>
         <member name="T:Pacman.IMovementBehaviour">
             <summary>
-            Interface for Movement
+            Interface for Movement.
             </summary>
         </member>
         <member name="M:Pacman.IMovementBehaviour.Movement(System.Int32,System.Int32)">
             <summary>
-            Movement Behaviour
+            Movement Behaviour.
             </summary>
-            <param name="maxX">X map size</param>
-            <param name="maxY">Y map size</param>
+            <param name="xMax">Horizontal map size.</param>
+            <param name="yMax">Vertical map size.</param>
         </member>
         <member name="T:Pacman.PacmanMovementBehaviour">
             <summary>
-            Class for pacman movement. Implements IMovementBehaviour
+            Responsible for the movement of the pacman.
+            </summary>
+        </member>
+        <member name="P:Pacman.PacmanMovementBehaviour.PacmanDirection">
+            <summary>
+            Gets the pacman direction.
             </summary>
         </member>
         <member name="M:Pacman.PacmanMovementBehaviour.#ctor(Pacman.GameObject,Pacman.Components.MapTransformComponent,System.Int32)">
             <summary>
-            Gets components from pacman gameobject
+            Constructor, that creates a new instance of PacmanMovementBehaviour
+            and initializes its fields.
             </summary>
-            <param name="pacman">Object to get components from</param>
+            <param name="pacman">Instance of pacman.</param>
+            <param name="mapTransform"><see cref="T:Pacman.Components.MapTransformComponent"/>
+            of pacman.</param>
+            <param name="translateModifier">Value to be a compensation of the
+            map stretch when printed.</param>
         </member>
         <member name="M:Pacman.PacmanMovementBehaviour.#ctor(Pacman.GameObject,Pacman.MoveComponent)">
             <summary>
-            Gets components from pacman gameobject
+            Gets components from pacman gameobject.
             </summary>
-            <param name="pacman">Object to get components from</param>
+            <param name="pacman">Object to get components from.</param>
             <param name="moveComponent">Move component to add
-            this behaviour to</param>
+            this behaviour to.</param>
         </member>
         <member name="M:Pacman.PacmanMovementBehaviour.Movement(System.Int32,System.Int32)">
             <summary>
-            Movement method for pacman
+            Movement method for pacman.
             </summary>
-            <param name="xMax">X map size</param>
-            <param name="yMax">Y map size</param>
+            <param name="xMax">Horizontal map size.</param>
+            <param name="yMax">Vertical map size.</param>
         </member>
-        <member name="M:Pacman.PinkyMovementBehaviour.#ctor(Pacman.GameObject)">
+        <member name="T:Pacman.SelectorMovementBehaviour">
             <summary>
-            Gets components from pacman gameobject
+            Responsible for controlling the movement of selectors.
             </summary>
-            <param name="pinky">Object to get components from</param>
         </member>
-        <member name="M:Pacman.PinkyMovementBehaviour.#ctor(Pacman.GameObject,Pacman.MoveComponent)">
+        <member name="M:Pacman.SelectorMovementBehaviour.#ctor(Pacman.GameObject,Pacman.Components.SceneChangerComponent)">
             <summary>
-            Gets components from pacman gameobject
+            Constructor, that creates a new instance of
+            SelectorMovementBehaviour and initializes its fields.
             </summary>
-            <param name="pinky">Object to get components from</param>
-            <param name="moveComponent">Move component to add
-            this behaviour to</param>
+            <param name="gameObject">Object that contains the selector.</param>
+            <param name="sceneChanger">Instance of the object
+            responsible for changing scenes.</param>
         </member>
         <member name="M:Pacman.SelectorMovementBehaviour.Movement(System.Int32,System.Int32)">
             <summary>
-            Movement method for pacman
+            Moves the selector.
             </summary>
-            <param name="xMax">X map size</param>
-            <param name="yMax">Y map size</param>
+            <param name="xMax">Horizontal size of the map.</param>
+            <param name="yMax">Vertical size of the map.</param>
+        </member>
+        <member name="M:Pacman.SelectorMovementBehaviour.EnterPressed">
+            <summary>
+            Executes the actions for when the enter key is pressed.
+            </summary>
+        </member>
+        <member name="M:Pacman.SelectorMovementBehaviour.Finalize">
+            <summary>
+            What the hell.
+            </summary>
         </member>
         <member name="T:Pacman.RenderableStringComponent">
             <summary>

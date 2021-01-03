@@ -5,28 +5,62 @@ using Pacman.Components;
 
 namespace Pacman.MovementBehaviours
 {
+    /// <summary>
+    /// Base of the movement of every ghost.
+    /// </summary>
     public abstract class GhostTargetMovementBehaviour : IMovementBehaviour
     {
-
         private readonly TransformComponent ghostTransform;
         private readonly GameObject ghost;
-        protected readonly MapComponent map;
-        protected readonly MapTransformComponent mapTransform;
+
+        /// <summary>
+        /// Map in which the gameobjects are placed. 
+        /// </summary>
+        private readonly MapComponent map;
+
+        /// <summary>
+        /// <see cref="MapTransformComponent"/> for the ghost.
+        /// </summary>
+        private readonly MapTransformComponent mapTransform;
 
         private readonly Collision collision;
-        private int translateModifier;
+        private readonly int translateModifier;
 
+        /// <summary>
+        /// Gets or sets the direction in which the ghost is 
+        /// currently pointed.
+        /// </summary>
         private Direction CurrentDirection { get; set; }
 
-        protected readonly MapTransformComponent targetTransform;
+        private readonly MapTransformComponent targetTransform;
+
+        /// <summary>
+        /// Gets or sets the position of the target.
+        /// </summary>
         protected Vector2Int TargetPosition { get; set; }
 
-        public GhostTargetMovementBehaviour(Collision collision,
-                                    GameObject ghost,
-                                    MapComponent map,
-                                    MapTransformComponent targetMapTransform,
-                                    MapTransformComponent mapTransform,
-                                    int translateModifier = 1)
+        /// <summary>
+        /// Constructor, that creates a new instance of
+        /// GhostTargetMovementBehaviour and initializes its fields.
+        /// </summary>
+        /// <param name="collision">Instance of the component responsible
+        /// for the collision handling.</param>
+        /// <param name="ghost">Instance of the ghost to be moved.</param>
+        /// <param name="map">Map in which the gameobjects are placed.</param>
+        /// <param name="targetMapTransform">
+        /// <see cref="MapTransformComponent"/> for the target to
+        /// be chased.</param>
+        /// <param name="mapTransform"><see cref="MapTransformComponent"/>
+        /// for the ghost.</param>
+        /// <param name="translateModifier">Value to be a compensation of the
+        /// map stretch when printed.</param>
+        protected GhostTargetMovementBehaviour(
+                    Collision collision,
+                    GameObject ghost,
+                    MapComponent map,
+                    MapTransformComponent targetMapTransform,
+                    MapTransformComponent mapTransform,
+                    int translateModifier = 1)
         {
             this.ghost = ghost;
             this.collision = collision;
@@ -38,36 +72,46 @@ namespace Pacman.MovementBehaviours
             CurrentDirection = Direction.None;
         }
 
+        /// <summary>
+        /// Moves the ghost.
+        /// </summary>
+        /// <param name="xMax">Horizontal limit of the map.</param>
+        /// <param name="yMax">Vertical limit of the map.</param>
         public void Movement(int xMax, int yMax)
         {
             GetTargetPosition();
             Dictionary<Direction, double> directions =
                                         new Dictionary<Direction, double>();
             Dictionary<Direction, Vector2Int> directionVector =
-                                        new Dictionary<Direction, Vector2Int>();
+                                    new Dictionary<Direction, Vector2Int>();
 
-            Vector2Int upVector = new Vector2Int(mapTransform.Position.X,
-                                                    Math.Max(0,
-                                                    mapTransform.
-                                                    Position.Y - 1));
+            Vector2Int upVector = new Vector2Int(
+                                        mapTransform.Position.X,
+                                        Math.Max(
+                                        0,
+                                        mapTransform.Position.Y - 1));
 
-            Vector2Int leftVector = new Vector2Int(Math.Max(0,
-                                                    mapTransform.
-                                                    Position.X - 1),
-                                                    mapTransform.Position.Y);
+            Vector2Int leftVector = new Vector2Int(
+                                                Math.Max(
+                                                0,
+                                                mapTransform.Position.X - 1),
+                                                mapTransform.Position.Y);
 
-            Vector2Int downVector = new Vector2Int(mapTransform.Position.X,
-                                                    Math.Min(yMax - 1,
-                                                        mapTransform.
-                                                        Position.Y + 1));
+            Vector2Int downVector = new Vector2Int(
+                                            mapTransform.Position.X,
+                                            Math.Min(
+                                            yMax - 1,
+                                            mapTransform.Position.Y + 1));
 
-            Vector2Int rightVector = new Vector2Int(Math.Min(xMax - 1,
-                                                    mapTransform.
-                                                    Position.X + 1),
-                                                    mapTransform.Position.Y);
+            Vector2Int rightVector = new Vector2Int(
+                                                Math.Min(
+                                                xMax - 1,
+                                                mapTransform.Position.X + 1),
+                                                mapTransform.Position.Y);
 
-            directions.Add(Direction.Up, GetAbsoluteDistance(upVector,
-                                                    TargetPosition));
+            directions.Add(
+                        Direction.Up,
+                        GetAbsoluteDistance(upVector, TargetPosition));
 
             directionVector.Add(Direction.Up, upVector);
 
@@ -108,26 +152,33 @@ namespace Pacman.MovementBehaviours
                     }
 
                     if (mapTransform.Direction == Direction.Left
-                        && d == Direction.Right
-                        || mapTransform.Direction == Direction.Right
-                        && d == Direction.Left
-                        || mapTransform.Direction == Direction.Up
-                        && d == Direction.Down
-                        || mapTransform.Direction == Direction.Down
+                        && (d == Direction.Right
+                        ||  mapTransform.Direction == Direction.Right)
+                        && (d == Direction.Left
+                        || mapTransform.Direction == Direction.Up)
+                        && (d == Direction.Down
+                        || mapTransform.Direction == Direction.Down)
                         && d == Direction.Up)
                     {
                         continue;
                     }
 
-                    map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
+                    map.Map[
+                        mapTransform.Position.X, 
+                        mapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
                     mapTransform.Position = directionVector[d];
-                    ghostTransform.Position = new Vector2Int(directionVector[d].X
-                                                        * translateModifier,
-                                                        directionVector[d].Y);
+                    ghostTransform.Position = 
+                        new Vector2Int(
+                                    directionVector[d].X * translateModifier,
+                                    directionVector[d].Y);
                     mapTransform.Direction = d;
-                    map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type |= Cell.Ghost;
+                    map.Map[
+                        mapTransform.Position.X,
+                        mapTransform.Position.Y].Collider.Type |= Cell.Ghost;
 
-                    if (map.Map[directionVector[d].X, directionVector[d].Y].
+                    if (map.Map[
+                        directionVector[d].X,
+                        directionVector[d].Y].
                         Collider.Type.HasFlag(Cell.Pacman))
                     {
                         collision.OnGhostCollision(ghost);
@@ -138,11 +189,21 @@ namespace Pacman.MovementBehaviours
             }
         }
 
+        /// <summary>
+        /// Gets the position of the target on the map.
+        /// </summary>
         protected abstract void GetTargetPosition();
+
+        /// <summary>
+        /// Gets the absolute distance between two points.
+        /// </summary>
+        /// <param name="pos1">First point.</param>
+        /// <param name="pos2">Second point.</param>
+        /// <returns>The absoluta distance between the given points.</returns>
         protected double GetAbsoluteDistance(Vector2Int pos1, Vector2Int pos2)
         {
-            double x = Math.Pow((pos1.X - pos2.X), 2);
-            double y = Math.Pow((pos1.Y - pos2.Y), 2);
+            double x = Math.Pow(pos1.X - pos2.X, 2);
+            double y = Math.Pow(pos1.Y - pos2.Y, 2);
             return Math.Sqrt(x + y);
         }
     }

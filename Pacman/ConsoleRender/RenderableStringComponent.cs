@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Pacman.ConsoleRender
+namespace Pacman
 {
     /// <summary>
     /// Class for renderable strings. Extends Component.
@@ -11,7 +11,7 @@ namespace Pacman.ConsoleRender
         /// <summary>
         /// Gets pixels to render.
         /// Since this is a renderable component, it must implement the Pixels
-        /// property
+        /// property.
         /// </summary>
         public override
         IEnumerable<KeyValuePair<Vector2Int, ConsolePixel>> Pixels

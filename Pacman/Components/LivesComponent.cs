@@ -1,7 +1,7 @@
 ﻿namespace Pacman
 {
     /// <summary>
-    /// Class for lives component. Extends Component
+    /// Class for lives component. Extends Component.
     /// </summary>
     public class LivesComponent : Component
     {

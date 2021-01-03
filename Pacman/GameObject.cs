@@ -4,12 +4,12 @@ using System.Linq;
 namespace Pacman
 {
     /// <summary>
-    /// Class for every GameObject. Implements IGameObject interface
+    /// Class for every GameObject. Implements IGameObject interface.
     /// </summary>
     public class GameObject : IGameObject
     {
         /// <summary>
-        /// Property for GameObject's name
+        /// Gets GameObject's name.
         /// </summary>
         public string Name { get; }
 
@@ -17,9 +17,9 @@ namespace Pacman
         private readonly ICollection<Component> components;
 
         /// <summary>
-        /// Constructor for GameObject
+        /// Constructor for GameObject.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">Name of the gameobject.</param>
         public GameObject(string name)
         {
             Name = name;
@@ -27,9 +27,9 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Adds a component to the components collection in this GameObject
+        /// Adds a component to the components collection in this GameObject.
         /// </summary>
-        /// <param name="component">Component to add</param>
+        /// <param name="component">Component to add.</param>
         public void AddComponent(Component component)
         {
             components.Add(component);
@@ -38,15 +38,16 @@ namespace Pacman
 
         /// <summary>
         /// Gets a certain component from every component attached to 
-        /// this GameObject
+        /// this GameObject.
         /// </summary>
-        /// <typeparam name="T">Component to get</typeparam>
-        /// <returns></returns>
-        public T GetComponent<T>() where T : Component
+        /// <typeparam name="T">Component to get.</typeparam>
+        /// <returns>Returns component.</returns>
+        public T GetComponent<T>()
+            where T : Component
             => components.FirstOrDefault(component => component is T) as T;
 
         /// <summary>
-        /// Method that runs once on start
+        /// Method that runs once on start.
         /// </summary>
         public void Start()
         {
@@ -55,7 +56,7 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Method responsible for what happens when the GameObject is running
+        /// Method responsible for what happens when the GameObject is running.
         /// </summary>
         public void Update()
         {
@@ -64,7 +65,7 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Method that runs once on finish
+        /// Method that runs once on finish.
         /// </summary>
         public void Finish()
         {
@@ -73,9 +74,9 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Overrides ToString to print this object's name
+        /// Overrides ToString to print this object's name.
         /// </summary>
-        /// <returns>Returns a string with the object Name</returns>
+        /// <returns>Returns a string with the object Name.</returns>
         public override string ToString()
         {
             return $"{Name}";

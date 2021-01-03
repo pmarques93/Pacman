@@ -76,7 +76,6 @@ namespace Pacman
                         else if (map.Map[x, y].Collider.Type.
                             HasFlag(Cell.GhostHouse))
                         {
-
                             OnGhostHouseCollision(tempGO);
                         }
                         else if (map.Map[x, y].Collider.Type.

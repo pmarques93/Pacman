@@ -3,9 +3,16 @@ using Pacman.GameRelated;
 
 namespace Pacman
 {
-    class Program
+    /// <summary>
+    /// Program class.
+    /// </summary>
+    public static class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// Static method that runs on start.
+        /// </summary>
+        /// <param name="args">Arguments.</param>
+        private static void Main(string[] args)
         {
             KeyReaderComponent keyReader = new KeyReaderComponent();
             SceneHandler sceneHandler = new SceneHandler();
@@ -14,11 +21,18 @@ namespace Pacman
             sceneHandler.AddScene(menuCreation.MenuScene, "MenuScene");
 
             menuCreation.GenerateScene();
+            sceneHandler.CurrentScene = menuCreation.MenuScene;
 
-            Scene menuScene = menuCreation.MenuScene;
-            sceneHandler.CurrentScene = menuScene;
-
-            sceneHandler.RunScene();
+            // Tries to run scene. If the window size is too small
+            // it shows a message asking to expand the window size
+            try
+            {
+                sceneHandler.RunScene();
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("Please expand your window size");
+            }
         }
     }
 }

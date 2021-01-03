@@ -41,7 +41,7 @@
         /// <summary>
         /// Adds current movement to this class.
         /// </summary>
-        /// <param name="movementBehaviour">Movement Behaviour to add</param>
+        /// <param name="movementBehaviour">Movement Behaviour to add.</param>
         public void AddMovementBehaviour(IMovementBehaviour movementBehaviour)
             => this.movementBehaviour = movementBehaviour;
 

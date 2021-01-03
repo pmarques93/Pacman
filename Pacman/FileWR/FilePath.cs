@@ -14,6 +14,5 @@ namespace Pacman
         /// </summary>
         public static readonly string Highscore =
             DirPath + $"{Path.DirectorySeparatorChar}highscore.txt";
-
     }
 }

@@ -28,7 +28,7 @@ namespace Pacman
         public event Action EscapePressed;
 
         /// <summary>
-        /// Gets or sets quitKeys collection.
+        /// Gets quitKeys collection.
         /// </summary>
         public ICollection<ConsoleKey> QuitKeys { get; }
 

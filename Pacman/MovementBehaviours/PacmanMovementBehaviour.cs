@@ -73,9 +73,18 @@ namespace Pacman.MovementBehaviours
                             Math.Max(
                             0,
                             mapTransform.Position.Y - 1)].
-                            Collider.Type.HasFlag(Cell.Wall))
+                            Collider.Type.HasFlag(Cell.Wall) &&
+                            !map.Map[
+                            mapTransform.Position.X,
+                            Math.Max(
+                            0,
+                            mapTransform.Position.Y - 1)].
+                            Collider.Type.HasFlag(Cell.GhostHouse))
                         {
-                            map.Map[mapTransform.Position.X, mapTransform.Position.Y].Collider.Type &= ~Cell.Pacman;
+                            map.Map[
+                                mapTransform.Position.X,
+                                mapTransform.Position.Y].
+                                Collider.Type &= ~Cell.Pacman;
                             transform.Position =
                             new Vector2Int(
                                 transform.Position.X,
@@ -109,7 +118,11 @@ namespace Pacman.MovementBehaviours
                         if (!map.Map[
                             Math.Min(xMax - 1, mapTransform.Position.X + 1),
                             mapTransform.Position.Y].
-                            Collider.Type.HasFlag(Cell.Wall))
+                            Collider.Type.HasFlag(Cell.Wall) &&
+                            !map.Map[
+                            Math.Min(xMax - 1, mapTransform.Position.X + 1),
+                            mapTransform.Position.Y].
+                            Collider.Type.HasFlag(Cell.GhostHouse))
                         {
                             map.Map[
                                 mapTransform.Position.X,
@@ -154,7 +167,13 @@ namespace Pacman.MovementBehaviours
                             Math.Min(
                             yMax - 1,
                             mapTransform.Position.Y + 1)].
-                            Collider.Type.HasFlag(Cell.Wall))
+                            Collider.Type.HasFlag(Cell.Wall) &&
+                            !map.Map[
+                            mapTransform.Position.X,
+                            Math.Min(
+                            yMax - 1,
+                            mapTransform.Position.Y + 1)].
+                            Collider.Type.HasFlag(Cell.GhostHouse))
                         {
                             map.Map[
                                 mapTransform.Position.X,
@@ -193,7 +212,11 @@ namespace Pacman.MovementBehaviours
                         if (!map.Map[
                             Math.Max(0, mapTransform.Position.X - 1),
                             mapTransform.Position.Y].
-                            Collider.Type.HasFlag(Cell.Wall))
+                            Collider.Type.HasFlag(Cell.Wall) &&
+                            !map.Map[
+                            Math.Max(0, mapTransform.Position.X - 1),
+                            mapTransform.Position.Y].
+                            Collider.Type.HasFlag(Cell.GhostHouse))
                         {
                             map.Map[
                                 mapTransform.Position.X,

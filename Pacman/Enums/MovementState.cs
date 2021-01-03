@@ -1,43 +1,46 @@
-﻿namespace Pacman
+﻿using System;
+
+namespace Pacman
 {
     /// <summary>
     /// Enum with possible movement states.
     /// </summary>
+    [Flags]
     public enum MovementState
     {
         /// <summary>
         /// No movement state.
         /// </summary>
-        None,
+        None = 0,
 
         /// <summary>
         /// Chase movement state.
         /// </summary>
-        Chase,
+        Chase = 1,
 
         /// <summary>
         /// Frightened movement state.
         /// </summary>
-        Frightened,
+        Frightened = 2,
 
         /// <summary>
         /// Eaten movement state.
         /// </summary>
-        Eaten,
+        Eaten = 3,
 
         /// <summary>
         /// Scatter movement state.
         /// </summary>
-        Scatter,
+        Scatter = 4,
 
         /// <summary>
         /// OnGhostHouse movement state.
         /// </summary>
-        OnGhostHouse,
+        OnGhostHouse = 5,
 
         /// <summary>
         /// OutGhostHouse movement state.
         /// </summary>
-        OutGhostHouse,
+        OutGhostHouse = 6,
     }
 }

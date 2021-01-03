@@ -1,7 +1,7 @@
 ﻿using System.Timers;
 using System;
 
-namespace Pacman
+namespace Pacman.Components
 {
     /// <summary>
     /// Class responsible for spawning fruits. Extends Component.

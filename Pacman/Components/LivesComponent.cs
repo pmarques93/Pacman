@@ -1,4 +1,4 @@
-﻿namespace Pacman
+﻿namespace Pacman.Components
 {
     /// <summary>
     /// Class for lives component. Extends Component.

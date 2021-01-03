@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pacman.Components;
-using Pacman.GameRelated;
+using Pacman.ConsoleRender;
+using Pacman.MovementBehaviours;
 
-namespace Pacman
+namespace Pacman.GameRelated
 {
     /// <summary>
     /// Class responsible for creating the menu.
@@ -58,7 +59,7 @@ namespace Pacman
         {
             this.sceneHandler = sceneHandler;
 
-            ConsolePixel backgroundPixel = 
+            ConsolePixel backgroundPixel =
                 new ConsolePixel(
                     ' ',
                     ConsoleColor.White,

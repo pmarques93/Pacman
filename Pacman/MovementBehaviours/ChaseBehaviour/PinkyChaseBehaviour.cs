@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pacman.Collisions;
 using Pacman.Components;
 
 namespace Pacman.MovementBehaviours.ChaseBehaviour

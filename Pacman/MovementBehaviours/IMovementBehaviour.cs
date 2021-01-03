@@ -1,4 +1,4 @@
-﻿namespace Pacman
+﻿namespace Pacman.MovementBehaviours
 {
     /// <summary>
     /// Interface for Movement.

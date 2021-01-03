@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
-using System.Timers;
 
-namespace Pacman
+namespace Pacman.Components
 {
     /// <summary>
     /// Component responsible for reading keys from the terminal.
@@ -54,7 +52,7 @@ namespace Pacman
         /// <param name="quitKeys">Collection with console key.</param>
         public KeyReaderComponent(ICollection<ConsoleKey> quitKeys)
         {
-            this.QuitKeys = quitKeys;
+            QuitKeys = quitKeys;
             threadLock = new object();
         }
 

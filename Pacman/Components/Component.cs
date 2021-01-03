@@ -1,4 +1,4 @@
-﻿namespace Pacman
+﻿namespace Pacman.Components
 {
     /// <summary>
     /// Abstract class for every component. Implements IGameObject.

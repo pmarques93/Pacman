@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Pacman.Collisions;
+using Pacman.Components;
 
-namespace Pacman
+namespace Pacman.ConsoleRender
 {
     /// <summary>
     /// Class responsible for realizing the render of the scene and its objects.

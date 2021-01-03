@@ -1,7 +1,7 @@
 ﻿using System;
 using Pacman.Components;
 
-namespace Pacman
+namespace Pacman.MovementBehaviours
 {
     /// <summary>
     /// Responsible for controlling the movement of selectors.
@@ -67,7 +67,7 @@ namespace Pacman
             {
                 case 34:
                     keyReader.QuitKeys.Clear();
-                    keyReader.QuitKeys.Add(System.ConsoleKey.Escape);
+                    keyReader.QuitKeys.Add(ConsoleKey.Escape);
                     sceneChanger.SceneHandler.CurrentScene.Unload = true;
                     sceneChanger.ChangeScene();
                     break;

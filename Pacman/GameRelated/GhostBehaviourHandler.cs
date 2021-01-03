@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pacman.Collisions;
 using Pacman.Components;
+using Pacman.ConsoleRender;
 using Pacman.MovementBehaviours;
 using Pacman.MovementBehaviours.ChaseBehaviour;
 
-namespace Pacman
+namespace Pacman.GameRelated
 {
     /// <summary>
     /// Class with game state information. Extends Component.

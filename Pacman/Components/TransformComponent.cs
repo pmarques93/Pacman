@@ -1,4 +1,4 @@
-﻿namespace Pacman
+﻿namespace Pacman.Components
 {
     /// <summary>
     /// Transform component. Extends component.

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Pacman
+namespace Pacman.FileWR
 {
     /// <summary>
     /// Struct with file paths.

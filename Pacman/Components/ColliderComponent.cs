@@ -1,4 +1,4 @@
-﻿namespace Pacman
+﻿namespace Pacman.Components
 {
     /// <summary>
     /// Component for colliders. Extends Component.

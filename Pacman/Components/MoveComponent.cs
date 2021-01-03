@@ -1,4 +1,6 @@
-﻿namespace Pacman
+﻿using Pacman.MovementBehaviours;
+
+namespace Pacman.Components
 {
     /// <summary>
     /// Movement Component. Extends Component.

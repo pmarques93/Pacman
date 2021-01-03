@@ -1,3 +1,4 @@
+using Pacman.Collisions;
 using Pacman.Components;
 
 namespace Pacman.MovementBehaviours.ScatterBehaviour

@@ -1,4 +1,5 @@
 ﻿using System;
+using Pacman.Components;
 using Pacman.GameRelated;
 
 namespace Pacman
@@ -12,7 +13,7 @@ namespace Pacman
         /// Static method that runs on start.
         /// </summary>
         /// <param name="args">Arguments.</param>
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
             KeyReaderComponent keyReader = new KeyReaderComponent();
             SceneHandler sceneHandler = new SceneHandler();

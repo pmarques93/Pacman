@@ -3,10 +3,13 @@ using System.IO;
 using System.Timers;
 using System.Collections.Generic;
 using Pacman.Components;
-using Pacman.GameRelated;
 using Pacman.MovementBehaviours.ChaseBehaviour;
+using Pacman.Collisions;
+using Pacman.ConsoleRender;
+using Pacman.MovementBehaviours;
+using Pacman.FileWR;
 
-namespace Pacman
+namespace Pacman.GameRelated
 {
     /// <summary>
     /// Class responsible for creating pacman level.
@@ -50,7 +53,7 @@ namespace Pacman
         private GameObject pacman;
         private MapTransformComponent pacmanMapTransform;
         private PacmanMovementBehaviour pacmanMovementBehaviour;
-       
+
         // Ghosts
         private GameObject spawner;
         private GameObject pinky;
@@ -408,12 +411,12 @@ namespace Pacman
                 { ' ' },
             };
             blinky = new GameObject("blinky");
-            TransformComponent blinkyTransform = 
+            TransformComponent blinkyTransform =
                                             new TransformComponent(39, 14);
-            MapTransformComponent blinkyMapTransform = 
+            MapTransformComponent blinkyMapTransform =
                                             new MapTransformComponent(13, 14);
             MoveComponent blinkyMovement = new MoveComponent();
-            ColliderComponent blinkyCollider = 
+            ColliderComponent blinkyCollider =
                                             new ColliderComponent(Cell.Ghost);
 
             blinky.AddComponent(blinkyTransform);
@@ -486,10 +489,10 @@ namespace Pacman
             };
             clyde = new GameObject("clyde");
             TransformComponent clydeTransform = new TransformComponent(42, 14);
-            MapTransformComponent clydeMapTransform = 
+            MapTransformComponent clydeMapTransform =
                                             new MapTransformComponent(14, 14);
             MoveComponent clydeMovement = new MoveComponent();
-            ColliderComponent clydeCollider = 
+            ColliderComponent clydeCollider =
                                             new ColliderComponent(Cell.Ghost);
 
             clyde.AddComponent(clydeTransform);
@@ -4421,7 +4424,7 @@ namespace Pacman
                 = new RenderableStringComponent(
                     () => $"Lives: {lives.Lives}",
                     i => new Vector2Int(i, 0),
-                    ConsoleColor.White, 
+                    ConsoleColor.White,
                     ConsoleColor.DarkBlue);
 
             livesText.AddComponent(renderLivesText);

@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Pacman.Components;
 
-namespace Pacman
+namespace Pacman.ConsoleRender
 {
     /// <summary>
     /// Class for console sprites. Extends RenderableComponent.
@@ -27,7 +28,7 @@ namespace Pacman
         /// <param name="bgColor">Background Color.</param>
         public void ChangeColor(ConsoleColor fgColor, ConsoleColor bgColor)
         {
-            IDictionary<Vector2Int, ConsolePixel> tempPixels = 
+            IDictionary<Vector2Int, ConsolePixel> tempPixels =
                                     new Dictionary<Vector2Int, ConsolePixel>();
 
             foreach (Vector2Int v in pixels.Keys)

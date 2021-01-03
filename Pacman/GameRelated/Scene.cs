@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Pacman
+namespace Pacman.GameRelated
 {
     /// <summary>
     /// Represents a game scene.

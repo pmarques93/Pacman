@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Pacman.Components;
 
-namespace Pacman
+namespace Pacman.Collisions
 {
     /// <summary>
     /// Class that handles collisions. Implements IGameObject.

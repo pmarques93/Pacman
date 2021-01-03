@@ -1,6 +1,7 @@
 ﻿using System;
+using Pacman.Collisions;
 
-namespace Pacman
+namespace Pacman.Components
 {
     /// <summary>
     /// Class that confirms if the game is over. Extends Component.

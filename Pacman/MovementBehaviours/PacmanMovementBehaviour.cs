@@ -1,7 +1,7 @@
 ﻿using System;
 using Pacman.Components;
 
-namespace Pacman
+namespace Pacman.MovementBehaviours
 {
     /// <summary>
     /// Responsible for the movement of the pacman.

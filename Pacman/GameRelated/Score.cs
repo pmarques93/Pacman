@@ -1,4 +1,6 @@
-﻿namespace Pacman
+﻿using Pacman.Collisions;
+
+namespace Pacman.GameRelated
 {
     /// <summary>
     /// Class for ConsoleScore. Implements IGameObject.

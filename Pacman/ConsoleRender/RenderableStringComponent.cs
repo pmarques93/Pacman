@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Pacman.Components;
 
-namespace Pacman
+namespace Pacman.ConsoleRender
 {
     /// <summary>
     /// Class for renderable strings. Extends Component.

@@ -1,4 +1,6 @@
-﻿namespace Pacman
+﻿using Pacman.GameRelated;
+
+namespace Pacman.Components
 {
     /// <summary>
     /// Map Component. Extends Component.

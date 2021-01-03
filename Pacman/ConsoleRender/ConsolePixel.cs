@@ -1,4 +1,5 @@
 using System;
+
 namespace Pacman
 {
     /// <summary>

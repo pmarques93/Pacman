@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Pacman.Components;
 
 namespace Pacman
 {

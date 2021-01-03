@@ -1,4 +1,6 @@
-namespace Pacman
+using Pacman.Components;
+
+namespace Pacman.GameRelated
 {
     /// <summary>
     /// Struct responsible for map structure.

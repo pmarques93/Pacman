@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Pacman
+namespace Pacman.Components
 {
     /// <summary>
     /// Class for every renderable component. Extends Component.
@@ -11,6 +11,7 @@ namespace Pacman
         /// Gets pixels.
         /// </summary>
         public abstract
-        IEnumerable<KeyValuePair<Vector2Int, ConsolePixel>> Pixels { get; }
+        IEnumerable<KeyValuePair<Vector2Int, ConsolePixel>> Pixels
+        { get; }
     }
 }

@@ -79,8 +79,9 @@ namespace Pacman.GameRelated
                 MoveComponent ghostMoveComponent =
                             ghost.GetComponent<MoveComponent>();
 
-                if (ghostMoveComponent.MovementState == MovementState.Scatter
-                    || ghostMoveComponent.MovementState == MovementState.Frightened)
+                if (
+                ghostMoveComponent.MovementState == MovementState.Scatter
+                || ghostMoveComponent.MovementState == MovementState.Frightened)
                 {
                     SwitchChaseMode(ghost);
                     ChangeSpriteColor(ghost);
@@ -88,8 +89,8 @@ namespace Pacman.GameRelated
                     ghostMoveComponent.MovementState = MovementState.Chase;
                 }
                 else if (
-                    ghostMoveComponent.MovementState == MovementState.Chase
-                    || ghostMoveComponent.MovementState == MovementState.Frightened)
+                ghostMoveComponent.MovementState == MovementState.Chase
+                || ghostMoveComponent.MovementState == MovementState.Frightened)
                 {
                     SwitchScatterMode(ghost);
                     ChangeSpriteColor(ghost);
@@ -457,6 +458,11 @@ namespace Pacman.GameRelated
             }
         }
 
+        /// <summary>
+        /// Resets the timer and sets its interval to a given value.
+        /// </summary>
+        /// <param name="timerInterval">New interval for the Timer
+        /// object.</param>
         private void ResetTimer(int timerInterval)
         {
             movementChangeTimer.Interval = timerInterval;

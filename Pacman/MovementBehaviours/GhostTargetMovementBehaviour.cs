@@ -158,14 +158,6 @@ namespace Pacman.MovementBehaviours
                         mapTransform.Position.X,
                         mapTransform.Position.Y].Collider.Type |= Cell.Ghost;
 
-                    if (map.Map[
-                        directionVector[d].X,
-                        directionVector[d].Y].
-                        Collider.Type.HasFlag(Cell.Pacman))
-                    {
-                        collision.OnGhostCollision(ghost);
-                    }
-
                     break;
                 }
             }

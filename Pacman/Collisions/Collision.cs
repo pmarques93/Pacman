@@ -61,28 +61,35 @@ namespace Pacman.Collisions
             {
                 for (int y = 0; y < map.Map.GetLength(1); y++)
                 {
-                    if ((map.Map[x, y].Collider.Type & Cell.Ghost) != 0)
+                    if (map.Map[x, y].Collider.Type.HasFlag(Cell.Ghost))
                     {
+                        int xMax = map.Map.GetLength(0);
+                        int yMax = map.Map.GetLength(1);
                         GameObject tempGO = gameObjects.
                             Where(o => o.GetComponent<ColliderComponent>().
                             Type.HasFlag(Cell.Ghost)).
                             FirstOrDefault(
                             o => o.GetComponent<MapTransformComponent>().
                             Position == new Vector2Int(x, y));
-                        if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman))
+
+                        if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) ||
+                            map.Map[Math.Max(0, x - 1), y].Collider.Type.HasFlag(Cell.Pacman) ||
+                            map.Map[Math.Min(xMax - 1, x + 1), y].Collider.Type.HasFlag(Cell.Pacman) ||
+                            map.Map[x, Math.Max(0, y - 1)].Collider.Type.HasFlag(Cell.Pacman) ||
+                            map.Map[x, Math.Min(yMax - 1, y + 1)].Collider.Type.HasFlag(Cell.Pacman))
                         {
                             OnGhostCollision(tempGO);
                         }
-                        else if (map.Map[x, y].Collider.Type.
-                            HasFlag(Cell.GhostHouse))
-                        {
-                            OnGhostHouseCollision(tempGO);
-                        }
-                        else if (map.Map[x, y].Collider.Type.
+                        if (map.Map[x, y].Collider.Type.
                             HasFlag(Cell.GhostHouseExit))
                         {
                             OnGhostHouseExitCollision(
                                 tempGO, map.Map[x, y].Collider.Type);
+                        }
+                        if (map.Map[x, y].Collider.Type.
+                            HasFlag(Cell.GhostHouse))
+                        {
+                            OnGhostHouseCollision(tempGO);
                         }
                     }
                     else if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) &&

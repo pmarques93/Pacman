@@ -4463,11 +4463,8 @@ namespace Pacman.GameRelated
         private void AddGameObjectsToScene()
         {
             LevelScene.AddGameObject(spawner);
-            LevelScene.AddGameObject(pinky);
-            LevelScene.AddGameObject(blinky);
-            LevelScene.AddGameObject(inky);
-            LevelScene.AddGameObject(clyde);
             LevelScene.AddGameObject(pacman);
+            LevelScene.AddGameObject(collisions);
 
             foreach (GameObject food in allFoods)
             {
@@ -4485,8 +4482,12 @@ namespace Pacman.GameRelated
                 }
             }
 
+            LevelScene.AddGameObject(pinky);
+            LevelScene.AddGameObject(blinky);
+            LevelScene.AddGameObject(inky);
+            LevelScene.AddGameObject(clyde);
+
             LevelScene.AddGameObject(walls);
-            LevelScene.AddGameObject(collisions);
             LevelScene.AddGameObject(score);
             LevelScene.AddGameObject(scoreText);
             LevelScene.AddGameObject(highScoreText);

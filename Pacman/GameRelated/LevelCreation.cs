@@ -42,7 +42,7 @@ namespace Pacman
         private readonly LivesComponent lives;
 
         // Game related components and variables
-        private GameState gameState;
+        private GhostBehaviourHandler gameState;
         private GameObject gameOverCheck;
         private GameOverCheckComponent gameOverCheckComponent;
 
@@ -139,7 +139,7 @@ namespace Pacman
             // GHOST
             GhostCreation(map);
 
-            gameState = new GameState(
+            gameState = new GhostBehaviourHandler(
                 collisions,
                 pacman,
                 new List<GameObject>()

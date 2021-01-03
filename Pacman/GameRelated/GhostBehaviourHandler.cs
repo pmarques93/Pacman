@@ -10,7 +10,7 @@ namespace Pacman
     /// <summary>
     /// Class with game state information. Extends Component.
     /// </summary>
-    public class GameState : Component
+    public class GhostBehaviourHandler : Component
     {
         private readonly ICollection<GameObject> ghosts;
         private readonly Collision collisions;
@@ -20,7 +20,7 @@ namespace Pacman
         private readonly PacmanMovementBehaviour pacmanMovementBehaviour;
 
         /// <summary>
-        /// Constructor for GameState.
+        /// Constructor for GhostBehaviourHandler.
         /// </summary>
         /// <param name="collision">Reference to collision.</param>
         /// <param name="pacman">Reference to pacman.</param>
@@ -29,7 +29,7 @@ namespace Pacman
         /// <param name="random">Reference to random.</param>
         /// <param name="pacmanMovementBehaviour">Reference to pacman
         /// movement behaviour.</param>
-        public GameState(
+        public GhostBehaviourHandler(
             Collision collision,
             GameObject pacman,
             ICollection<GameObject> ghosts,

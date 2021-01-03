@@ -23,8 +23,8 @@ namespace Pacman.GameRelated
         private readonly ConsoleRenderer consoleRenderer;
         private readonly KeyReaderComponent keyReader;
         private readonly SceneHandler sceneHandler;
-        private GameObject newLevelCreator;
         private readonly Random random;
+        private GameObject newLevelCreator;
 
         // UI
         private GameObject selector;
@@ -75,6 +75,7 @@ namespace Pacman.GameRelated
                 "Console Renderer");
 
             this.keyReader = keyReader;
+            this.random = random;
 
             MenuScene = new Scene();
         }

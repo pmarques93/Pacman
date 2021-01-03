@@ -10,18 +10,22 @@ namespace Pacman.Components
     {
         private readonly KeyReaderComponent keyReader;
         private readonly SceneHandler sceneHandler;
+        private readonly Random random;
 
         /// <summary>
         /// Constructor for CreateNewLevelComponent.
         /// </summary>
         /// <param name="keyReader">Reference to keyreader.</param>
         /// <param name="sceneHandler">Reference to scene handler.</param>
+        /// <param name="random">Instance of a Random type object.</param>
         public CreateNewLevelComponent(
             KeyReaderComponent keyReader,
-            SceneHandler sceneHandler)
+            SceneHandler sceneHandler,
+            Random random)
         {
             this.keyReader = keyReader;
             this.sceneHandler = sceneHandler;
+            this.random = random;
         }
 
         /// <summary>
@@ -30,8 +34,6 @@ namespace Pacman.Components
         /// </summary>
         public override void Start()
         {
-            Random random = new Random();
-
             LevelCreation levelCreation =
                 new LevelCreation(keyReader, sceneHandler, random);
 

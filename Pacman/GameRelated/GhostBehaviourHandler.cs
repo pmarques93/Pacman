@@ -7,6 +7,7 @@ using Pacman.Components;
 using Pacman.ConsoleRender;
 using Pacman.MovementBehaviours;
 using Pacman.MovementBehaviours.ChaseBehaviour;
+using Pacman.MovementBehaviours.ScatterBehaviour;
 
 namespace Pacman.GameRelated
 {
@@ -50,8 +51,7 @@ namespace Pacman.GameRelated
             this.pacmanMovementBehaviour = pacmanMovementBehaviour;
             movementChangeTimer = new Timer(10000);
             movementChangeTimer.Enabled = true;
-            ghostsMovementState = MovementState.None;
-
+            ghostsMovementState = MovementState.Scatter;
         }
 
         private void ChangeMovement(object sender, ElapsedEventArgs e)
@@ -64,6 +64,25 @@ namespace Pacman.GameRelated
                 case MovementState.Scatter:
                     ghostsMovementState = MovementState.Chase;
                     break;
+            }
+
+            foreach (GameObject ghost in ghosts)
+            {
+                MoveComponent ghostMoveComponent =
+                            ghost.GetComponent<MoveComponent>();
+
+                if (ghostMoveComponent.MovementState == MovementState.Scatter)
+                {
+                    SwitchChaseMode(ghost);
+                    InvertGhostDirection(ghost);
+                    ghostMoveComponent.MovementState = MovementState.Chase;
+                }
+                else if (ghostMoveComponent.MovementState == MovementState.Chase)
+                {
+                    SwitchScatterMode(ghost);
+                    InvertGhostDirection(ghost);
+                    ghostMoveComponent.MovementState = MovementState.Scatter;
+                }
             }
         }
 
@@ -107,44 +126,36 @@ namespace Pacman.GameRelated
                 consoleSprite.ChangeColor(
                                 ConsoleColor.Red,
                                 ConsoleColor.White);
+                ghost.GetComponent<MoveComponent>().MovementState = MovementState.Frightened;
+                SwitchFrightenedMode(ghost);
+                InvertGhostDirection(ghost);
+            }
+        }
 
-                MapTransformComponent ghostMapTransform =
-                    ghost.GetComponent<MapTransformComponent>();
+        /// <summary>
+        /// Inverts the direction to which the ghost is currently pointed.
+        /// </summary>
+        /// <param name="ghost">Instance of the ghost whose direction
+        /// will be changed.</param>
+        private void InvertGhostDirection(GameObject ghost)
+        {
+            MapTransformComponent tempMapTrans =
+                ghost.GetComponent<MapTransformComponent>();
 
-                MoveComponent moveComponent =
-                    ghost.GetComponent<MoveComponent>();
-
-                moveComponent.AddMovementBehaviour(
-                                            new FrightenedMovementBehaviour(
-                                                    collisions,
-                                                    ghost,
-                                                    map,
-                                                    new MapTransformComponent(
-                                                        1, 1),
-                                                    ghostMapTransform,
-                                                    random,
-                                                    3));
-
-                MapTransformComponent tempMapTrans =
-                    ghost.GetComponent<MapTransformComponent>();
-
-                moveComponent.MovementState = MovementState.Frightened;
-
-                switch (tempMapTrans.Direction)
-                {
-                    case Direction.Down:
-                        tempMapTrans.Direction = Direction.Up;
-                        break;
-                    case Direction.Up:
-                        tempMapTrans.Direction = Direction.Down;
-                        break;
-                    case Direction.Left:
-                        tempMapTrans.Direction = Direction.Right;
-                        break;
-                    case Direction.Right:
-                        tempMapTrans.Direction = Direction.Left;
-                        break;
-                }
+            switch (tempMapTrans.Direction)
+            {
+                case Direction.Down:
+                    tempMapTrans.Direction = Direction.Up;
+                    break;
+                case Direction.Up:
+                    tempMapTrans.Direction = Direction.Down;
+                    break;
+                case Direction.Left:
+                    tempMapTrans.Direction = Direction.Right;
+                    break;
+                case Direction.Right:
+                    tempMapTrans.Direction = Direction.Left;
+                    break;
             }
         }
 
@@ -156,7 +167,6 @@ namespace Pacman.GameRelated
         private void GhostOnHouse(GameObject ghost)
         {
             MoveComponent moveComponent = ghost.GetComponent<MoveComponent>();
-
             moveComponent.AddMovementBehaviour(
                    new BlinkyChaseBehaviour(
                        collisions,
@@ -165,36 +175,12 @@ namespace Pacman.GameRelated
                        new MapTransformComponent(13, 11),
                        ghost.GetComponent<MapTransformComponent>(),
                        3));
+            ChangeSpriteColor(ghost);
             moveComponent.MovementState = MovementState.OutGhostHouse;
-
-            ConsoleSprite consoleSprite;
-            switch (ghost.Name)
-            {
-                case "blinky":
-                    consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                    consoleSprite.ChangeColor(
-                        ConsoleColor.White, ConsoleColor.Red);
-                    break;
-                case "pinky":
-                    consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                    consoleSprite.ChangeColor(
-                        ConsoleColor.White, ConsoleColor.DarkMagenta);
-                    break;
-                case "inky":
-                    consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                    consoleSprite.ChangeColor(
-                        ConsoleColor.White, ConsoleColor.Blue);
-                    break;
-                case "clyde":
-                    consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                    consoleSprite.ChangeColor(
-                        ConsoleColor.DarkBlue, ConsoleColor.DarkYellow);
-                    break;
-            }
         }
 
         /// <summary>
-        /// Method that defines what happens when a ghost leaves the midle
+        /// Method that defines what happens when a ghost leaves the ghost
         /// house.
         /// </summary>
         /// <param name="ghost">Ghost to check.</param>
@@ -208,9 +194,49 @@ namespace Pacman.GameRelated
                 moveComponent.MovementState.
                 HasFlag(MovementState.Eaten))
             {
-                SwitchChaseMode(ghost);
+                if (ghostsMovementState == MovementState.Chase)
+                {
+                    SwitchChaseMode(ghost);
+                    InvertGhostDirection(ghost);
+                    moveComponent.MovementState = MovementState.Chase;
+                }
+                else if (ghostsMovementState == MovementState.Scatter
+                    ||  moveComponent.MovementState.
+                        HasFlag(MovementState.OutGhostHouse))
+                {
+                    SwitchScatterMode(ghost);
+                    InvertGhostDirection(ghost);
+                    moveComponent.MovementState = MovementState.Scatter;
+                }
+
                 ChangeSpriteColor(ghost);
+                moveComponent.MovementState = MovementState.Chase;
             }
+        }
+
+        /// <summary>
+        /// Changes the ghost movement to frightened.
+        /// </summary>
+        /// <param name="ghost">Instance of the ghost whose movement
+        /// will be changed.</param>
+        private void SwitchFrightenedMode(GameObject ghost)
+        {
+            MoveComponent moveComponent =
+                ghost.GetComponent<MoveComponent>();
+
+            MapTransformComponent ghostMapTransform =
+                ghost.GetComponent<MapTransformComponent>();
+
+            moveComponent.AddMovementBehaviour(
+                            new FrightenedMovementBehaviour(
+                                    collisions,
+                                    ghost,
+                                    map,
+                                    new MapTransformComponent(
+                                        1, 1),
+                                    ghostMapTransform,
+                                    random,
+                                    3));
         }
 
         /// <summary>
@@ -232,7 +258,6 @@ namespace Pacman.GameRelated
                             pacman.GetComponent<MapTransformComponent>(),
                             ghost.GetComponent<MapTransformComponent>(),
                             3));
-                    moveComponent.MovementState = MovementState.Chase;
                     break;
 
                 case "pinky":
@@ -245,7 +270,6 @@ namespace Pacman.GameRelated
                             pacman.GetComponent<MapTransformComponent>(),
                             ghost.GetComponent<MapTransformComponent>(),
                             3));
-                    moveComponent.MovementState = MovementState.Chase;
                     break;
 
                 case "inky":
@@ -263,7 +287,6 @@ namespace Pacman.GameRelated
                             ghost,
                             ghost.GetComponent<MapTransformComponent>(),
                             3));
-                    moveComponent.MovementState = MovementState.Chase;
                     break;
 
                 case "clyde":
@@ -276,7 +299,65 @@ namespace Pacman.GameRelated
                             pacman.GetComponent<MapTransformComponent>(),
                             ghost.GetComponent<MapTransformComponent>(),
                             3));
-                    moveComponent.MovementState = MovementState.Chase;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Changes the ghost movement to scatter.
+        /// </summary>
+        /// <param name="ghost">Instance of the ghost whose movement
+        /// will be changed.</param>
+        private void SwitchScatterMode(GameObject ghost)
+        {
+            MoveComponent moveComponent = ghost.GetComponent<MoveComponent>();
+            int xMax = map.Map.GetLength(0);
+            int yMax = map.Map.GetLength(1);
+
+            switch (ghost.Name)
+            {
+                case "blinky":
+                    moveComponent.AddMovementBehaviour(
+                        new ScatterMovementBehaviour(
+                            collisions,
+                            ghost,
+                            ghost.GetComponent<MapComponent>(),
+                            new MapTransformComponent(0, 0),
+                            ghost.GetComponent<MapTransformComponent>(),
+                            3));
+                    break;
+
+                case "pinky":
+                    moveComponent.AddMovementBehaviour(
+                        new ScatterMovementBehaviour(
+                            collisions,
+                            ghost,
+                            ghost.GetComponent<MapComponent>(),
+                            new MapTransformComponent(xMax, 0),
+                            ghost.GetComponent<MapTransformComponent>(),
+                            3));
+                    break;
+
+                case "inky":
+                    moveComponent.AddMovementBehaviour(
+                        new ScatterMovementBehaviour(
+                            collisions,
+                            ghost,
+                            ghost.GetComponent<MapComponent>(),
+                            new MapTransformComponent(0, yMax),
+                            ghost.GetComponent<MapTransformComponent>(),
+                            3));
+                    break;
+
+                case "clyde":
+                    moveComponent.AddMovementBehaviour(
+                        new ScatterMovementBehaviour(
+                            collisions,
+                            ghost,
+                            ghost.GetComponent<MapComponent>(),
+                            new MapTransformComponent(xMax, yMax),
+                            ghost.GetComponent<MapTransformComponent>(),
+                            3));
                     break;
             }
         }
@@ -341,7 +422,7 @@ namespace Pacman.GameRelated
 
                     MoveComponent moveComponent =
                         ghost.GetComponent<MoveComponent>();
-
+                    InvertGhostDirection(ghost);
                     moveComponent.MovementState = MovementState.Eaten;
                     moveComponent.AddMovementBehaviour(
                     new BlinkyChaseBehaviour(

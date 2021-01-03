@@ -136,13 +136,20 @@ namespace Pacman.GameRelated
             ResetTimer(frightenedModeTime);
             foreach (GameObject ghost in ghosts)
             {
+                MoveComponent moveComponent =
+                                        ghost.GetComponent<MoveComponent>();
+                if (moveComponent.MovementState == MovementState.Eaten)
+                {
+                    continue;
+                }
+
                 ConsoleSprite consoleSprite =
                     ghost.GetComponent<ConsoleSprite>();
                 consoleSprite.ChangeColor(
                                 ConsoleColor.Red,
                                 ConsoleColor.White);
-                ghost.GetComponent<MoveComponent>().MovementState =
-                    MovementState.Frightened;
+
+                moveComponent.MovementState = MovementState.Frightened;
                 SwitchFrightenedMode(ghost);
                 InvertGhostDirection(ghost);
             }

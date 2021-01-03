@@ -73,26 +73,39 @@ namespace Pacman.Collisions
                             Position == new Vector2Int(x, y));
 
                         if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) ||
-                            map.Map[Math.Max(0, x - 1), y].Collider.Type.HasFlag(Cell.Pacman) ||
-                            map.Map[Math.Min(xMax - 1, x + 1), y].Collider.Type.HasFlag(Cell.Pacman) ||
-                            map.Map[x, Math.Max(0, y - 1)].Collider.Type.HasFlag(Cell.Pacman) ||
-                            map.Map[x, Math.Min(yMax - 1, y + 1)].Collider.Type.HasFlag(Cell.Pacman))
+                            map.Map[
+                                Math.Max(0, x - 1),
+                                y].Collider.Type.HasFlag(Cell.Pacman) ||
+                            map.Map[
+                                Math.Min(xMax - 1, x + 1),
+                                y].Collider.Type.HasFlag(Cell.Pacman) ||
+                            map.Map[
+                                x,
+                                Math.Max(0, y - 1)].
+                                Collider.Type.HasFlag(Cell.Pacman) ||
+                            map.Map[
+                                x,
+                                Math.Min(yMax - 1, y + 1)].
+                                Collider.Type.HasFlag(Cell.Pacman))
                         {
                             OnGhostCollision(tempGO);
                         }
+
                         if (map.Map[x, y].Collider.Type.
                             HasFlag(Cell.GhostHouseExit))
                         {
                             OnGhostHouseExitCollision(
                                 tempGO, map.Map[x, y].Collider.Type);
                         }
+
                         if (map.Map[x, y].Collider.Type.
                             HasFlag(Cell.GhostHouse))
                         {
                             OnGhostHouseCollision(tempGO);
                         }
                     }
-                    else if (map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) &&
+                    else if (
+                        map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) &&
                         (map.Map[x, y].Collider.Type.HasFlag(Cell.Food) ||
                         map.Map[x, y].Collider.Type.HasFlag(Cell.Fruit) ||
                         map.Map[x, y].Collider.Type.HasFlag(Cell.PowerPill)))

@@ -26,6 +26,11 @@
         Eaten,
 
         /// <summary>
+        /// Scatter movement state.
+        /// </summary>
+        Scatter,
+
+        /// <summary>
         /// OnGhostHouse movement state.
         /// </summary>
         OnGhostHouse,

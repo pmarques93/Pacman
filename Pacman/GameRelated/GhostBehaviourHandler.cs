@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using Pacman.Collisions;
 using Pacman.Components;
 using Pacman.ConsoleRender;
@@ -20,6 +21,8 @@ namespace Pacman.GameRelated
         private readonly Random random;
         private readonly GameObject pacman;
         private readonly PacmanMovementBehaviour pacmanMovementBehaviour;
+        private readonly Timer movementChangeTimer;
+        private MovementState ghostsMovementState;
 
         /// <summary>
         /// Constructor for GhostBehaviourHandler.
@@ -45,6 +48,23 @@ namespace Pacman.GameRelated
             this.map = map;
             this.random = random;
             this.pacmanMovementBehaviour = pacmanMovementBehaviour;
+            movementChangeTimer = new Timer(10000);
+            movementChangeTimer.Enabled = true;
+            ghostsMovementState = MovementState.None;
+
+        }
+
+        private void ChangeMovement(object sender, ElapsedEventArgs e)
+        {
+            switch (ghostsMovementState)
+            {
+                case MovementState.Chase:
+                    ghostsMovementState = MovementState.Scatter;
+                    break;
+                case MovementState.Scatter:
+                    ghostsMovementState = MovementState.Chase;
+                    break;
+            }
         }
 
         /// <summary>
@@ -56,6 +76,8 @@ namespace Pacman.GameRelated
             collisions.GhostHouseCollision += GhostOnHouse;
             collisions.GhostHouseExitCollision += GhostOnHouseExit;
             collisions.PowerPillCollision += PowerPillCollision;
+            movementChangeTimer.Elapsed += ChangeMovement;
+            OnRegisterToTimerEvent();
         }
 
         /// <summary>
@@ -69,6 +91,9 @@ namespace Pacman.GameRelated
             collisions.PowerPillCollision -= PowerPillCollision;
         }
 
+        private void OnRegisterToTimerEvent() =>
+            RegisterToTimerEvent?.Invoke();
+
         /// <summary>
         /// Method that defines what happens when pacman collides with
         /// power pills.
@@ -79,7 +104,9 @@ namespace Pacman.GameRelated
             {
                 ConsoleSprite consoleSprite =
                     ghost.GetComponent<ConsoleSprite>();
-                consoleSprite.ChangeColor(ConsoleColor.Red, ConsoleColor.White);
+                consoleSprite.ChangeColor(
+                                ConsoleColor.Red,
+                                ConsoleColor.White);
 
                 MapTransformComponent ghostMapTransform =
                     ghost.GetComponent<MapTransformComponent>();
@@ -88,7 +115,7 @@ namespace Pacman.GameRelated
                     ghost.GetComponent<MoveComponent>();
 
                 moveComponent.AddMovementBehaviour(
-                                                new FrightenedMovementBehaviour(
+                                            new FrightenedMovementBehaviour(
                                                     collisions,
                                                     ghost,
                                                     map,
@@ -181,84 +208,116 @@ namespace Pacman.GameRelated
                 moveComponent.MovementState.
                 HasFlag(MovementState.Eaten))
             {
-                ConsoleSprite consoleSprite;
-                switch (ghost.Name)
-                {
-                    case "blinky":
-                        moveComponent.AddMovementBehaviour(
-                            new BlinkyChaseBehaviour(
-                                collisions,
-                                ghost,
-                                ghost.GetComponent<MapComponent>(),
-                                pacman.GetComponent<MapTransformComponent>(),
-                                ghost.GetComponent<MapTransformComponent>(),
-                                3));
-                        moveComponent.MovementState = MovementState.Chase;
+                SwitchChaseMode(ghost);
+                ChangeSpriteColor(ghost);
+            }
+        }
 
-                        consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                        consoleSprite.ChangeColor(
-                            ConsoleColor.White,
-                            ConsoleColor.Red);
-                        break;
+        /// <summary>
+        /// Changes the ghost movement to chase.
+        /// </summary>
+        /// <param name="ghost">Instance of the ghost whose movement
+        /// will be changed.</param>
+        private void SwitchChaseMode(GameObject ghost)
+        {
+            MoveComponent moveComponent = ghost.GetComponent<MoveComponent>();
+            switch (ghost.Name)
+            {
+                case "blinky":
+                    moveComponent.AddMovementBehaviour(
+                        new BlinkyChaseBehaviour(
+                            collisions,
+                            ghost,
+                            ghost.GetComponent<MapComponent>(),
+                            pacman.GetComponent<MapTransformComponent>(),
+                            ghost.GetComponent<MapTransformComponent>(),
+                            3));
+                    moveComponent.MovementState = MovementState.Chase;
+                    break;
 
-                    case "pinky":
-                        moveComponent.AddMovementBehaviour(
-                            new PinkyChaseBehaviour(
-                                collisions,
-                                pacmanMovementBehaviour,
-                                ghost,
-                                map,
-                                pacman.GetComponent<MapTransformComponent>(),
-                                ghost.GetComponent<MapTransformComponent>(),
-                                3));
-                        moveComponent.MovementState = MovementState.Chase;
+                case "pinky":
+                    moveComponent.AddMovementBehaviour(
+                        new PinkyChaseBehaviour(
+                            collisions,
+                            pacmanMovementBehaviour,
+                            ghost,
+                            map,
+                            pacman.GetComponent<MapTransformComponent>(),
+                            ghost.GetComponent<MapTransformComponent>(),
+                            3));
+                    moveComponent.MovementState = MovementState.Chase;
+                    break;
 
-                        consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                        consoleSprite.ChangeColor(
-                            ConsoleColor.White,
-                            ConsoleColor.DarkMagenta);
-                        break;
+                case "inky":
+                    MapTransformComponent blinkyMapTransform =
+                        ghosts.FirstOrDefault(g => g.Name == "blinky")?.
+                        GetComponent<MapTransformComponent>();
 
-                    case "inky":
-                        MapTransformComponent blinkyMapTransform =
-                            ghosts.FirstOrDefault(g => g.Name == "blinky")?.
-                            GetComponent<MapTransformComponent>();
+                    moveComponent.AddMovementBehaviour(
+                        new InkyChaseBehaviour(
+                            collisions,
+                            pacmanMovementBehaviour,
+                            map,
+                            pacman.GetComponent<MapTransformComponent>(),
+                            blinkyMapTransform,
+                            ghost,
+                            ghost.GetComponent<MapTransformComponent>(),
+                            3));
+                    moveComponent.MovementState = MovementState.Chase;
+                    break;
 
-                        moveComponent.AddMovementBehaviour(
-                            new InkyChaseBehaviour(
-                                collisions,
-                                pacmanMovementBehaviour,
-                                map,
-                                pacman.GetComponent<MapTransformComponent>(),
-                                blinkyMapTransform,
-                                ghost,
-                                ghost.GetComponent<MapTransformComponent>(),
-                                3));
-                        moveComponent.MovementState = MovementState.Chase;
+                case "clyde":
+                    moveComponent.AddMovementBehaviour(
+                        new ClydeChaseBehaviour(
+                            collisions,
+                            pacmanMovementBehaviour,
+                            ghost,
+                            map,
+                            pacman.GetComponent<MapTransformComponent>(),
+                            ghost.GetComponent<MapTransformComponent>(),
+                            3));
+                    moveComponent.MovementState = MovementState.Chase;
+                    break;
+            }
+        }
 
-                        consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                        consoleSprite.ChangeColor(
-                            ConsoleColor.White,
-                            ConsoleColor.Blue);
-                        break;
+        /// <summary>
+        /// Changes the color of the sprite of the ghosts.
+        /// </summary>
+        /// <param name="ghost">Instance of the ghost whose sprite color
+        /// will be changed.</param>
+        private void ChangeSpriteColor(GameObject ghost)
+        {
+            ConsoleSprite consoleSprite;
+            switch (ghost.Name)
+            {
+                case "blinky":
+                    consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                    consoleSprite.ChangeColor(
+                        ConsoleColor.White,
+                        ConsoleColor.Red);
+                    break;
 
-                    case "clyde":
-                        moveComponent.AddMovementBehaviour(
-                            new ClydeChaseBehaviour(
-                                collisions,
-                                pacmanMovementBehaviour,
-                                ghost,
-                                map,
-                                pacman.GetComponent<MapTransformComponent>(),
-                                ghost.GetComponent<MapTransformComponent>(),
-                                3));
-                        moveComponent.MovementState = MovementState.Chase;
-                        consoleSprite = ghost.GetComponent<ConsoleSprite>();
-                        consoleSprite.ChangeColor(
-                            ConsoleColor.DarkBlue,
-                            ConsoleColor.DarkYellow);
-                        break;
-                }
+                case "pinky":
+                    consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                    consoleSprite.ChangeColor(
+                        ConsoleColor.White,
+                        ConsoleColor.DarkMagenta);
+                    break;
+
+                case "inky":
+                    consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                    consoleSprite.ChangeColor(
+                        ConsoleColor.White,
+                        ConsoleColor.Blue);
+                    break;
+
+                case "clyde":
+                    consoleSprite = ghost.GetComponent<ConsoleSprite>();
+                    consoleSprite.ChangeColor(
+                        ConsoleColor.DarkBlue,
+                        ConsoleColor.DarkYellow);
+                    break;
             }
         }
 
@@ -307,5 +366,11 @@ namespace Pacman.GameRelated
         /// on chase mode.
         /// </summary>
         public event Action GhostChaseCollision;
+
+        /// <summary>
+        /// RegisterToTimerEvent is used on a class that wants to register
+        /// to this event
+        /// </summary>
+        public event Action RegisterToTimerEvent;
     }
 }

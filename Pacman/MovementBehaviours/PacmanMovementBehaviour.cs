@@ -185,7 +185,7 @@ namespace Pacman
                             new Vector2Int(
                                 mapTransform.Position.X,
                                 Math.Min(
-                                    yMax - 1, 
+                                    yMax - 1,
                                     mapTransform.Position.Y + 1));
                             previousDirection = PacmanDirection;
                             map.Map[

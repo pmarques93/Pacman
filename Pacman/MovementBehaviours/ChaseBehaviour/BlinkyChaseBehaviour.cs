@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Pacman.Components;
 
 namespace Pacman.MovementBehaviours.ChaseBehaviour
@@ -38,7 +35,6 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
                         collision,
                         ghost,
                         map,
-                        targetMapTransform,
                         mapTransform,
                         translateModifier)
         {

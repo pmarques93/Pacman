@@ -42,7 +42,6 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
                         collision,
                         ghost,
                         map,
-                        targetMapTransform,
                         mapTransform,
                         translateModifier)
         {

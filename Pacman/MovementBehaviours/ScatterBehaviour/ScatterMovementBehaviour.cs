@@ -35,7 +35,6 @@ namespace Pacman.MovementBehaviours.ScatterBehaviour
                                         collision,
                                         ghost,
                                         map,
-                                        targetMapTransform,
                                         mapTransform,
                                         translateModifier)
         {

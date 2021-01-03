@@ -12,27 +12,10 @@ namespace Pacman.MovementBehaviours
     {
         private readonly TransformComponent ghostTransform;
         private readonly GameObject ghost;
-
-        /// <summary>
-        /// Map in which the gameobjects are placed. 
-        /// </summary>
         private readonly MapComponent map;
-
-        /// <summary>
-        /// <see cref="MapTransformComponent"/> for the ghost.
-        /// </summary>
         private readonly MapTransformComponent mapTransform;
-
         private readonly Collision collision;
         private readonly int translateModifier;
-
-        /// <summary>
-        /// Gets or sets the direction in which the ghost is 
-        /// currently pointed.
-        /// </summary>
-        private Direction CurrentDirection { get; set; }
-
-        private readonly MapTransformComponent targetTransform;
 
         /// <summary>
         /// Gets or sets the position of the target.
@@ -47,9 +30,6 @@ namespace Pacman.MovementBehaviours
         /// for the collision handling.</param>
         /// <param name="ghost">Instance of the ghost to be moved.</param>
         /// <param name="map">Map in which the gameobjects are placed.</param>
-        /// <param name="targetMapTransform">
-        /// <see cref="MapTransformComponent"/> for the target to
-        /// be chased.</param>
         /// <param name="mapTransform"><see cref="MapTransformComponent"/>
         /// for the ghost.</param>
         /// <param name="translateModifier">Value to be a compensation of the
@@ -58,18 +38,15 @@ namespace Pacman.MovementBehaviours
                     Collision collision,
                     GameObject ghost,
                     MapComponent map,
-                    MapTransformComponent targetMapTransform,
                     MapTransformComponent mapTransform,
                     int translateModifier = 1)
         {
             this.ghost = ghost;
             this.collision = collision;
             ghostTransform = ghost.GetComponent<TransformComponent>();
-            targetTransform = targetMapTransform;
             this.mapTransform = mapTransform;
             this.translateModifier = translateModifier;
             this.map = map;
-            CurrentDirection = Direction.None;
         }
 
         /// <summary>
@@ -139,35 +116,39 @@ namespace Pacman.MovementBehaviours
 
             foreach (Direction d in test)
             {
-                if (!map.Map[directionVector[d].X, directionVector[d].Y].
-                    Collider.Type.HasFlag(Cell.Wall))
+                if (!map.Map[
+                        directionVector[d].X,
+                        directionVector[d].Y].Collider.Type.HasFlag(Cell.Wall))
                 {
-                    if (map.Map[directionVector[d].X, directionVector[d].Y].
-                                    Collider.Type.HasFlag(Cell.GhostHouse) &&
+                    if (map.Map[
+                        directionVector[d].X,
+                        directionVector[d].Y].
+                        Collider.Type.HasFlag(Cell.GhostHouse) &&
                         !map.Map[
-                            mapTransform.Position.X, mapTransform.Position.Y].
-                            Collider.Type.HasFlag(Cell.GhostHouse))
+                        mapTransform.Position.X,
+                        mapTransform.Position.Y].
+                        Collider.Type.HasFlag(Cell.GhostHouse))
                     {
                         continue;
                     }
 
-                    if (mapTransform.Direction == Direction.Left
-                        && (d == Direction.Right
-                        ||  mapTransform.Direction == Direction.Right)
-                        && (d == Direction.Left
-                        || mapTransform.Direction == Direction.Up)
-                        && (d == Direction.Down
-                        || mapTransform.Direction == Direction.Down)
-                        && d == Direction.Up)
+                    if ((mapTransform.Direction == Direction.Left
+                        && d == Direction.Right)
+                        || (mapTransform.Direction == Direction.Right
+                        && d == Direction.Left)
+                        || (mapTransform.Direction == Direction.Up
+                        && d == Direction.Down)
+                        || (mapTransform.Direction == Direction.Down
+                        && d == Direction.Up))
                     {
                         continue;
                     }
 
                     map.Map[
-                        mapTransform.Position.X, 
+                        mapTransform.Position.X,
                         mapTransform.Position.Y].Collider.Type &= ~Cell.Ghost;
                     mapTransform.Position = directionVector[d];
-                    ghostTransform.Position = 
+                    ghostTransform.Position =
                         new Vector2Int(
                                     directionVector[d].X * translateModifier,
                                     directionVector[d].Y);

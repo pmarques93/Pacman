@@ -1,6 +1,6 @@
 # Projeto 2 - Pac-Man
 
-## Grupo 08
+## Grupo 01
 
 |     Nome      |  Número   |   GitHub   |
 | :-----------: | :-------: | :--------: |
@@ -24,6 +24,7 @@
 |Frightened Movement (ghosts)|Lives, High Score, Fruit Spawn|
 |Eaten Movement (ghosts)|GameOver|
 |Clean code|Clean code|
+|UML / Read Me|Read Me|
 
 ## Arquitetura da Solução
 

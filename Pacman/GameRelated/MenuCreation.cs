@@ -23,6 +23,7 @@ namespace Pacman.GameRelated
         private readonly ConsoleRenderer consoleRenderer;
         private readonly KeyReaderComponent keyReader;
         private readonly SceneHandler sceneHandler;
+        private readonly Random random;
         private GameObject newLevelCreator;
 
         // UI
@@ -53,9 +54,11 @@ namespace Pacman.GameRelated
         /// </summary>
         /// <param name="keyReader">Reference to keyReader.</param>
         /// <param name="sceneHandler">Reference to sceneHandler.</param>
+        /// <param name="random">Instance of a Random type object.</param>
         public MenuCreation(
             KeyReaderComponent keyReader,
-            SceneHandler sceneHandler)
+            SceneHandler sceneHandler,
+            Random random)
         {
             this.sceneHandler = sceneHandler;
 
@@ -72,6 +75,7 @@ namespace Pacman.GameRelated
                 "Console Renderer");
 
             this.keyReader = keyReader;
+            this.random = random;
 
             MenuScene = new Scene();
         }
@@ -108,7 +112,7 @@ namespace Pacman.GameRelated
             newLevelCreator = new GameObject("New Level Creator");
 
             CreateNewLevelComponent createLevel =
-                new CreateNewLevelComponent(keyReader, sceneHandler);
+                new CreateNewLevelComponent(keyReader, sceneHandler, random);
 
             newLevelCreator.AddComponent(createLevel);
 

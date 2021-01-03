@@ -15,10 +15,13 @@ namespace Pacman
         /// <param name="args">Arguments.</param>
         public static void Main(string[] args)
         {
+            Random random = new Random();
             KeyReaderComponent keyReader = new KeyReaderComponent();
             SceneHandler sceneHandler = new SceneHandler();
-
-            MenuCreation menuCreation = new MenuCreation(keyReader, sceneHandler);
+            MenuCreation menuCreation = new MenuCreation(
+                                    keyReader,
+                                    sceneHandler,
+                                    random);
             sceneHandler.AddScene(menuCreation.MenuScene, "MenuScene");
 
             menuCreation.GenerateScene();

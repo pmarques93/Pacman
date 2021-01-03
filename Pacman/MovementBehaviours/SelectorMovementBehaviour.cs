@@ -78,8 +78,8 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Destructor, that destroys a instance of SelectorMovementBehaviour
-        /// and unregisters the events on it.
+        /// Finalizes an instance of the 
+        /// <see cref="SelectorMovementBehaviour"/> class.
         /// </summary>
         ~SelectorMovementBehaviour()
         {

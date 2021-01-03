@@ -3,6 +3,9 @@ using Pacman.Components;
 
 namespace Pacman
 {
+    /// <summary>
+    /// Responsible for controlling the movement of selectors.
+    /// </summary>
     public class SelectorMovementBehaviour : IMovementBehaviour
     {
         // Components
@@ -10,8 +13,16 @@ namespace Pacman
         private readonly TransformComponent transform;
         private readonly SceneChangerComponent sceneChanger;
 
-        public SelectorMovementBehaviour(GameObject gameObject,
-                                         SceneChangerComponent sceneChanger)
+        /// <summary>
+        /// Constructor, that creates a new instance of
+        /// SelectorMovementBehaviour and initializes its fields.
+        /// </summary>
+        /// <param name="gameObject">Object that contains the selector.</param>
+        /// <param name="sceneChanger">Instance of the object
+        /// responsible for changing scenes.</param>
+        public SelectorMovementBehaviour(
+                                    GameObject gameObject,
+                                    SceneChangerComponent sceneChanger)
         {
             keyReader = gameObject.GetComponent<KeyReaderComponent>();
             transform = gameObject.GetComponent<TransformComponent>();
@@ -21,10 +32,10 @@ namespace Pacman
         }
 
         /// <summary>
-        /// Movement method for pacman
+        /// Moves the selector.
         /// </summary>
-        /// <param name="xMax">X map size</param>
-        /// <param name="yMax">Y map size</param>
+        /// <param name="xMax">Horizontal size of the map.</param>
+        /// <param name="yMax">Vertical size of the map.</param>
         public void Movement(int xMax, int yMax)
         {
             Direction keyPressed = keyReader.Direction;
@@ -47,6 +58,9 @@ namespace Pacman
             }
         }
 
+        /// <summary>
+        /// Executes the actions for when the enter key is pressed.
+        /// </summary>
         private void EnterPressed()
         {
             switch (transform.Position.Y)
@@ -56,15 +70,17 @@ namespace Pacman
                     keyReader.QuitKeys.Add(System.ConsoleKey.Escape);
                     sceneChanger.SceneHandler.CurrentScene.Unload = true;
                     sceneChanger.ChangeScene();
-                    // keyReader.EnterPressed -= EnterPressed;
                     break;
                 case 36:
                     sceneChanger.SceneHandler.TerminateCurrentScene();
-                    // keyReader.EnterPressed -= EnterPressed;
                     break;
             }
         }
 
+        /// <summary>
+        /// Destructor, that destroys a instance of SelectorMovementBehaviour
+        /// and unregisters the events on it.
+        /// </summary>
         ~SelectorMovementBehaviour()
         {
             keyReader.EnterPressed -= EnterPressed;

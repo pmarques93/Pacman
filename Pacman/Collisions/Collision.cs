@@ -88,6 +88,14 @@ namespace Pacman.Collisions
                                 Math.Min(yMax - 1, y + 1)].
                                 Collider.Type.HasFlag(Cell.Pacman))
                         {
+                            MoveComponent moveComponent =
+                                        tempGO.GetComponent<MoveComponent>();
+                            if (moveComponent.MovementState == 
+                                MovementState.Frightened)
+                            {
+                                OnScoreCollision(200);
+                            }
+
                             OnGhostCollision(tempGO);
                         }
 

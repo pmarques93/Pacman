@@ -286,10 +286,10 @@ namespace Pacman.GameRelated
                 blinkyMapTransform.Position.X, blinkyMapTransform.Position.Y].
                 Collider.Type &= ~Cell.Ghost;
             blinky.GetComponent<TransformComponent>().Position =
-                new Vector2Int(39, 14);
+                new Vector2Int(33, 13);
             blinky.GetComponent<MoveComponent>().MovementState =
                 MovementState.OnGhostHouse;
-            blinkyMapTransform.Position = new Vector2Int(13, 14);
+            blinkyMapTransform.Position = new Vector2Int(11, 13);
             blinkyMapTransform.Direction = Direction.Up;
 
             MapTransformComponent clydeMapTransform =
@@ -412,9 +412,9 @@ namespace Pacman.GameRelated
             };
             blinky = new GameObject("blinky");
             TransformComponent blinkyTransform =
-                                            new TransformComponent(39, 14);
+                                            new TransformComponent(33, 13);
             MapTransformComponent blinkyMapTransform =
-                                            new MapTransformComponent(13, 14);
+                                            new MapTransformComponent(11, 13);
             MoveComponent blinkyMovement = new MoveComponent();
             ColliderComponent blinkyCollider =
                                             new ColliderComponent(Cell.Ghost);

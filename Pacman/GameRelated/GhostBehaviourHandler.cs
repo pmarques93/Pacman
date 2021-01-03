@@ -23,6 +23,8 @@ namespace Pacman.GameRelated
         private readonly GameObject pacman;
         private readonly PacmanMovementBehaviour pacmanMovementBehaviour;
         private readonly Timer movementChangeTimer;
+        private readonly int frightenedModeTime;
+        private readonly int defaultTime;
         private MovementState ghostsMovementState;
 
         /// <summary>
@@ -49,20 +51,26 @@ namespace Pacman.GameRelated
             this.map = map;
             this.random = random;
             this.pacmanMovementBehaviour = pacmanMovementBehaviour;
-            movementChangeTimer = new Timer(10000);
-            movementChangeTimer.Enabled = true;
+            frightenedModeTime = 10000;
+            defaultTime = 15000;
+            movementChangeTimer = new Timer(defaultTime)
+            {
+                Enabled = true,
+            };
             ghostsMovementState = MovementState.Scatter;
         }
 
-        private void ChangeMovement(object sender, ElapsedEventArgs e)
+        private void OnTimerChangeMovement(object sender, ElapsedEventArgs e)
         {
             switch (ghostsMovementState)
             {
                 case MovementState.Chase:
                     ghostsMovementState = MovementState.Scatter;
+                    ResetTimer(defaultTime);
                     break;
                 case MovementState.Scatter:
                     ghostsMovementState = MovementState.Chase;
+                    ResetTimer(defaultTime);
                     break;
             }
 
@@ -71,15 +79,20 @@ namespace Pacman.GameRelated
                 MoveComponent ghostMoveComponent =
                             ghost.GetComponent<MoveComponent>();
 
-                if (ghostMoveComponent.MovementState == MovementState.Scatter)
+                if (ghostMoveComponent.MovementState == MovementState.Scatter
+                    || ghostMoveComponent.MovementState == MovementState.Frightened)
                 {
                     SwitchChaseMode(ghost);
+                    ChangeSpriteColor(ghost);
                     InvertGhostDirection(ghost);
                     ghostMoveComponent.MovementState = MovementState.Chase;
                 }
-                else if (ghostMoveComponent.MovementState == MovementState.Chase)
+                else if (
+                    ghostMoveComponent.MovementState == MovementState.Chase
+                    || ghostMoveComponent.MovementState == MovementState.Frightened)
                 {
                     SwitchScatterMode(ghost);
+                    ChangeSpriteColor(ghost);
                     InvertGhostDirection(ghost);
                     ghostMoveComponent.MovementState = MovementState.Scatter;
                 }
@@ -95,7 +108,7 @@ namespace Pacman.GameRelated
             collisions.GhostHouseCollision += GhostOnHouse;
             collisions.GhostHouseExitCollision += GhostOnHouseExit;
             collisions.PowerPillCollision += PowerPillCollision;
-            movementChangeTimer.Elapsed += ChangeMovement;
+            movementChangeTimer.Elapsed += OnTimerChangeMovement;
             OnRegisterToTimerEvent();
         }
 
@@ -119,6 +132,7 @@ namespace Pacman.GameRelated
         /// </summary>
         private void PowerPillCollision()
         {
+            ResetTimer(frightenedModeTime);
             foreach (GameObject ghost in ghosts)
             {
                 ConsoleSprite consoleSprite =
@@ -126,7 +140,8 @@ namespace Pacman.GameRelated
                 consoleSprite.ChangeColor(
                                 ConsoleColor.Red,
                                 ConsoleColor.White);
-                ghost.GetComponent<MoveComponent>().MovementState = MovementState.Frightened;
+                ghost.GetComponent<MoveComponent>().MovementState =
+                    MovementState.Frightened;
                 SwitchFrightenedMode(ghost);
                 InvertGhostDirection(ghost);
             }
@@ -201,11 +216,16 @@ namespace Pacman.GameRelated
                     moveComponent.MovementState = MovementState.Chase;
                 }
                 else if (ghostsMovementState == MovementState.Scatter
-                    ||  moveComponent.MovementState.
+                    || moveComponent.MovementState.
                         HasFlag(MovementState.OutGhostHouse))
                 {
                     SwitchScatterMode(ghost);
-                    InvertGhostDirection(ghost);
+                    if (!moveComponent.MovementState.
+                        HasFlag(MovementState.OutGhostHouse))
+                    {
+                        InvertGhostDirection(ghost);
+                    }
+
                     moveComponent.MovementState = MovementState.Scatter;
                 }
 
@@ -410,10 +430,11 @@ namespace Pacman.GameRelated
             switch (ghost.GetComponent<MoveComponent>().MovementState)
             {
                 case MovementState.Chase:
+                case MovementState.Scatter:
                     OnGhostChaseCollision();
                     break;
                 case MovementState.Frightened:
-
+                    ResetTimer(frightenedModeTime);
                     ConsoleSprite consoleSprite =
                         ghost.GetComponent<ConsoleSprite>();
 
@@ -434,6 +455,13 @@ namespace Pacman.GameRelated
                         3));
                     break;
             }
+        }
+
+        private void ResetTimer(int timerInterval)
+        {
+            movementChangeTimer.Interval = timerInterval;
+            movementChangeTimer.Stop();
+            movementChangeTimer.Start();
         }
 
         /// <summary>

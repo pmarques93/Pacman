@@ -8,7 +8,7 @@ using Pacman.MovementBehaviours.ChaseBehaviour;
 namespace Pacman
 {
     /// <summary>
-    /// Class with game state information. Extends Component
+    /// Class with game state information. Extends Component.
     /// </summary>
     public class GameState : Component
     {
@@ -28,7 +28,7 @@ namespace Pacman
         /// <param name="map">Reference to map.</param>
         /// <param name="random">Reference to random.</param>
         /// <param name="pacmanMovementBehaviour">Reference to pacman
-        /// movement behaviour</param>
+        /// movement behaviour.</param>
         public GameState(
             Collision collision,
             GameObject pacman,
@@ -69,7 +69,7 @@ namespace Pacman
 
         /// <summary>
         /// Method that defines what happens when pacman collides with
-        /// power pills
+        /// power pills.
         /// </summary>
         private void PowerPillCollision()
         {
@@ -293,7 +293,6 @@ namespace Pacman
                     break;
             }
         }
-
 
         /// <summary>
         /// On Ghost Chase collision method. Calls GhostChaseCollision event.

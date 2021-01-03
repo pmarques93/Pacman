@@ -43,7 +43,6 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
                                 collision,
                                 inky,
                                 map,
-                                targetMapTransform,
                                 mapTransform,
                                 translateModifier)
         {

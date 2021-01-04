@@ -141,6 +141,8 @@ então correr no seu `Update`, o método `Movement` da sua variável de
 O seguinte diagrama é uma representação gráfica da estrutura de classes do
 programa.
 
+![Diagrama UML](UML.png)
+
 ## Referências
 
 - [*Game Engine* base](

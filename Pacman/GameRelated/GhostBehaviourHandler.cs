@@ -24,7 +24,8 @@ namespace Pacman.GameRelated
         private readonly PacmanMovementBehaviour pacmanMovementBehaviour;
         private readonly Timer movementChangeTimer;
         private readonly int frightenedModeTime;
-        private readonly int defaultTime;
+        private readonly int chaseTime;
+        private readonly int scatterTime;
         private MovementState ghostsMovementState;
 
         /// <summary>
@@ -51,9 +52,10 @@ namespace Pacman.GameRelated
             this.map = map;
             this.random = random;
             this.pacmanMovementBehaviour = pacmanMovementBehaviour;
+            chaseTime = 15000;
+            scatterTime = 5000;
             frightenedModeTime = 10000;
-            defaultTime = 15000;
-            movementChangeTimer = new Timer(defaultTime)
+            movementChangeTimer = new Timer(5000)
             {
                 Enabled = true,
             };
@@ -66,11 +68,11 @@ namespace Pacman.GameRelated
             {
                 case MovementState.Chase:
                     ghostsMovementState = MovementState.Scatter;
-                    ResetTimer(defaultTime);
+                    ResetTimer(scatterTime);
                     break;
                 case MovementState.Scatter:
                     ghostsMovementState = MovementState.Chase;
-                    ResetTimer(defaultTime);
+                    ResetTimer(chaseTime);
                     break;
             }
 
@@ -110,6 +112,7 @@ namespace Pacman.GameRelated
             collisions.GhostHouseExitCollision += GhostOnHouseExit;
             collisions.PowerPillCollision += PowerPillCollision;
             movementChangeTimer.Elapsed += OnTimerChangeMovement;
+            movementChangeTimer.Start();
             OnRegisterToTimerEvent();
         }
 
@@ -122,6 +125,7 @@ namespace Pacman.GameRelated
             collisions.GhostHouseCollision -= GhostOnHouse;
             collisions.GhostHouseExitCollision -= GhostOnHouseExit;
             collisions.PowerPillCollision -= PowerPillCollision;
+            movementChangeTimer.Stop();
         }
 
         private void OnRegisterToTimerEvent() =>

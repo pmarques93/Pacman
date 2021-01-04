@@ -4202,7 +4202,9 @@ namespace Pacman.GameRelated
                     !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Food) &&
                     !map.Map[randX, randY].Collider.Type.
                         HasFlag(Cell.PowerPill) &&
-                    !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Wall))
+                    !map.Map[randX, randY].Collider.Type.HasFlag(Cell.Wall) &&
+                    !map.Map[randX, randY].Collider.Type.
+                        HasFlag(Cell.GhostHouse))
                 {
                     allFruits[fruitSlot] = new GameObject($"Fruit{fruitName}");
                     char[,] fruitSprite = { { ' ' }, { 'F' }, { ' ' }, };

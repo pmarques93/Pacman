@@ -112,14 +112,19 @@ namespace Pacman.Collisions
                             OnGhostHouseCollision(tempGO);
                         }
                     }
-                    else if (
+                    
+                    if (
                         map.Map[x, y].Collider.Type.HasFlag(Cell.Pacman) &&
                         (map.Map[x, y].Collider.Type.HasFlag(Cell.Food) ||
                         map.Map[x, y].Collider.Type.HasFlag(Cell.Fruit) ||
                         map.Map[x, y].Collider.Type.HasFlag(Cell.PowerPill)))
                     {
                         GameObject tempGO = gameObjects.
-                            Where(o => o.GetComponent<MapTransformComponent>()?.
+                            Where(o => !o.GetComponent<ColliderComponent>().
+                            Type.HasFlag(Cell.Ghost)).
+                            Where(o => !o.GetComponent<ColliderComponent>().
+                            Type.HasFlag(Cell.Pacman)).
+                            Where(o => o.GetComponent<MapTransformComponent>().
                                     Position != null).
                             FirstOrDefault(
                             o => o.GetComponent<MapTransformComponent>().

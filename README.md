@@ -207,7 +207,7 @@ da *ghost house.*
 O seguinte diagrama é uma representação gráfica da estrutura de classes do
 programa.
 
-![Diagrama UML](UML.png)
+![Diagrama UML](Images/UML.png)
 
 ## Referências
 

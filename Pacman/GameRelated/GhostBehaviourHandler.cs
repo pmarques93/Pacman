@@ -192,7 +192,6 @@ namespace Pacman.GameRelated
             MoveComponent moveComponent = ghost.GetComponent<MoveComponent>();
             moveComponent.AddMovementBehaviour(
                    new BlinkyChaseBehaviour(
-                       collisions,
                        ghost,
                        ghost.GetComponent<MapComponent>(),
                        new MapTransformComponent(13, 11),
@@ -257,7 +256,6 @@ namespace Pacman.GameRelated
 
             moveComponent.AddMovementBehaviour(
                             new FrightenedMovementBehaviour(
-                                    collisions,
                                     ghost,
                                     map,
                                     new MapTransformComponent(
@@ -280,7 +278,6 @@ namespace Pacman.GameRelated
                 case "blinky":
                     moveComponent.AddMovementBehaviour(
                         new BlinkyChaseBehaviour(
-                            collisions,
                             ghost,
                             ghost.GetComponent<MapComponent>(),
                             pacman.GetComponent<MapTransformComponent>(),
@@ -291,7 +288,6 @@ namespace Pacman.GameRelated
                 case "pinky":
                     moveComponent.AddMovementBehaviour(
                         new PinkyChaseBehaviour(
-                            collisions,
                             pacmanMovementBehaviour,
                             ghost,
                             map,
@@ -307,7 +303,6 @@ namespace Pacman.GameRelated
 
                     moveComponent.AddMovementBehaviour(
                         new InkyChaseBehaviour(
-                            collisions,
                             pacmanMovementBehaviour,
                             map,
                             pacman.GetComponent<MapTransformComponent>(),
@@ -320,7 +315,6 @@ namespace Pacman.GameRelated
                 case "clyde":
                     moveComponent.AddMovementBehaviour(
                         new ClydeChaseBehaviour(
-                            collisions,
                             pacmanMovementBehaviour,
                             ghost,
                             map,
@@ -347,7 +341,6 @@ namespace Pacman.GameRelated
                 case "blinky":
                     moveComponent.AddMovementBehaviour(
                         new ScatterMovementBehaviour(
-                            collisions,
                             ghost,
                             ghost.GetComponent<MapComponent>(),
                             new MapTransformComponent(0, 0),
@@ -358,7 +351,6 @@ namespace Pacman.GameRelated
                 case "pinky":
                     moveComponent.AddMovementBehaviour(
                         new ScatterMovementBehaviour(
-                            collisions,
                             ghost,
                             ghost.GetComponent<MapComponent>(),
                             new MapTransformComponent(xMax, 0),
@@ -369,7 +361,6 @@ namespace Pacman.GameRelated
                 case "inky":
                     moveComponent.AddMovementBehaviour(
                         new ScatterMovementBehaviour(
-                            collisions,
                             ghost,
                             ghost.GetComponent<MapComponent>(),
                             new MapTransformComponent(0, yMax),
@@ -380,7 +371,6 @@ namespace Pacman.GameRelated
                 case "clyde":
                     moveComponent.AddMovementBehaviour(
                         new ScatterMovementBehaviour(
-                            collisions,
                             ghost,
                             ghost.GetComponent<MapComponent>(),
                             new MapTransformComponent(xMax, yMax),
@@ -455,7 +445,6 @@ namespace Pacman.GameRelated
                     moveComponent.MovementState = MovementState.Eaten;
                     moveComponent.AddMovementBehaviour(
                     new BlinkyChaseBehaviour(
-                        collisions,
                         ghost,
                         map,
                         new MapTransformComponent(13, 11),

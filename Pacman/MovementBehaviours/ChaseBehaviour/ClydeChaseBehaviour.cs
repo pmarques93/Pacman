@@ -20,8 +20,6 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
         /// Constructor, that creates a new instance of ClydeChaseBehaviour
         /// and initializes its fields.
         /// </summary>
-        /// <param name="collision">Instance of the component responsible
-        /// for the collision handling.</param>
         /// <param name="targetMovementBehaviour">Movement behaviour for
         /// the target.</param>
         /// <param name="ghost">Instance of the ghost to be moved.</param>
@@ -34,7 +32,6 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
         /// <param name="translateModifier">Value to be a compensation of the
         /// map stretch when printed.</param>
         public ClydeChaseBehaviour(
-                Collision collision,
                 PacmanMovementBehaviour targetMovementBehaviour,
                 GameObject ghost,
                 MapComponent map,
@@ -42,7 +39,6 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
                 MapTransformComponent mapTransform,
                 int translateModifier = 1)
                 : base(
-                    collision,
                     ghost,
                     map,
                     mapTransform,

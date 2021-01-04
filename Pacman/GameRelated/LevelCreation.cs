@@ -389,7 +389,6 @@ namespace Pacman.GameRelated
 
             // Adds a movement behaviour
             pinkyMovement.AddMovementBehaviour(new PinkyChaseBehaviour(
-                                                collisions,
                                                 pacmanMovementBehaviour,
                                                 pinky,
                                                 map,
@@ -427,7 +426,6 @@ namespace Pacman.GameRelated
 
             // Adds a movement behaviour
             blinkyMovement.AddMovementBehaviour(new BlinkyChaseBehaviour(
-                                                collisions,
                                                 blinky,
                                                 map,
                                                 pacmanMapTransform,
@@ -465,7 +463,6 @@ namespace Pacman.GameRelated
             // Adds a movement behaviour
             inkyMovement.AddMovementBehaviour(
                             new InkyChaseBehaviour(
-                                    collisions,
                                     pacmanMovementBehaviour,
                                     map,
                                     pacmanMapTransform,
@@ -503,7 +500,6 @@ namespace Pacman.GameRelated
 
             // Adds a movement behaviour
             clydeMovement.AddMovementBehaviour(new ClydeChaseBehaviour(
-                                                collisions,
                                                 pacmanMovementBehaviour,
                                                 clyde,
                                                 map,

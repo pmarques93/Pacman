@@ -16,8 +16,6 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
         /// Constructor, that creates a new instance of InkyChaseBehaviour
         /// and initializes its fields.
         /// </summary>
-        /// <param name="collision">Instance of the component responsible
-        /// for the collision handling.</param>
         /// <param name="targetMovementBehaviour">Movement behaviour for
         /// the target.</param>
         /// <param name="map">Map in which the gameobjects are placed.</param>
@@ -32,7 +30,6 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
         /// <param name="translateModifier">Value to be a compensation of the
         /// map stretch when printed.</param>
         public InkyChaseBehaviour(
-                            Collision collision,
                             PacmanMovementBehaviour targetMovementBehaviour,
                             MapComponent map,
                             MapTransformComponent targetMapTransform,
@@ -41,7 +38,6 @@ namespace Pacman.MovementBehaviours.ChaseBehaviour
                             MapTransformComponent mapTransform,
                             int translateModifier = 1)
                             : base(
-                                collision,
                                 inky,
                                 map,
                                 mapTransform,

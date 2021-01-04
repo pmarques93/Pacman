@@ -15,7 +15,6 @@ namespace Pacman.MovementBehaviours
         private readonly GameObject ghost;
         private readonly MapComponent map;
         private readonly MapTransformComponent mapTransform;
-        private readonly Collision collision;
         private readonly int translateModifier;
 
         /// <summary>
@@ -27,8 +26,6 @@ namespace Pacman.MovementBehaviours
         /// Constructor, that creates a new instance of
         /// GhostTargetMovementBehaviour and initializes its fields.
         /// </summary>
-        /// <param name="collision">Instance of the component responsible
-        /// for the collision handling.</param>
         /// <param name="ghost">Instance of the ghost to be moved.</param>
         /// <param name="map">Map in which the gameobjects are placed.</param>
         /// <param name="mapTransform"><see cref="MapTransformComponent"/>
@@ -36,14 +33,12 @@ namespace Pacman.MovementBehaviours
         /// <param name="translateModifier">Value to be a compensation of the
         /// map stretch when printed.</param>
         protected GhostTargetMovementBehaviour(
-                    Collision collision,
                     GameObject ghost,
                     MapComponent map,
                     MapTransformComponent mapTransform,
                     int translateModifier = 1)
         {
             this.ghost = ghost;
-            this.collision = collision;
             ghostTransform = ghost.GetComponent<TransformComponent>();
             this.mapTransform = mapTransform;
             this.translateModifier = translateModifier;

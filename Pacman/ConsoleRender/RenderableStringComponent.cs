@@ -39,16 +39,24 @@ namespace Pacman.ConsoleRender
             }
         }
 
-        // Delegate which returns a string to be rendered
+        /// <summary>
+        /// Delegate which returns a string to be rendered.
+        /// </summary>
         private readonly Func<string> getStr;
 
-        // Delegate which returns a position for every character in the string
+        /// <summary>
+        /// Delegate which returns a position for every character in the string.
+        /// </summary>
         private readonly Func<int, Vector2Int> getPos;
 
-        // The foreground colors of the string to be rendered
+        /// <summary>
+        /// The foreground colors of the string to be rendered.
+        /// </summary>
         private readonly ConsoleColor fgColor;
 
-        // The background colors of the string to be rendered
+        /// <summary>
+        /// The background colors of the string to be rendered.
+        /// </summary>
         private readonly ConsoleColor bgColor;
 
         /// <summary>

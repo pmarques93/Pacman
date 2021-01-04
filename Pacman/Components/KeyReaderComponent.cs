@@ -21,11 +21,6 @@ namespace Pacman.Components
         private Thread inputThread;
 
         /// <summary>
-        /// Event that is fired when the Esc key is pressed
-        /// </summary>
-        public event Action EscapePressed;
-
-        /// <summary>
         /// Gets quitKeys collection.
         /// </summary>
         public ICollection<ConsoleKey> QuitKeys { get; }
@@ -43,16 +38,6 @@ namespace Pacman.Components
                 quitKey,
             };
 
-            threadLock = new object();
-        }
-
-        /// <summary>
-        /// Constructor for KeyReaderComponent.
-        /// </summary>
-        /// <param name="quitKeys">Collection with console key.</param>
-        public KeyReaderComponent(ICollection<ConsoleKey> quitKeys)
-        {
-            QuitKeys = quitKeys;
             threadLock = new object();
         }
 
@@ -149,6 +134,11 @@ namespace Pacman.Components
 
         private void OnSpacePressed()
             => SpaceBarPressed?.Invoke();
+
+        /// <summary>
+        /// Event that is fired when the Esc key is pressed
+        /// </summary>
+        public event Action EscapePressed;
 
         /// <summary>
         /// EnterPressed happens when enter is pressed.

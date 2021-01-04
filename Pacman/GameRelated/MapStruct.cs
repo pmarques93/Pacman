@@ -8,11 +8,6 @@ namespace Pacman.GameRelated
     public struct MapStruct
     {
         /// <summary>
-        /// Gets transform.
-        /// </summary>
-        public TransformComponent Transform { get; }
-
-        /// <summary>
         /// Gets collider.
         /// </summary>
         public ColliderComponent Collider { get; }
@@ -20,12 +15,9 @@ namespace Pacman.GameRelated
         /// <summary>
         /// Constructor for MapStruct.
         /// </summary>
-        /// <param name="transform">Reference to transform.</param>
         /// <param name="collider">Reference to collider.</param>
-        public MapStruct(
-            TransformComponent transform, ColliderComponent collider)
+        public MapStruct(ColliderComponent collider)
         {
-            Transform = transform;
             Collider = collider;
         }
     }

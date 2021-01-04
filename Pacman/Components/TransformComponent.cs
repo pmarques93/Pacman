@@ -19,12 +19,5 @@
         {
             Position = new Vector2Int(x, y);
         }
-
-        /// <summary>
-        /// Empty Constructor.
-        /// </summary>
-        public TransformComponent()
-        {
-        }
     }
 }

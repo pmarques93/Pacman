@@ -53,16 +53,5 @@ namespace Pacman
             ForegroundColor = foregroundColor;
             BackgroundColor = backgroundColor;
         }
-
-        /// <summary>
-        /// Constructor for ConsolePixel.
-        /// </summary>
-        /// <param name="shape">Char that defines a shape.</param>
-        public ConsolePixel(char shape)
-        {
-            Shape = shape;
-            ForegroundColor = Console.ForegroundColor;
-            BackgroundColor = Console.BackgroundColor;
-        }
     }
 }
